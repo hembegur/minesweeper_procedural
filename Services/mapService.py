@@ -20,6 +20,7 @@ class Tile(pygame.sprite.Sprite):
         self.flagged = False
         self.pos = pos
         self.destroyed = False
+        self.bombCount = 0
 
         self.textColor = (0, 0, 0)
         self.Text = TextLabel(
@@ -149,6 +150,7 @@ class createMap:
                         bombCount += 1 if checkTile.isBomb and not checkTile.destroyed else 0
                     
                 currentTile.Text.setText(str(bombCount))
+                currentTile.bombCount = bombCount
     
     def generateBomb(self, initialTile: Tile):
         rows, cols = self.rows, self.cols
@@ -160,33 +162,48 @@ class createMap:
             selectedTile.isBomb = True
             selectedTile.Text.setText("B")
         self.calculateNumbers()
-        
-                
-    def handleClick(self, event):
-        def tileReveal(currentTile: Tile, first: bool):
-            if currentTile.isBomb and first:
-                currentTile.revealed = True
-                currentTile.changeColor(self.bombColor)
-                return
-            elif currentTile.isBomb or currentTile.revealed or currentTile.flagged or currentTile.destroyed:
-                return
-            
-            
-            currentTile.changeColor(self.revealColor)
+
+    def tileReveal(self, currentTile: Tile, first: bool):
+        if (currentTile.isBomb) and first:
             currentTile.revealed = True
-            currentIndex = currentTile.index
-            x = int(currentIndex.x)
-            y = int(currentIndex.y)
+            currentTile.changeColor(self.bombColor)
+            return
+        elif currentTile.isBomb or currentTile.revealed or currentTile.flagged or currentTile.destroyed:
+            return
+        
+        currentTile.changeColor(self.revealColor)
+        currentTile.revealed = True
 
-            if x < self.rows - 1:
-                tileReveal(self.tilesArray[x + 1][y], False)
-            if x > 0:
-                tileReveal(self.tilesArray[x - 1][y], False)
-            if y < self.cols - 1:
-                tileReveal(self.tilesArray[x][y + 1], False)
-            if y > 0:
-                tileReveal(self.tilesArray[x][y - 1], False)
+        if currentTile.bombCount > 0:
+            return
+        currentIndex = currentTile.index
+        x = int(currentIndex.x)
+        y = int(currentIndex.y)
 
+        for dx in (-1,0,1):
+            for dy in (-1,0,1):
+                if (dx or dy) and 0 <= x+dx < self.rows and 0 <= y+dy < self.cols:
+                    self.tileReveal(self.tilesArray[x+dx][y+dy], False)
+
+    def quickTileReveal(self, currentTile: Tile):
+        if not currentTile.revealed:
+            return
+        flagCount = 0
+        currentIndex = currentTile.index
+        x = int(currentIndex.x)
+        y = int(currentIndex.y)
+        for dx in (-1,0,1):
+            for dy in (-1,0,1):
+                if (dx or dy) and 0 <= x+dx < self.rows and 0 <= y+dy < self.cols:
+                    if self.tilesArray[x+dx][y+dy].flagged:
+                        flagCount += 1
+        if flagCount >= currentTile.bombCount:
+            for dx in (-1,0,1):
+                for dy in (-1,0,1):
+                    if (dx or dy) and 0 <= x+dx < self.rows and 0 <= y+dy < self.cols:
+                        self.tileReveal(self.tilesArray[x+dx][y+dy], True)
+                    
+    def handleClick(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = event.pos
             for tile in self.tilesGroup:
@@ -195,18 +212,23 @@ class createMap:
                         self.firstClick = False
                         self.generateBomb(tile)
 
-                    tileReveal(tile, True)
+                    self.tileReveal(tile, True)
+                    if tile.revealed:
+                        self.quickTileReveal(tile)
                     break
+
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
             mouse_pos = event.pos
             for tile in self.tilesGroup:
-                if tile.rect.collidepoint(mouse_pos) and not tile.revealed:
-                    tile.flagged = not tile.flagged
-                    if tile.flagged:
-                        tile.changeColor(self.flagColor)
-                    else:
-                        tile.changeColor(self.normalColor)
-                    break
+                if tile.rect.collidepoint(mouse_pos):
+                    if not tile.revealed:
+                        tile.flagged = not tile.flagged
+                        if tile.flagged:
+                            tile.changeColor(self.flagColor)
+                        else:
+                            tile.changeColor(self.normalColor)
+                        break
+                        
         if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             for tile in self.tilesGroup:
                 if tile.clicked:

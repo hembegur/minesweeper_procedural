@@ -1,5 +1,5 @@
-import ctypes
-ctypes.windll.user32.SetProcessDPIAware()
+#import ctypes
+#ctypes.windll.user32.SetProcessDPIAware()
 
 import pygame, sys, Global
 
@@ -9,17 +9,6 @@ Global.screen = screen
 clock = pygame.time.Clock()
 
 from Services.mapService import createMap
-# cols=20, 
-#     rows=15, 
-#     offset=2, 
-#     color=(100, 100, 100, 255),
-#     hiddenColor=(70, 70, 70, 255),
-#     revealColor=(200, 200, 200, 255),
-#     bombColor=(255,50,50,255),
-#     flagColor=(220,220,0),
-#     mapPos=(800, 50),
-#     tileSize=(50, 50),
-#     bombCount=150,hm
 currentMap = createMap(
     cols=20,
     rows=15,
@@ -29,9 +18,9 @@ currentMap = createMap(
     revealColor=(200,200,200,255),
     bombColor=(255,50,50,255),
     flagColor=(220,220,0),
-    mapPos=(800,50),
+    mapPos=(25,25),#(800,50),
     tileSize=(50,50),
-    bombCount=100
+    bombCount=50
 )
 
 while True:
@@ -66,7 +55,7 @@ while True:
                     flagColor=(220,220,0),
                     mapPos=(800,50),
                     tileSize=(50,50),
-                    bombCount=100
+                    bombCount=50
                 )
     screen.fill("white")
 
