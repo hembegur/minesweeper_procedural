@@ -57,11 +57,14 @@ while True:
                 )
             if event.key == pygame.K_e:
                 mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
+                def hit():
+                    print("nigger")
                 newHB = hitbox.new(
                     pos=mouse_pos,
                     visualize=True,
                     size=pygame.Vector2(100,100),
                     lifetime=3,
+                    hitFunction=hit,
                 )
 
     screen.fill("white")

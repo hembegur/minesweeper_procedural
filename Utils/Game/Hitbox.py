@@ -1,12 +1,27 @@
 import pygame, Global
 
+collisionGroupsCanCollide = {
+    "Default": ["Default"],
+    "Player": [""]
+}
+
 class hitbox(pygame.sprite.Sprite):
-    def __init__(self, pos:pygame.Vector2, size:pygame.Vector2, lifetime=None, visualize=False, collisionGroup="default"):
+    def __init__(
+            self, 
+            pos:pygame.Vector2, 
+            size:pygame.Vector2, 
+            hitFunction,
+            lifetime=None, 
+            visualize=False, 
+            collisionGroup="Default",
+        ):
         super().__init__()
         self.rect = pygame.Rect(pos.x, pos.y, size.x, size.y)
         self.visualize = visualize
         self.lifetime = lifetime
         self.collisionGroup = collisionGroup
+        self.hitFunction = hitFunction
+        self.alreadyHit = set()
 
         # visualization surface
         self.surface = pygame.Surface((size.x, size.y), pygame.SRCALPHA)
@@ -31,13 +46,10 @@ class hitbox(pygame.sprite.Sprite):
         return self.lifetime is None or self.lifetime > 0
 
     def collide(self, other):
-        # group rule
-        if not (
-            self.collisionGroup == other.collisionGroup
-        ):
-            return False
-
-        return self.rect.colliderect(other.rect)
+        for group in collisionGroupsCanCollide[self.collisionGroup]:
+            if other.collisionGroup == group:
+                return self.rect.colliderect(other.rect)
+        return False
         
 
 class Hitbox:
@@ -53,6 +65,7 @@ class Hitbox:
         self.hitboxGroup.draw(Global.screen)
         self.hitboxGroup.update()
 
+        #Collision
         collisions = pygame.sprite.groupcollide(
             self.hitboxGroup,
             self.hitboxGroup,
@@ -71,9 +84,7 @@ class Hitbox:
                     continue
                 checked.add(pair)
 
-                if hb.collide(other):
-                    if not (
-                        self.collisionGroup == other.collisionGroup
-                    ):
-                        continue
-                    print("collision detected")
+                if hb.collide(other) and other not in hb.alreadyHit:
+                    hb.hitFunction()
+                    hb.alreadyHit.add(other)
+                    other.alreadyHit.add(hb)
