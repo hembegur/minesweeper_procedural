@@ -11,6 +11,7 @@ class hitbox(pygame.sprite.Sprite):
             pos:pygame.Vector2, 
             size:pygame.Vector2, 
             hitFunction,
+            owner=None,
             lifetime=None, 
             visualize=False, 
             collisionGroup="Default",
@@ -22,6 +23,8 @@ class hitbox(pygame.sprite.Sprite):
         self.collisionGroup = collisionGroup
         self.hitFunction = hitFunction
         self.alreadyHit = set()
+        self.pos = pos
+        self.owner = owner
 
         # visualization surface
         self.surface = pygame.Surface((size.x, size.y), pygame.SRCALPHA)
@@ -30,17 +33,24 @@ class hitbox(pygame.sprite.Sprite):
         self.image = pygame.Surface((size.x, size.y), pygame.SRCALPHA)
         self.image.fill((255, 0, 0, 0))
 
-    def update(self, pos=None):
-        if pos is not None:
-            self.rect.topleft = pos
+    def update(self):
+        if self.pos is not None:
+            self.rect.center = self.pos
 
         if self.visualize:
-            Global.screen.blit(self.surface, self.rect.topleft)
+            Global.screen.blit(self.surface, self.rect)
 
         if self.lifetime is not None:
             self.lifetime -= Global.dt
             if self.lifetime <= 0:
                 self.kill()
+        if (
+            self.pos[0] < -50 or
+            self.pos[0] > Global.screenWidth + 50 or
+            self.pos[1] < -50 or
+            self.pos[1] > Global.screenHeight + 50
+        ):
+            self.kill()
 
     def isAlive(self):
         return self.lifetime is None or self.lifetime > 0
@@ -56,13 +66,21 @@ class Hitbox:
     def __init__(self):
         self.hitboxGroup = pygame.sprite.Group()
 
-    def new(self, *args, **kwargs):
-        newHB = hitbox(*args, **kwargs)
+    def new(self, 
+            pos:pygame.Vector2, 
+            size:pygame.Vector2, 
+            hitFunction,
+            owner,
+            lifetime=None, 
+            visualize=False, 
+            collisionGroup="Default",
+        ):
+        newHB = hitbox(pos,size,hitFunction,owner,lifetime,visualize,collisionGroup)
         self.hitboxGroup.add(newHB)
         return newHB
     
-    def update(self):
-        self.hitboxGroup.draw(Global.screen)
+    def update(self, screen):
+        self.hitboxGroup.draw(screen)
         self.hitboxGroup.update()
 
         #Collision
@@ -79,12 +97,13 @@ class Hitbox:
                 if hb is other:
                     continue
 
-                pair = tuple(sorted((id(hb), id(other))))
-                if pair in checked:
-                    continue
-                checked.add(pair)
+                # pair = tuple(sorted((id(hb), id(other))))
+                # if pair in checked:
+                #     continue
+                # checked.add(pair)
 
                 if hb.collide(other) and other not in hb.alreadyHit:
-                    hb.hitFunction()
+                    if hb.hitFunction:
+                        hb.hitFunction(other)
                     hb.alreadyHit.add(other)
-                    other.alreadyHit.add(hb)
+                    #other.alreadyHit.add(hb)

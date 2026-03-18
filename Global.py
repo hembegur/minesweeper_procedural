@@ -7,3 +7,12 @@ screen : pygame.display.set_mode = None
 animationFPS = 12
 animationCache = {}
 
+minesweeperSurface : pygame.Surface = None
+minesweeperRect : pygame.Rect = None
+minesweeperSurfaceSize = pygame.Vector2(1100, 1000)
+
+attackGroup : pygame.sprite.Group = pygame.sprite.Group()
+particleGroup : pygame.sprite.Group = pygame.sprite.Group()
+
+from Utils.Game.Hitbox import Hitbox
+hitbox : Hitbox = None

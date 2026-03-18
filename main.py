@@ -1,11 +1,13 @@
-import pygame, sys, Global
+import pygame, sys, Global, random
 pygame.init()
 screen = pygame.display.set_mode((Global.screenWidth, Global.screenHeight), pygame.FULLSCREEN | pygame.SCALED)
 Global.screen = screen
 clock = pygame.time.Clock()
 
+from Classes.Attacks.Spike import spawnSpike
 from Utils.Game.Hitbox import Hitbox
 hitbox = Hitbox()
+Global.hitbox = hitbox
 from Services.mapService import createMap
 currentMap = createMap(
     cols=20,
@@ -16,9 +18,24 @@ currentMap = createMap(
     revealColor=(200,200,200,255),
     bombColor=(255,50,50,255),
     flagColor=(220,220,0),
-    mapPos=(800,150),
+    mapPos=(857,150),
     tileSize=(50,50),
     bombCount=50
+)
+
+minesweeperSurface = pygame.Surface(Global.minesweeperSurfaceSize, pygame.SRCALPHA)
+minesweeperRect = minesweeperSurface.get_rect()
+minesweeperRect.center = pygame.Vector2(1350,540)
+Global.minesweeperSurface = minesweeperSurface
+Global.minesweeperRect = minesweeperRect
+
+mouseHB = hitbox.new(
+    pos=pygame.Vector2(0,0),
+    visualize=True,
+    size=pygame.Vector2(25,25),
+    lifetime=None,
+    hitFunction=None,
+    owner=pygame.mouse,
 )
 
 while True:
@@ -51,26 +68,27 @@ while True:
                     revealColor=(200,200,200,255),
                     bombColor=(255,50,50,255),
                     flagColor=(220,220,0),
-                    mapPos=(800,150),
+                    mapPos=(857,150),
                     tileSize=(50,50),
                     bombCount=50
                 )
             if event.key == pygame.K_e:
-                mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
-                def hit():
-                    print("nigger")
-                newHB = hitbox.new(
-                    pos=mouse_pos,
-                    visualize=True,
-                    size=pygame.Vector2(100,100),
-                    lifetime=3,
-                    hitFunction=hit,
-                )
+                spawnSpike()
+                
 
+    mouseHB.position = pygame.Vector2(pygame.mouse.get_pos())
     screen.fill("white")
-
+   
     currentMap.update()
-    hitbox.update()
+    hitbox.update(screen)
+    screen.blit(minesweeperSurface, minesweeperRect)
+    minesweeperSurface.fill((200, 200, 200, 0))
+    Global.attackGroup.update()
+    Global.attackGroup.draw(minesweeperSurface)
+    Global.particleGroup.update(Global.dt)
+    Global.particleGroup.draw(minesweeperSurface)
+    
+    
 
     pygame.display.flip()
-    Global.dt = clock.tick(144) / 1000
+    Global.dt = clock.tick(60) / 1000
