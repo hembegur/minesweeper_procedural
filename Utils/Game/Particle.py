@@ -4,13 +4,13 @@ from random import randint
 
 class Particle(pygame.sprite.Sprite):
     def __init__(self,
-                 groups: pygame.sprite.Group,
-                 pos: list[int],
-                 color: str,
-                 direction: pygame.math.Vector2,
-                 speed: int,
-                 size: int,
-                 fadeSpeed: int = 200):
+        groups: pygame.sprite.Group,
+        pos: list[int],
+        color: str,
+        direction: pygame.math.Vector2,
+        speed: int,
+        size: int,
+        fadeSpeed: int = 200):
         super().__init__(groups)
         self.pos = pos
         self.color = color
