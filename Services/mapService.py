@@ -70,7 +70,7 @@ def create_map(
         bombCount: int = 10,
 ) -> dict:
 
-    tiles_group = pygame.sprite.Group()   # kept for draw() convenience
+    #tiles_group = pygame.sprite.Group()   # kept for draw() convenience
     tiles_array = [[None for _ in range(cols)] for _ in range(rows)]
 
     tileSizeX, tileSizeY = tileSize

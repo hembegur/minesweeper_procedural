@@ -9,8 +9,8 @@ from Classes.Attacks.Spike import spawnSpike
 from Utils.Game.Hitbox import Hitbox
 hitbox = Hitbox()
 Global.hitbox = hitbox
-from Services.mapService import createMap
-currentMap = createMap(
+from Services.mapService import create_map, handle_click, map_update
+currentMap = create_map(
     cols=20,
     rows=15,
     offset=2,
@@ -61,7 +61,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        currentMap.handleClick(event)
+        handle_click(currentMap, event)
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
@@ -77,7 +77,7 @@ while True:
                         currentMap.mapHidden(tile.index,4,"circle")
                         break
             if event.key == pygame.K_z:
-                currentMap = createMap(
+                currentMap = create_map(
                     cols=20,
                     rows=15,
                     offset=2,
@@ -94,7 +94,7 @@ while True:
                 spawnSpike()
 
     screen.fill("white")
-    currentMap.update()
+    map_update(currentMap)
     mouseHB.pos = pygame.Vector2(pygame.mouse.get_pos())
     hitbox.update(screen)
     screen.blit(minesweeperSurface, minesweeperRect)

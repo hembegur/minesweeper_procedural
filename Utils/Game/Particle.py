@@ -23,10 +23,19 @@ class Particle(pygame.sprite.Sprite):
         self.create_surf()
 
     def create_surf(self):
-        self.image = pygame.Surface((self.size, self.size)).convert_alpha()
-        self.image.set_colorkey("black")
-        pygame.draw.circle(surface=self.image, color=self.color, center=(self.size / 2, self.size / 2), radius=self.size / 2)
+        self.image = pygame.Surface((self.size, self.size), pygame.SRCALPHA)
+        # alpha baked into color as 4th value
+        pygame.draw.circle(
+            surface=self.image,
+            color=(*self.color, int(self.alpha)),
+            center=(self.size / 2, self.size / 2),
+            radius=self.size / 2
+        )
         self.rect = self.image.get_rect(center=self.pos)
+        # self.image = pygame.Surface((self.size, self.size)).convert_alpha()
+        # self.image.set_colorkey("black")
+        # pygame.draw.circle(surface=self.image, color=self.color, center=(self.size / 2, self.size / 2), radius=self.size / 2)
+        # self.rect = self.image.get_rect(center=self.pos)
 
     def move(self, dt):
         self.pos += self.direction * self.speed * dt
@@ -34,7 +43,17 @@ class Particle(pygame.sprite.Sprite):
 
     def fade(self, dt):
         self.alpha -= self.fade_speed * dt
-        self.image.set_alpha(self.alpha)
+        self.alpha = max(0, self.alpha)
+        # Clear and redraw with new alpha — never use set_alpha() on SRCALPHA surfaces
+        self.image.fill((0, 0, 0, 0))
+        pygame.draw.circle(
+            surface=self.image,
+            color=(*self.color, int(self.alpha)),
+            center=(self.size / 2, self.size / 2),
+            radius=self.size / 2
+        )
+        # self.alpha -= self.fade_speed * dt
+        # self.image.set_alpha(self.alpha)
 
     def check_pos(self):
         if (
