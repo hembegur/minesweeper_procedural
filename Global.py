@@ -6,6 +6,13 @@ dt = 0
 screen : pygame.display.set_mode = None
 animationFPS = 12
 animationCache = {}
+cachedImages = {}
+def loadImage(path: str, size: tuple = None):
+    key = (path, size)
+    if key not in cachedImages:
+        img = pygame.image.load(path).convert_alpha()
+        cachedImages[key] = pygame.transform.scale(img, size) if size else img
+    return cachedImages[key]
 
 from Utils.UiComponents.Box import Box
 minesweeperBox: Box = None
@@ -15,6 +22,7 @@ secondarySectionBox: Box = None
 
 attackGroup : pygame.sprite.Group = pygame.sprite.Group()
 particleGroup : pygame.sprite.Group = pygame.sprite.Group()
+entityGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 
 from Utils.Game.Hitbox import Hitbox
 hitbox : Hitbox = None

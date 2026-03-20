@@ -15,7 +15,13 @@ def spawnSpike():
         spread=20,
     )
     Global.attackGroup.add(newSpike)
-    
+
+def _getBaseImage(size: tuple):
+    if size not in Global.cachedImages:
+        img = pygame.image.load("Assets/Attacks/Spike.png").convert_alpha()
+        Global.cachedImages[size] = pygame.transform.scale(img, size)
+    return Global.cachedImages[size]
+
 class Spike(pygame.sprite.Sprite):
     def __init__(
         self,
@@ -34,8 +40,7 @@ class Spike(pygame.sprite.Sprite):
         self.pos = pos
         self.lifetime = lifetime
 
-        self.ogImage = pygame.image.load("Assets/Attacks/Spike.png").convert_alpha()
-        self.ogImage = pygame.transform.scale(self.ogImage, size)
+        self.ogImage = Global.loadImage("Assets/Attacks/Spike.png", (int(size.x), int(size.y)))
         self.image = self.ogImage
         self.rect = self.image.get_rect(center=pos)
 
@@ -55,7 +60,7 @@ class Spike(pygame.sprite.Sprite):
         self.particleCD1 = 0
 
     def update(self):
-        offsetPos = self.pos + pygame.Vector2(Global.minesweeperBox.rect.x,Global.minesweeperBox.rect.y),
+        offsetPos = self.pos + pygame.Vector2(Global.minesweeperBox.rect.x,Global.minesweeperBox.rect.y)
 
         self.pos += self.direction * self.speed * Global.dt
         self.angle = self.angle + self.speed * Global.dt
@@ -90,7 +95,7 @@ class Spike(pygame.sprite.Sprite):
                 direction=-self.direction, 
                 speed=random.randint(80, 150),
                 size=20,
-                fadeSpeed=400,
+                fadeSpeed=1000,
             )
 
         

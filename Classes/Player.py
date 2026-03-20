@@ -20,4 +20,5 @@ class PlayerSprite(BaseEntity):
 
     def update(self, dt):
         super().update(dt)  # keeps jiggle running
-        # your custom logic here
+        
+        #for sprite in 

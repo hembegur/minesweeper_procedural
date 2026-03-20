@@ -36,10 +36,6 @@ class Box(pygame.sprite.Sprite):
         borderColor: RGBA = (255, 255, 255, 255),
         borderWidth: int = 2,
         borderRadius: int = 0,
-        # shadow
-        shadow: bool = False,
-        shadowColor: RGBA = (0, 0, 0, 150),
-        shadowOffset: pygame.Vector2 = pygame.Vector2(4, 4),
         # misc
         visible: bool = True,
         alpha: int = 255,
@@ -54,10 +50,6 @@ class Box(pygame.sprite.Sprite):
         self.borderColor = borderColor
         self.borderWidth = borderWidth
         self.borderRadius = borderRadius
-
-        self.shadow = shadow
-        self.shadowColor = shadowColor
-        self.shadowOffset = pygame.Vector2(shadowOffset)
 
         self.visible = visible
         self._alpha = alpha
@@ -89,21 +81,6 @@ class Box(pygame.sprite.Sprite):
                 width=self.borderWidth,
                 border_radius=r,
             )
-
-    def _buildShadow(self, screen: pygame.Surface):
-        sw, sh = int(self.size.x), int(self.size.y)
-        shadow_surf = pygame.Surface((sw, sh), pygame.SRCALPHA)
-        pygame.draw.rect(
-            shadow_surf, self.shadowColor,
-            (0, 0, sw, sh),
-            border_radius=self.borderRadius,
-        )
-        shadow_pos = (
-            self.rect.x + int(self.shadowOffset.x),
-            self.rect.y + int(self.shadowOffset.y),
-        )
-        screen.blit(shadow_surf, shadow_pos)
-
     # ──────────────────────────────────────────
     # Setters
     # ──────────────────────────────────────────
@@ -156,11 +133,6 @@ class Box(pygame.sprite.Sprite):
         if not self.visible:
             self.image.fill((0, 0, 0, 0))  # draw nothing
             return
-
-        # shadow must be drawn directly to screen before the sprite
-        # pass screen into group.update(screen) to enable this
-        if self.shadow and screen is not None:
-            self._buildShadow(screen)
 
         self._redraw()
         self.image.blit(self.canvas, (0, 0))

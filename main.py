@@ -10,9 +10,13 @@ from Utils.Game.Hitbox import Hitbox
 hitbox = Hitbox()
 Global.hitbox = hitbox
 from Services.mapService import create_map, handle_click, map_update
+# mapPos = (
+#     boxPos.x + (currSize.x - (cols * (tileSize[0] + offset) - offset)) / 2,
+#     boxPos.y + (currSize.y - (rows * (tileSize[1] + offset) - offset)) / 2,
+# )
 currentMap = create_map(
-    cols=20,
-    rows=15,
+    cols=10,
+    rows=10,
     offset=2,
     color=(100,100,100,255),
     hiddenColor=(50,50,50,255),
@@ -38,9 +42,6 @@ Global.minesweeperBox = Box(
     borderColor=(50,50,50, 255),
     borderWidth=5,
     borderRadius=8,
-    shadow=False,
-    shadowColor=(0, 0, 0, 120),
-    shadowOffset=pygame.Vector2(4, 4),
 )
 ui_group.add(Global.minesweeperBox)
 #mainGameBox
@@ -54,9 +55,6 @@ Global.mainGameBox = Box(
     borderColor=(50,50,50, 255),
     borderWidth=5,
     borderRadius=8,
-    shadow=False,
-    shadowColor=(0, 0, 0, 120),
-    shadowOffset=pygame.Vector2(4, 4),
 )
 ui_group.add(Global.mainGameBox)
 #secondarySectionBox
@@ -70,9 +68,6 @@ Global.secondarySectionBox = Box(
     borderColor=(50,50,50, 255),
     borderWidth=5,
     borderRadius=8,
-    shadow=False,
-    shadowColor=(0, 0, 0, 120),
-    shadowOffset=pygame.Vector2(4, 4),
 )
 ui_group.add(Global.secondarySectionBox)
 
@@ -95,13 +90,12 @@ playerMPText = TextLabel(
 #----------------------------------------------------
 from Classes.Player import PlayerSprite
 
-entity_group = pygame.sprite.Group()
 player = PlayerSprite(
     pos=pygame.Vector2(30,200),
     size=pygame.Vector2(300,300),
-    groups=entity_group,
+    groups=Global.entityGroup,
 )
-entity_group.add(player)
+Global.entityGroup.add(player)
 
 
 
@@ -150,7 +144,16 @@ while True:
                     bombCount=50
                 )
             if event.key == pygame.K_e:
-                spawnSpike()
+                from Classes.Enemies.SpikeEnemy import SpikeEnemy
+                for _ in range(10):
+                    newEnemy = SpikeEnemy(
+                        pos=pygame.Vector2(random.randint(400,600),random.randint(30,450)),
+                        size=pygame.Vector2(150,150),
+                        groups=Global.entityGroup,
+                    )
+                    Global.entityGroup.add(newEnemy)
+                    for entity in Global.entityGroup:
+                        Global.entityGroup.change_layer(entity, entity.rect.bottom)
 
     screen.fill("white")
     map_update(currentMap)
@@ -165,8 +168,9 @@ while True:
     Global.attackGroup.draw(Global.minesweeperBox.canvas)
     Global.particleGroup.update(Global.dt)
     Global.particleGroup.draw(Global.minesweeperBox.canvas)
-    entity_group.draw(Global.mainGameBox.canvas)
-    entity_group.update(Global.dt)
+
+    Global.entityGroup.draw(Global.mainGameBox.canvas)
+    Global.entityGroup.update(Global.dt)
 
     ui_group.update(screen)
     ui_group.draw(screen)
@@ -177,4 +181,4 @@ while True:
     Global.screen.blit(playerMPText.image, playerMPText.rect)
 
     pygame.display.flip()
-    Global.dt = clock.tick(60) / 1000
+    Global.dt = clock.tick(144) / 1000
