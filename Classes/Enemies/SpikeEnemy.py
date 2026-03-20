@@ -26,6 +26,9 @@ class SpikeEnemy(BaseEntity):
     def update(self, dt):
         super().update(dt)  # keeps jiggle running
 
+        if self.hp <= 0:
+            self.kill()
+
         self.lastSpikeSpawned -= Global.dt
         if self.lastSpikeSpawned <= 0:
             spawnSpike()
