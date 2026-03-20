@@ -220,7 +220,7 @@ def on_bomb_reveal():
 
 
 def tile_reveal(m: dict, tile: dict, first: bool):
-    if tile["isBomb"] and first and not tile["flagged"]:
+    if tile["isBomb"] and first and not tile["flagged"] and not tile["revealed"]:
         tile["revealed"] = True
         tile_change_color(tile, m["bombColor"])
         on_bomb_reveal()
@@ -248,7 +248,7 @@ def tile_reveal(m: dict, tile: dict, first: bool):
 
 
 def quick_tile_reveal(m: dict, tile: dict):
-    if not tile["revealed"]:
+    if not tile["revealed"] or tile["isBomb"]:
         return
     x, y = int(tile["index"].x), int(tile["index"].y)
     flag_count = 0

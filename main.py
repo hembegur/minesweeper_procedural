@@ -93,21 +93,15 @@ playerMPText = TextLabel(
     center=False,
 )
 #----------------------------------------------------
-from Classes.BaseEntity import BaseEntity
+from Classes.Player import PlayerSprite
 
 entity_group = pygame.sprite.Group()
-
-player = BaseEntity(
-    pos=pygame.Vector2(75,200),
+player = PlayerSprite(
+    pos=pygame.Vector2(30,200),
     size=pygame.Vector2(300,300),
     groups=entity_group,
-    imagePath="Assets/Player.png",
-    jiggleIntensity=0.05,
-    jiggleSpeed=10.0,
-    jiggleAxis="both",
 )
 entity_group.add(player)
-player.toggleJiggle(True)
 
 
 
