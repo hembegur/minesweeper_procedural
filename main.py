@@ -93,6 +93,24 @@ playerMPText = TextLabel(
     center=False,
 )
 #----------------------------------------------------
+from Classes.BaseEntity import BaseEntity
+
+entity_group = pygame.sprite.Group()
+
+player = BaseEntity(
+    pos=pygame.Vector2(75,200),
+    size=pygame.Vector2(300,300),
+    groups=entity_group,
+    imagePath="Assets/Player.png",
+    jiggleIntensity=0.05,
+    jiggleSpeed=10.0,
+    jiggleAxis="both",
+)
+entity_group.add(player)
+player.toggleJiggle(True)
+
+
+
 mouseHB = hitbox.new(
     pos=pygame.Vector2(pygame.mouse.get_pos()),
     visualize=True,
@@ -101,7 +119,6 @@ mouseHB = hitbox.new(
     hitFunction=None,
     owner=pygame.mouse,
 )
-
 
 
 while True:
@@ -145,15 +162,21 @@ while True:
     map_update(currentMap)
     mouseHB.pos = pygame.Vector2(pygame.mouse.get_pos())
     hitbox.update(screen)
+
     Global.minesweeperBox.canvas.fill((0, 0, 0, 0))
+    Global.mainGameBox.canvas.fill((0, 0, 0, 0))
+    Global.secondarySectionBox.canvas.fill((0, 0, 0, 0))
+
     Global.attackGroup.update()
     Global.attackGroup.draw(Global.minesweeperBox.canvas)
     Global.particleGroup.update(Global.dt)
     Global.particleGroup.draw(Global.minesweeperBox.canvas)
+    entity_group.draw(Global.mainGameBox.canvas)
+    entity_group.update(Global.dt)
 
     ui_group.update(screen)
     ui_group.draw(screen)
-
+    
     playerHPText.setText(f"HP: {Global.playerHP} / {Global.playerMaxHP}")
     playerMPText.setText(f"MP: {Global.playerMP} / {Global.playerMaxMP}")
     Global.screen.blit(playerHPText.image, playerHPText.rect)
