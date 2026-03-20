@@ -23,6 +23,7 @@ secondarySectionBox: Box = None
 attackGroup : pygame.sprite.Group = pygame.sprite.Group()
 particleGroup : pygame.sprite.Group = pygame.sprite.Group()
 entityGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
+uiGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 
 from Utils.Game.Hitbox import Hitbox
 hitbox : Hitbox = None
@@ -30,4 +31,4 @@ hitbox : Hitbox = None
 playerHP : int = 100
 playerMP : int = 0
 playerMaxHP : int = 100
-playerMaxMP : int = 10
+playerMaxMP : int = 100

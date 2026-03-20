@@ -210,12 +210,36 @@ def generate_bombs(m: dict, initial_tile: dict):
 # Reveal logic
 # ──────────────────────────────────────────────
 
-def on_successful_reveal():
+def on_successful_reveal(tile: dict):
     if Global.playerMP < Global.playerMaxMP:
+        text_label = TextLabel(
+            text="+1MP",
+            pos=tile["pos"],
+            font_size=20,
+            color=(50,50,255),
+            font_name="Assets/Fonts/Minecraft.ttf",
+            center=True,
+        )
+        text_label.moveTo(tile["pos"] - pygame.Vector2(0,50), speed=300)
+        text_label.fadeOut(speed=300, onDone=text_label.kill)
+        Global.uiGroup.add(text_label)
+
         Global.playerMP += 1
 
 
-def on_bomb_reveal():
+def on_bomb_reveal(tile: dict):
+    text_label = TextLabel(
+        text="-10HP",
+        pos=tile["pos"],
+        font_size=20,
+        color=(225,0,0),
+        font_name="Assets/Fonts/Minecraft.ttf",
+        center=True,
+    )
+    text_label.moveTo(tile["pos"] - pygame.Vector2(0,50), speed=300)
+    text_label.fadeOut(speed=300, onDone=text_label.kill)
+    Global.uiGroup.add(text_label)
+
     Global.playerHP -= 10
 
 
@@ -223,7 +247,7 @@ def tile_reveal(m: dict, tile: dict, first: bool):
     if tile["isBomb"] and first and not tile["flagged"] and not tile["revealed"]:
         tile["revealed"] = True
         tile_change_color(tile, m["bombColor"])
-        on_bomb_reveal()
+        on_bomb_reveal(tile)
         return
 
     if tile["isBomb"] or tile["revealed"] or tile["flagged"] or tile["destroyed"]:
@@ -233,7 +257,7 @@ def tile_reveal(m: dict, tile: dict, first: bool):
     tile["revealed"] = True
 
     if first:
-        on_successful_reveal()
+        on_successful_reveal(tile)
 
     if tile["bombCount"] > 0:
         return

@@ -1,4 +1,4 @@
-import pygame
+import pygame, Global
 
 class TextLabel(pygame.sprite.Sprite):
     def __init__(
@@ -120,12 +120,12 @@ class TextLabel(pygame.sprite.Sprite):
     # Update
     # ──────────────────────────────────────────
 
-    def update(self, dt: float = 0):
+    def update(self, surface):
         # ── movement ──
         if self._target is not None:
             delta = self._target - self.pos
             dist  = delta.length()
-            step  = self._moveSpeed * dt
+            step  = self._moveSpeed * Global.dt
 
             if dist <= step:
                 # arrived
@@ -145,7 +145,7 @@ class TextLabel(pygame.sprite.Sprite):
         # ── fade ──
         if self._fadeSpeed > 0:
             diff = self._fadeTo - self._alpha
-            step = self._fadeSpeed * dt
+            step = self._fadeSpeed * Global.dt
 
             if abs(diff) <= step:
                 self._alpha    = self._fadeTo

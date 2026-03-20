@@ -29,47 +29,47 @@ currentMap = create_map(
 )
 
 # UI components
-ui_group = pygame.sprite.Group()
+Global.uiGroup = pygame.sprite.Group()
 from Utils.UiComponents.Box import Box
 #minesweeperBox
 currSize = pygame.Vector2(1100, 1000)
 Global.minesweeperBox = Box(
     pos=pygame.Vector2(1350 - currSize.x/2,540 - currSize.y/2),
     size=currSize,
-    groups=ui_group,
+    groups=Global.uiGroup,
     color=(30, 30, 30, 0),
     border=True,
     borderColor=(50,50,50, 255),
     borderWidth=5,
     borderRadius=8,
 )
-ui_group.add(Global.minesweeperBox)
+Global.uiGroup.add(Global.minesweeperBox)
 #mainGameBox
 currSize = pygame.Vector2(750,600)
 Global.mainGameBox = Box(
     pos=pygame.Vector2(400 - currSize.x/2,340 - currSize.y/2),
     size=currSize,
-    groups=ui_group,
+    groups=Global.uiGroup,
     color=(30, 30, 30, 0),
     border=True,
     borderColor=(50,50,50, 255),
     borderWidth=5,
     borderRadius=8,
 )
-ui_group.add(Global.mainGameBox)
+Global.uiGroup.add(Global.mainGameBox)
 #secondarySectionBox
 currSize = pygame.Vector2(750,375)
 Global.secondarySectionBox = Box(
     pos=pygame.Vector2(400 - currSize.x/2,850 - currSize.y/2),
     size=currSize,
-    groups=ui_group,
+    groups=Global.uiGroup,
     color=(30, 30, 30, 0),
     border=True,
     borderColor=(50,50,50, 255),
     borderWidth=5,
     borderRadius=8,
 )
-ui_group.add(Global.secondarySectionBox)
+Global.uiGroup.add(Global.secondarySectionBox)
 
 playerHPText = TextLabel(
     text=f"HP: {Global.playerHP} / {Global.playerMaxHP}",
@@ -171,8 +171,8 @@ while True:
     Global.entityGroup.draw(Global.mainGameBox.canvas)
     Global.entityGroup.update(Global.dt)
 
-    ui_group.update(screen)
-    ui_group.draw(screen)
+    Global.uiGroup.update(screen)
+    Global.uiGroup.draw(screen)
     
     playerHPText.setText(f"HP: {Global.playerHP} / {Global.playerMaxHP}")
     playerMPText.setText(f"MP: {Global.playerMP} / {Global.playerMaxMP}")
