@@ -23,6 +23,7 @@ class BaseEntity(pygame.sprite.Sprite):
         self.pos   = pygame.Vector2(pos)
         self.size  = pygame.Vector2(size)
         self.color = color
+        self.team = None
 
         self._imagePath = imagePath
         self._build()

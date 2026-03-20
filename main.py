@@ -145,15 +145,14 @@ while True:
                 )
             if event.key == pygame.K_e:
                 from Classes.Enemies.SpikeEnemy import SpikeEnemy
-                for _ in range(10):
-                    newEnemy = SpikeEnemy(
-                        pos=pygame.Vector2(random.randint(400,600),random.randint(30,450)),
-                        size=pygame.Vector2(150,150),
-                        groups=Global.entityGroup,
-                    )
-                    Global.entityGroup.add(newEnemy)
-                    for entity in Global.entityGroup:
-                        Global.entityGroup.change_layer(entity, entity.rect.bottom)
+                newEnemy = SpikeEnemy(
+                    pos=pygame.Vector2(random.randint(400,600),random.randint(30,450)),
+                    size=pygame.Vector2(150,150),
+                    groups=Global.entityGroup,
+                )
+                Global.entityGroup.add(newEnemy)
+                for entity in Global.entityGroup:
+                    Global.entityGroup.change_layer(entity, entity.rect.bottom)
 
     screen.fill("white")
     map_update(currentMap)

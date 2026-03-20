@@ -39,6 +39,7 @@ class Spike(pygame.sprite.Sprite):
         self.direction = direction.rotate(random.uniform(-spread, spread))
         self.pos = pos
         self.lifetime = lifetime
+        self._lastAngle = None
 
         self.ogImage = Global.loadImage("Assets/Attacks/Spike.png", (int(size.x), int(size.y)))
         self.image = self.ogImage
@@ -63,10 +64,15 @@ class Spike(pygame.sprite.Sprite):
         offsetPos = self.pos + pygame.Vector2(Global.minesweeperBox.rect.x,Global.minesweeperBox.rect.y)
 
         self.pos += self.direction * self.speed * Global.dt
-        self.angle = self.angle + self.speed * Global.dt
-        self.image = pygame.transform.rotate(self.ogImage, self.angle)
-        rot_rect = self.image.get_rect(center=self.rect.center)
-        self.rect = rot_rect
+
+        self.angle += self.speed * Global.dt
+        roundedAngle = round(self.angle / 2) * 2
+        if roundedAngle != self._lastAngle:
+            self._lastAngle = roundedAngle
+            center = self.rect.center
+            self.image = pygame.transform.rotate(self.ogImage, roundedAngle)
+            self.rect = self.image.get_rect(center=center)
+
         self.rect.center = self.pos
         self.hitbox.pos = offsetPos
 

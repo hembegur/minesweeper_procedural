@@ -94,12 +94,10 @@ class Jiggle:
 
     def update(self, dt: float):
         import math
-        if not self._playing:
+        if not self._playing or self._ogImage is None:
             return
 
         self._t += dt
-
-        # one full cycle = 2π / speed  seconds
         cycle = (2 * math.pi) / self.speed
         if self._t >= cycle:
             if self._loop:
@@ -108,10 +106,22 @@ class Jiggle:
                 self.stop()
                 return
 
-        sx, sy = self._sineScale()
+        wave = math.sin(self._t * self.speed)
+
+        if self.axis == "x":
+            sx = 1.0 + wave * self.intensity
+            sy = 1.0
+        elif self.axis == "y":
+            sx = 1.0
+            sy = 1.0 + wave * self.intensity
+        else:
+            sx = 1.0 + wave * self.intensity
+            sy = 1.0 - wave * self.intensity * 0.5
+
         newW = max(1, int(self._ogSize.x * sx))
         newH = max(1, int(self._ogSize.y * sy))
 
         center = self.sprite.rect.center
+        # always scale from _ogImage, never sprite.image
         self.sprite.image = pygame.transform.scale(self._ogImage, (newW, newH))
         self.sprite.rect  = self.sprite.image.get_rect(center=center)

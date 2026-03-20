@@ -21,4 +21,6 @@ class PlayerSprite(BaseEntity):
     def update(self, dt):
         super().update(dt)  # keeps jiggle running
         
-        #for sprite in 
+        for sprite in Global.entityGroup:
+            if sprite.team == "Enemy":
+                print("die niger")
