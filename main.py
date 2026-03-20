@@ -24,12 +24,43 @@ currentMap = create_map(
     bombCount=50
 )
 
-minesweeperSurface = pygame.Surface(Global.minesweeperSurfaceSize, pygame.SRCALPHA)
-minesweeperRect = minesweeperSurface.get_rect()
-minesweeperRect.center = pygame.Vector2(1350,540)
-Global.minesweeperSurface = minesweeperSurface
-Global.minesweeperRect = minesweeperRect
+# UI components
+ui_group = pygame.sprite.Group()
 
+from Utils.UiComponents.Box import Box
+Global.minesweeperBox = Box(
+    pos=pygame.Vector2(1350 - Global.minesweeperSurfaceSize.x/2,540- Global.minesweeperSurfaceSize.y/2),
+    size=Global.minesweeperSurfaceSize,
+    groups=ui_group,
+    color=(30, 30, 30, 0),
+    border=True,
+    borderColor=(50,50,50, 255),
+    borderWidth=5,
+    borderRadius=8,
+    shadow=False,
+    shadowColor=(0, 0, 0, 120),
+    shadowOffset=pygame.Vector2(4, 4),
+)
+Global.minesweeperRect = Global.minesweeperBox.rect
+ui_group.add(Global.minesweeperBox)
+
+playerHPText = TextLabel(
+    text=f"HP: {Global.playerHP} / {Global.playerMaxHP}",
+    pos=pygame.Vector2(100,100),
+    font_size=30,
+    color=(0,200,0),
+    font_name="Assets/Fonts/Rimouski.otf", 
+    center=False,
+)
+playerMPText = TextLabel(
+    text=f"MP: {Global.playerMP} / {Global.playerMaxMP}",
+    pos=pygame.Vector2(100,150),
+    font_size=30,
+    color=(0,0,200),
+    font_name="Assets/Fonts/Rimouski.otf",
+    center=False,
+)
+#----------------------------------------------------
 mouseHB = hitbox.new(
     pos=pygame.Vector2(pygame.mouse.get_pos()),
     visualize=True,
@@ -39,22 +70,7 @@ mouseHB = hitbox.new(
     owner=pygame.mouse,
 )
 
-playerHPText = TextLabel(
-    text=f"HP: {Global.playerHP} / {Global.playerMaxHP}",
-    pos=pygame.Vector2(100,100),
-    font_size=30,
-    color=(0,200,0),
-    font_name="Assets/Fonts/Minecraft.ttf", 
-    center=False,
-)
-playerMPText = TextLabel(
-    text=f"MP: {Global.playerMP} / {Global.playerMaxMP}",
-    pos=pygame.Vector2(100,150),
-    font_size=30,
-    color=(0,0,200),
-    font_name="Assets/Fonts/Minecraft.ttf", 
-    center=False,
-)
+
 
 while True:
     for event in pygame.event.get():
@@ -97,12 +113,17 @@ while True:
     map_update(currentMap)
     mouseHB.pos = pygame.Vector2(pygame.mouse.get_pos())
     hitbox.update(screen)
-    screen.blit(minesweeperSurface, minesweeperRect)
-    minesweeperSurface.fill((200, 200, 200,0))
+    Global.minesweeperBox.canvas.fill((0, 0, 0, 0))
     Global.attackGroup.update()
-    Global.attackGroup.draw(minesweeperSurface)
+    Global.attackGroup.draw(Global.minesweeperBox.canvas)
     Global.particleGroup.update(Global.dt)
-    Global.particleGroup.draw(minesweeperSurface)
+    Global.particleGroup.draw(Global.minesweeperBox.canvas)
+
+    ui_group.update(screen)
+    ui_group.draw(screen)
+
+    
+    
 
     playerHPText.setText(f"HP: {Global.playerHP} / {Global.playerMaxHP}")
     playerMPText.setText(f"MP: {Global.playerMP} / {Global.playerMaxMP}")

@@ -12,7 +12,7 @@ RGBA = Tuple[int, int, int, int]
 # ──────────────────────────────────────────────
 
 def create_tile(width: int, height: int, pos: pygame.Vector2,
-                index: pygame.Vector2, color: RGBA) -> dict:
+                index: pygame.Vector2, color: RGBA, textColor: RGBA = (0, 0, 0)) -> dict:
     image = pygame.Surface([width, height], pygame.SRCALPHA)
     image.fill(color)
     rect = image.get_rect()
@@ -21,8 +21,8 @@ def create_tile(width: int, height: int, pos: pygame.Vector2,
     text_label = TextLabel(
         text="",
         pos=pos,
-        font_size=22,
-        color=(0, 0, 0),
+        font_size=30,
+        color=textColor,
         font_name="Assets/Fonts/Pixel.TTF",
         center=True,
     )
@@ -45,7 +45,6 @@ def create_tile(width: int, height: int, pos: pygame.Vector2,
 
 def tile_change_color(tile: dict, color: RGBA):
     tile["image"].fill(color)
-
 
 def tile_update(tile: dict):
     if tile["revealed"]:
@@ -158,6 +157,17 @@ def map_hidden(m: dict, initialPos: pygame.Vector2, radius: int, shape: str):
 
     calculate_numbers(m)
 
+number_colors = {
+    0: (0, 0, 0),
+    1: (0, 0, 255),       # Blue
+    2: (0, 128, 0),       # Green
+    3: (255, 0, 0),       # Red
+    4: (0, 0, 128),       # Dark Blue
+    5: (128, 0, 0),       # Dark Red / Maroon
+    6: (0, 128, 128),     # Teal / Cyan
+    7: (0, 0, 0),         # Black
+    8: (128, 128, 128),   # Gray
+}
 
 def calculate_numbers(m: dict):
     rows, cols = m["rows"], m["cols"]
@@ -174,7 +184,11 @@ def calculate_numbers(m: dict):
                         neighbour = m["tilesArray"][rx][ry]
                         if neighbour and neighbour["isBomb"] and not neighbour["destroyed"]:
                             bomb_count += 1
-            tile["Text"].setText(str(bomb_count))
+            if bomb_count > 0:
+                tile["Text"].setText(str(bomb_count))
+                tile["Text"].setColor(number_colors[bomb_count])
+            else:
+                tile["Text"].setText("")
             tile["bombCount"] = bomb_count
 
 

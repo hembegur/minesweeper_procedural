@@ -41,13 +41,14 @@ class Spike(pygame.sprite.Sprite):
 
         def hit(otherHB):
             if otherHB.owner == pygame.mouse:
-                print("Got ya ass")
+                Global.playerHP -= 5
+                self.kill()
         self.hitbox = Global.hitbox.new(
             pos=pos + pygame.Vector2(Global.minesweeperRect.x,Global.minesweeperRect.y),
-            size=pygame.Vector2(60,60),
+            size=pygame.Vector2(55,55),
             hitFunction=hit,
             lifetime=lifetime,
-            visualize=True,
+            visualize=False,
             owner=self,
         )
 

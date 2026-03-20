@@ -7,9 +7,15 @@ screen : pygame.display.set_mode = None
 animationFPS = 12
 animationCache = {}
 
-minesweeperSurface : pygame.Surface = None
+minesweeperBox = None
 minesweeperRect : pygame.Rect = None
 minesweeperSurfaceSize = pygame.Vector2(1100, 1000)
+
+mainGameBox = None
+mainGameRect : pygame.Rect = None
+
+secondarySectionBox = None
+secondarySectionRect : pygame.Rect = None
 
 attackGroup : pygame.sprite.Group = pygame.sprite.Group()
 particleGroup : pygame.sprite.Group = pygame.sprite.Group()
