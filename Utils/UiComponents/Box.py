@@ -1,3 +1,23 @@
+# ui_group = pygame.sprite.Group()
+
+# panel = Box(
+#     pos=pygame.Vector2(100, 100),
+#     size=pygame.Vector2(200, 120),
+#     groups=ui_group,
+#     color=(30, 30, 30, 200),
+#     border=True,
+#     borderColor=(255, 255, 255, 255),
+#     borderWidth=2,
+#     borderRadius=8,
+#     shadow=True,
+#     shadowColor=(0, 0, 0, 120),
+#     shadowOffset=pygame.Vector2(4, 4),
+# )
+
+# # game loop
+# ui_group.update(screen)  # pass screen so shadows can be drawn
+# ui_group.draw(screen)
+# panel.canvas is the surface to blits shit in
 import pygame
 from typing import Tuple, Optional
 

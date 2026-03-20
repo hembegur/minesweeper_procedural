@@ -26,11 +26,12 @@ currentMap = create_map(
 
 # UI components
 ui_group = pygame.sprite.Group()
-
 from Utils.UiComponents.Box import Box
+#minesweeperBox
+currSize = pygame.Vector2(1100, 1000)
 Global.minesweeperBox = Box(
-    pos=pygame.Vector2(1350 - Global.minesweeperSurfaceSize.x/2,540- Global.minesweeperSurfaceSize.y/2),
-    size=Global.minesweeperSurfaceSize,
+    pos=pygame.Vector2(1350 - currSize.x/2,540 - currSize.y/2),
+    size=currSize,
     groups=ui_group,
     color=(30, 30, 30, 0),
     border=True,
@@ -41,12 +42,43 @@ Global.minesweeperBox = Box(
     shadowColor=(0, 0, 0, 120),
     shadowOffset=pygame.Vector2(4, 4),
 )
-Global.minesweeperRect = Global.minesweeperBox.rect
 ui_group.add(Global.minesweeperBox)
+#mainGameBox
+currSize = pygame.Vector2(750,600)
+Global.mainGameBox = Box(
+    pos=pygame.Vector2(400 - currSize.x/2,340 - currSize.y/2),
+    size=currSize,
+    groups=ui_group,
+    color=(30, 30, 30, 0),
+    border=True,
+    borderColor=(50,50,50, 255),
+    borderWidth=5,
+    borderRadius=8,
+    shadow=False,
+    shadowColor=(0, 0, 0, 120),
+    shadowOffset=pygame.Vector2(4, 4),
+)
+ui_group.add(Global.mainGameBox)
+#secondarySectionBox
+currSize = pygame.Vector2(750,375)
+Global.secondarySectionBox = Box(
+    pos=pygame.Vector2(400 - currSize.x/2,850 - currSize.y/2),
+    size=currSize,
+    groups=ui_group,
+    color=(30, 30, 30, 0),
+    border=True,
+    borderColor=(50,50,50, 255),
+    borderWidth=5,
+    borderRadius=8,
+    shadow=False,
+    shadowColor=(0, 0, 0, 120),
+    shadowOffset=pygame.Vector2(4, 4),
+)
+ui_group.add(Global.secondarySectionBox)
 
 playerHPText = TextLabel(
     text=f"HP: {Global.playerHP} / {Global.playerMaxHP}",
-    pos=pygame.Vector2(100,100),
+    pos=pygame.Vector2(100,700),
     font_size=30,
     color=(0,200,0),
     font_name="Assets/Fonts/Rimouski.otf", 
@@ -54,7 +86,7 @@ playerHPText = TextLabel(
 )
 playerMPText = TextLabel(
     text=f"MP: {Global.playerMP} / {Global.playerMaxMP}",
-    pos=pygame.Vector2(100,150),
+    pos=pygame.Vector2(100,725),
     font_size=30,
     color=(0,0,200),
     font_name="Assets/Fonts/Rimouski.otf",
@@ -122,16 +154,10 @@ while True:
     ui_group.update(screen)
     ui_group.draw(screen)
 
-    
-    
-
     playerHPText.setText(f"HP: {Global.playerHP} / {Global.playerMaxHP}")
     playerMPText.setText(f"MP: {Global.playerMP} / {Global.playerMaxMP}")
     Global.screen.blit(playerHPText.image, playerHPText.rect)
     Global.screen.blit(playerMPText.image, playerMPText.rect)
-
-    
-    
 
     pygame.display.flip()
     Global.dt = clock.tick(60) / 1000

@@ -7,15 +7,11 @@ screen : pygame.display.set_mode = None
 animationFPS = 12
 animationCache = {}
 
-minesweeperBox = None
-minesweeperRect : pygame.Rect = None
+from Utils.UiComponents.Box import Box
+minesweeperBox: Box = None
 minesweeperSurfaceSize = pygame.Vector2(1100, 1000)
-
-mainGameBox = None
-mainGameRect : pygame.Rect = None
-
-secondarySectionBox = None
-secondarySectionRect : pygame.Rect = None
+mainGameBox: Box = None
+secondarySectionBox: Box = None
 
 attackGroup : pygame.sprite.Group = pygame.sprite.Group()
 particleGroup : pygame.sprite.Group = pygame.sprite.Group()

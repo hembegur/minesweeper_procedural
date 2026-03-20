@@ -44,7 +44,7 @@ class Spike(pygame.sprite.Sprite):
                 Global.playerHP -= 5
                 self.kill()
         self.hitbox = Global.hitbox.new(
-            pos=pos + pygame.Vector2(Global.minesweeperRect.x,Global.minesweeperRect.y),
+            pos=pos + pygame.Vector2(Global.minesweeperBox.rect.x,Global.minesweeperBox.rect.y),
             size=pygame.Vector2(55,55),
             hitFunction=hit,
             lifetime=lifetime,
@@ -55,7 +55,7 @@ class Spike(pygame.sprite.Sprite):
         self.particleCD1 = 0
 
     def update(self):
-        offsetPos = self.pos + pygame.Vector2(Global.minesweeperRect.x,Global.minesweeperRect.y)
+        offsetPos = self.pos + pygame.Vector2(Global.minesweeperBox.rect.x,Global.minesweeperBox.rect.y),
 
         self.pos += self.direction * self.speed * Global.dt
         self.angle = self.angle + self.speed * Global.dt
