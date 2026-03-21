@@ -20,8 +20,9 @@ minesweeperSurfaceSize = pygame.Vector2(1100, 1000)
 mainGameBox: Box = None
 secondarySectionBox: Box = None
 
-attackGroup : pygame.sprite.Group = pygame.sprite.Group()
-particleGroup : pygame.sprite.Group = pygame.sprite.Group()
+msAttackGroup : pygame.sprite.Group = pygame.sprite.Group()
+msParticleGroup : pygame.sprite.Group = pygame.sprite.Group()
+mainAttackGroup : pygame.sprite.Group = pygame.sprite.Group()
 entityGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 uiGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 

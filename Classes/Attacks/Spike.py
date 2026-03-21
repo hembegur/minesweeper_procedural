@@ -14,13 +14,7 @@ def spawnSpike():
         lifetime=20,
         spread=20,
     )
-    Global.attackGroup.add(newSpike)
-
-def _getBaseImage(size: tuple):
-    if size not in Global.cachedImages:
-        img = pygame.image.load("Assets/Attacks/Spike.png").convert_alpha()
-        Global.cachedImages[size] = pygame.transform.scale(img, size)
-    return Global.cachedImages[size]
+    Global.msAttackGroup.add(newSpike)
 
 class Spike(pygame.sprite.Sprite):
     def __init__(
@@ -95,7 +89,7 @@ class Spike(pygame.sprite.Sprite):
             self.particleCD1 = 0.05
             particlePos = self.pos[0] + random.randint(-20, 20), self.pos[1] + random.randint(-20, 20)
             Particle(
-                groups=Global.particleGroup, 
+                groups=Global.msParticleGroup, 
                 pos=particlePos, 
                 color=(50,50,50), 
                 direction=-self.direction, 

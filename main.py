@@ -163,13 +163,15 @@ while True:
     Global.mainGameBox.canvas.fill((0, 0, 0, 0))
     Global.secondarySectionBox.canvas.fill((0, 0, 0, 0))
 
-    Global.attackGroup.update()
-    Global.attackGroup.draw(Global.minesweeperBox.canvas)
-    Global.particleGroup.update(Global.dt)
-    Global.particleGroup.draw(Global.minesweeperBox.canvas)
-
-    Global.entityGroup.draw(Global.mainGameBox.canvas)
+    Global.msAttackGroup.update()
+    Global.msAttackGroup.draw(Global.minesweeperBox.canvas)
+    Global.msParticleGroup.update(Global.dt)
+    Global.msParticleGroup.draw(Global.minesweeperBox.canvas)
+    
     Global.entityGroup.update(Global.dt)
+    Global.entityGroup.draw(Global.mainGameBox.canvas)
+    Global.mainAttackGroup.update()
+    Global.mainAttackGroup.draw(Global.mainGameBox.canvas)
 
     Global.uiGroup.update(screen)
     Global.uiGroup.draw(screen)

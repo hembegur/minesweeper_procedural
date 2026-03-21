@@ -42,8 +42,6 @@ class BaseEntity(pygame.sprite.Sprite):
     # ──────────────────────────────────────────
 
     def _build(self):
-        center = self.rect.center if self.rect else None
-
         if self._imagePath:
             raw = pygame.image.load(self._imagePath).convert_alpha()
             self.image = pygame.transform.scale(raw, (int(self.size.x), int(self.size.y)))
@@ -52,10 +50,7 @@ class BaseEntity(pygame.sprite.Sprite):
             self.image.fill(self.color)
 
         self.rect = self.image.get_rect()
-        if center:
-            self.rect.center = center
-        else:
-            self.rect.topleft = self.pos
+        self.rect.center = self.pos 
 
         # keep a clean copy for jiggle / scaling
         self._ogImage = self.image.copy()
