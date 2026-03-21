@@ -9,6 +9,7 @@ def spawnLaser(
     laserWidth: int = 40,
     laserDuration: float = 0.5,
     damage: int = 1,
+    onHit = None,
     axis: str = "horizontal",    # "horizontal" or "vertical"
 ):
     import random
@@ -53,6 +54,9 @@ def spawnLaser(
         def hit(otherHB):
             if otherHB.owner == pygame.mouse:
                 Global.playerHP -= damage
+                if onHit:
+                    onHit()
+
 
         real.hitbox = Global.hitbox.new(
             pos=center + pygame.Vector2(Global.minesweeperBox.rect.x,Global.minesweeperBox.rect.y),

@@ -2,6 +2,7 @@ import pygame, Global, random, math
 from Classes.BaseEntity import BaseEntity
 from Classes.Attacks.Spike import spawnSpike
 from Utils.Game.Particle import Particle
+from Utils.UiComponents.TextLabel import TextLabel
 
 class SpikeEnemy(BaseEntity):
     def __init__(self, pos, size, groups):
@@ -15,6 +16,7 @@ class SpikeEnemy(BaseEntity):
             jiggleAxis="both",
         )
         self.pos = pos
+        self.ogPos = pos.copy()
         self.hp = 25
         self.playJiggle(loop=True)
 
@@ -30,11 +32,22 @@ class SpikeEnemy(BaseEntity):
         self.hp -= amount
 
     def attack(self):
-        lastPos = self.pos.copy()
-        # update BOTH pos and rect
         self.pos = pygame.Vector2(Global.playerSprite.pos)
         self.rect.center = self.pos
-        self.moveTo(lastPos, 200)
+        self.moveTo(self.ogPos, 200)
+
+        text_label = TextLabel(
+            text=f"-{Global.enemyStats["SpikeEnemy"]["Damage"]}HP",
+            pos=self.pos,
+            font_size=30,
+            color=(225,0,0),
+            font_name="Assets/Fonts/Minecraft.ttf",
+            center=True,
+        )
+        text_label.moveTo(self.pos - pygame.Vector2(0,50), speed=300)
+        text_label.fadeOut(speed=300, onDone=text_label.kill)
+        Global.uiGroup.add(text_label)
+
         for _ in range(20):
             particlePos = self.pos[0] + random.randint(-20, 20), self.pos[1] + random.randint(-20, 20)
             Particle(
@@ -43,8 +56,8 @@ class SpikeEnemy(BaseEntity):
                 color=(50,50,50), 
                 direction=pygame.Vector2(math.cos(random.uniform(0, 2 * math.pi)), 
                                             math.sin(random.uniform(0, 2 * math.pi))), 
-                speed=random.randint(50, 150),
-                size=random.randint(20, 60),
+                speed=random.randint(100, 250),
+                size=random.randint(50, 90),
                 fadeSpeed=500,
             )
 
