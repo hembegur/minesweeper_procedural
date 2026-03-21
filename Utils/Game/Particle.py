@@ -68,9 +68,9 @@ class Particle(pygame.sprite.Sprite):
         if self.alpha <= 0:
             self.kill()
 
-    def update(self, dt):
-        self.move(dt)
-        self.fade(dt)
+    def update(self):
+        self.move(Global.dt)
+        self.fade(Global.dt)
         self.check_pos()
         self.check_alpha()
 

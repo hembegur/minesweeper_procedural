@@ -1,4 +1,4 @@
-import pygame
+import pygame, Global
 from typing import Tuple, Optional
 from Utils.Game.Jiggle import Jiggle
 
@@ -134,5 +134,5 @@ class BaseEntity(pygame.sprite.Sprite):
     # Update
     # ──────────────────────────────────────────
 
-    def update(self, dt: float):
-        self._jiggle.update(dt)
+    def update(self):
+        self._jiggle.update(Global.dt)

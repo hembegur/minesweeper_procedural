@@ -23,8 +23,8 @@ class SpikeEnemy(BaseEntity):
     def takeDamage(self, amount):
         self.hp -= amount
 
-    def update(self, dt):
-        super().update(dt)  # keeps jiggle running
+    def update(self):
+        super().update()  # keeps jiggle running
 
         if self.hp <= 0:
             self.kill()

@@ -91,7 +91,7 @@ playerMPText = TextLabel(
 from Classes.Player import PlayerSprite
 
 player = PlayerSprite(
-    pos=pygame.Vector2(30,200),
+    pos=pygame.Vector2(180,350),
     size=pygame.Vector2(300,300),
     groups=Global.entityGroup,
 )
@@ -146,7 +146,7 @@ while True:
             if event.key == pygame.K_e:
                 from Classes.Enemies.SpikeEnemy import SpikeEnemy
                 newEnemy = SpikeEnemy(
-                    pos=pygame.Vector2(random.randint(400,600),random.randint(30,450)),
+                    pos=pygame.Vector2(random.randint(500,700),random.randint(100,450)),
                     size=pygame.Vector2(150,150),
                     groups=Global.entityGroup,
                 )
@@ -165,10 +165,10 @@ while True:
 
     Global.msAttackGroup.update()
     Global.msAttackGroup.draw(Global.minesweeperBox.canvas)
-    Global.msParticleGroup.update(Global.dt)
+    Global.msParticleGroup.update()
     Global.msParticleGroup.draw(Global.minesweeperBox.canvas)
     
-    Global.entityGroup.update(Global.dt)
+    Global.entityGroup.update()
     Global.entityGroup.draw(Global.mainGameBox.canvas)
     Global.mainAttackGroup.update()
     Global.mainAttackGroup.draw(Global.mainGameBox.canvas)
