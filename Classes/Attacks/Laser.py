@@ -1,0 +1,187 @@
+import pygame, Global, random, math
+from Utils.Game.mathStuff import randomEdgePos, getDirection
+from Utils.Game.Particle import Particle
+
+def spawnLaser(
+    surfaceSize: pygame.Vector2,
+    groups,
+    warningDuration: float = 1.5,
+    warningColor: tuple = (255, 50, 50),
+    laserColor: tuple = (255, 200, 50),
+    laserWidth: int = 40,
+    laserDuration: float = 0.5,
+    axis: str = "horizontal",    # "horizontal" or "vertical"
+    onHit=None,
+):
+    import random
+
+    w, h = int(surfaceSize.x), int(surfaceSize.y)
+
+    # pick two edge positions
+    if axis == "horizontal":
+        y    = random.randint(0, h)
+        pos1 = pygame.Vector2(0, y)
+        pos2 = pygame.Vector2(w, y)
+    else:
+        x    = random.randint(0, w)
+        pos1 = pygame.Vector2(x, 0)
+        pos2 = pygame.Vector2(x, h)
+
+    # 1. spawn warning laser — thin, flickery, semi transparent
+    warning = Laser(
+        pos1=pos1,
+        pos2=pos2,
+        groups=groups,
+        color=warningColor,
+        width=10,
+        alpha=180,
+    )
+
+    # 2. after warningDuration, kill warning and spawn real laser
+    def spawnReal():
+        warning.kill()
+
+        real = Laser(
+            pos1=pos1,
+            pos2=pos2,
+            groups=groups,
+            color=laserColor,
+            width=laserWidth,
+            alpha=255,
+        )
+
+        if onHit:
+            onHit(pos1, pos2)
+
+        # shrink and fade out after laserDuration
+        real.shrinkAndFade(
+            targetWidth=0,
+            shrinkSpeed=laserWidth / laserDuration,
+            targetAlpha=0,
+            fadeSpeed=255 / laserDuration,
+            onDone=real.kill,
+        )
+
+    # use a timer sprite to delay spawnReal
+    _Timer(warningDuration, spawnReal, groups)
+
+
+class _Timer(pygame.sprite.Sprite):
+    """Internal helper — calls onDone after delay then kills itself."""
+    def __init__(self, delay: float, onDone, groups):
+        super().__init__(groups)
+        self.image   = pygame.Surface((1, 1), pygame.SRCALPHA)
+        self.rect    = self.image.get_rect()
+        self._t      = delay
+        self._onDone = onDone
+
+    def update(self, dt: float = None):
+        dt = dt or Global.dt
+        self._t -= dt
+        if self._t <= 0:
+            self._onDone()
+            self.kill()
+
+class Laser(pygame.sprite.Sprite):
+    def __init__(
+        self,
+        pos1: pygame.Vector2,
+        pos2: pygame.Vector2,
+        groups,
+        color: tuple = (255, 50, 50, 255),
+        width: int = 10,
+        alpha: int = 255,
+    ):
+        super().__init__(groups)
+        self.pos1   = pygame.Vector2(pos1)
+        self.pos2   = pygame.Vector2(pos2)
+        self.color  = color
+        self.width  = width
+        self.alpha  = alpha
+
+        self._shrinkSpeed = 0
+        self._shrinkTo    = 0
+        self._fadeSpeed   = 0
+        self._fadeTo      = 0
+        self._onDone      = None
+
+        self._build()
+
+    # ──────────────────────────────────────────
+    # Internal
+    # ──────────────────────────────────────────
+
+    def _build(self):
+        delta   = self.pos2 - self.pos1
+        length  = max(1, int(delta.length()))
+        angle   = math.degrees(math.atan2(-delta.y, delta.x))
+        w       = max(1, int(self.width))
+
+        # surface is length x width, drawn as horizontal line then rotated
+        surf = pygame.Surface((length, w), pygame.SRCALPHA)
+        r, g, b = self.color[:3]
+        surf.fill((r, g, b, int(self.alpha)))
+
+        self.image = pygame.transform.rotate(surf, angle)
+        self.rect  = self.image.get_rect(center=self.pos1 + delta / 2)
+
+    # ──────────────────────────────────────────
+    # Controls
+    # ──────────────────────────────────────────
+
+    def shrinkTo(self, targetWidth: float, speed: float):
+        """Smoothly reduce width to targetWidth at speed (px/sec)."""
+        self._shrinkSpeed = speed
+        self._shrinkTo    = targetWidth
+
+    def fadeTo(self, targetAlpha: float, speed: float):
+        """Smoothly reduce alpha to targetAlpha at speed (units/sec)."""
+        self._fadeSpeed = speed
+        self._fadeTo    = targetAlpha
+
+    def shrinkAndFade(self, targetWidth: float, shrinkSpeed: float,
+                      targetAlpha: float, fadeSpeed: float, onDone=None):
+        """Convenience — shrink and fade simultaneously."""
+        self.shrinkTo(targetWidth, shrinkSpeed)
+        self.fadeTo(targetAlpha, fadeSpeed)
+        self._onDone = onDone
+
+    # ──────────────────────────────────────────
+    # Update
+    # ──────────────────────────────────────────
+
+    def update(self, dt: float = None):
+        dt = dt or Global.dt
+        dirty = False
+
+        # shrink
+        if self._shrinkSpeed > 0:
+            diff = self.width - self._shrinkTo
+            step = self._shrinkSpeed * dt
+            if diff <= step:
+                self.width = self._shrinkTo
+                self._shrinkSpeed = 0
+            else:
+                self.width -= step
+            dirty = True
+
+        # fade
+        if self._fadeSpeed > 0:
+            diff = self.alpha - self._fadeTo
+            step = self._fadeSpeed * dt
+            if diff <= step:
+                self.alpha = self._fadeTo
+                self._fadeSpeed = 0
+            else:
+                self.alpha -= step
+            dirty = True
+
+        # check done
+        if self._shrinkSpeed == 0 and self._fadeSpeed == 0 and self._onDone:
+            self._onDone()
+            self._onDone = None
+
+        if dirty:
+            self._build()
+
+        

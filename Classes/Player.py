@@ -4,6 +4,7 @@ from Utils.UiComponents.TextLabel import TextLabel
 from Classes.AttackVisual.Shoot import Bullet
 from Utils.Game.Particle import Particle
 from Utils.Game.Jiggle import Jiggle
+from Utils.Game.mathStuff import getDirection
 
 class PlayerSprite(BaseEntity):
     def __init__(self, pos, size, groups):
@@ -74,7 +75,7 @@ class PlayerSprite(BaseEntity):
 
                     self.attackJiggle.play(loop=False)
                     newBullet = Bullet(
-                        size=pygame.Vector2(100,125),
+                        size=pygame.Vector2(100,150),
                         ogPos=self.pos + pygame.Vector2(100,0),
                         targetPos=sprite.pos,
                         speed=500,

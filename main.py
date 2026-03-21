@@ -6,6 +6,7 @@ clock = pygame.time.Clock()
 
 from Utils.UiComponents.TextLabel import TextLabel
 from Classes.Attacks.Spike import spawnSpike
+from Classes.Attacks.Laser import spawnLaser
 from Utils.Game.Hitbox import Hitbox
 hitbox = Hitbox()
 Global.hitbox = hitbox
@@ -15,8 +16,8 @@ from Services.mapService import create_map, handle_click, map_update
 #     boxPos.y + (currSize.y - (rows * (tileSize[1] + offset) - offset)) / 2,
 # )
 currentMap = create_map(
-    cols=10,
-    rows=10,
+    cols=20,
+    rows=15,
     offset=2,
     color=(100,100,100,255),
     hiddenColor=(50,50,50,255),
@@ -124,11 +125,18 @@ while True:
                         currentMap.mapDestroy(tile.index,4,"circle")
                         break
             if event.key == pygame.K_w:
-                mouse_pos = pygame.mouse.get_pos()
-                for tile in currentMap.tilesGroup:
-                    if tile.rect.collidepoint(mouse_pos):
-                        currentMap.mapHidden(tile.index,4,"circle")
-                        break
+                for _ in range(10):
+                    axis = random.choice(["horizontal", "vertical"])
+                    spawnLaser(
+                        surfaceSize=Global.minesweeperSurfaceSize,
+                        groups=Global.msAttackGroup,
+                        warningDuration=1,
+                        warningColor=(255, 50, 50),
+                        laserColor=(0,0,0),
+                        laserWidth=50,
+                        laserDuration=0.6,
+                        axis=axis,
+                    )
             if event.key == pygame.K_z:
                 currentMap = create_map(
                     cols=20,
@@ -147,7 +155,7 @@ while True:
                 from Classes.Enemies.SpikeEnemy import SpikeEnemy
                 newEnemy = SpikeEnemy(
                     pos=pygame.Vector2(random.randint(500,700),random.randint(100,450)),
-                    size=pygame.Vector2(150,150),
+                    size=pygame.Vector2(200,200),
                     groups=Global.entityGroup,
                 )
                 Global.entityGroup.add(newEnemy)

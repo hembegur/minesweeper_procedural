@@ -1,7 +1,7 @@
 import pygame, Global, random
 from Utils.Game.mathStuff import randomEdgePos, getDirection
 from Utils.Game.Particle import Particle
-    
+
 def spawnSpike():
     screenWidth = int(Global.minesweeperSurfaceSize.x)
     screenHeight = int(Global.minesweeperSurfaceSize.y)

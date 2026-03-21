@@ -1,4 +1,5 @@
 import pygame, Global
+from Utils.Game.mathStuff import getAngle
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(
@@ -12,7 +13,7 @@ class Bullet(pygame.sprite.Sprite):
         super().__init__()
         self.size = size
         self.ogImage = Global.loadImage("Assets/Projectiles/Bullet.png", (int(size.x), int(size.y)))
-        self.image = self.ogImage
+        self.image = pygame.transform.rotate(self.ogImage, -getAngle(ogPos, targetPos)) 
         self.rect = self.image.get_rect(center=ogPos)
         self.pos = ogPos.copy()
         self._target = targetPos.copy()
@@ -24,7 +25,7 @@ class Bullet(pygame.sprite.Sprite):
         if self._target is not None:
             delta = self._target - self.pos
             dist  = delta.length()
-            step  = self._moveSpeed * Global.dt
+            step  = self._moveSpeed * Global.dt 
 
             if dist <= step:
                 # arrived
