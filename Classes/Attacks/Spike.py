@@ -2,7 +2,7 @@ import pygame, Global, random
 from Utils.Game.mathStuff import randomEdgePos, getDirection
 from Utils.Game.Particle import Particle
 
-def spawnSpike():
+def spawnSpike(onHit, damage):
     screenWidth = int(Global.minesweeperSurfaceSize.x)
     screenHeight = int(Global.minesweeperSurfaceSize.y)
     pos = randomEdgePos(screenWidth,screenHeight)
@@ -13,6 +13,8 @@ def spawnSpike():
         direction=getDirection(pos, (screenWidth/2,screenHeight/2)),
         lifetime=20,
         spread=20,
+        onHit=onHit,
+        damage=damage,
     )
     Global.msAttackGroup.add(newSpike)
 
@@ -25,6 +27,8 @@ class Spike(pygame.sprite.Sprite):
         direction,
         lifetime: float,
         spread: int,
+        onHit,
+        damage,
     ):
         super().__init__()
         self.size = size
@@ -34,6 +38,7 @@ class Spike(pygame.sprite.Sprite):
         self.pos = pos
         self.lifetime = lifetime
         self._lastAngle = None
+        self.onHit = onHit
 
         self.ogImage = Global.loadImage("Assets/Attacks/Spike.png", (int(size.x), int(size.y)))
         self.image = self.ogImage
@@ -41,7 +46,9 @@ class Spike(pygame.sprite.Sprite):
 
         def hit(otherHB):
             if otherHB.owner == pygame.mouse:
-                Global.playerHP -= 5
+                Global.playerHP -= damage
+                if self.onHit:
+                    self.onHit()
                 self.kill()
         self.hitbox = Global.hitbox.new(
             pos=pos + pygame.Vector2(Global.minesweeperBox.rect.x,Global.minesweeperBox.rect.y),
@@ -91,10 +98,10 @@ class Spike(pygame.sprite.Sprite):
             Particle(
                 groups=Global.msParticleGroup, 
                 pos=particlePos, 
-                color=(50,50,50), 
+                color=(100,30,30), 
                 direction=-self.direction, 
                 speed=random.randint(80, 150),
-                size=20,
+                size=25,
                 fadeSpeed=1000,
             )
 

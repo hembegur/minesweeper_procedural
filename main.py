@@ -5,8 +5,6 @@ Global.screen = screen
 clock = pygame.time.Clock()
 
 from Utils.UiComponents.TextLabel import TextLabel
-from Classes.Attacks.Spike import spawnSpike
-from Classes.Attacks.Laser import spawnLaser
 from Utils.Game.Hitbox import Hitbox
 hitbox = Hitbox()
 Global.hitbox = hitbox
@@ -96,7 +94,8 @@ player = PlayerSprite(
     size=pygame.Vector2(300,300),
     groups=Global.entityGroup,
 )
-Global.entityGroup.add(player)
+Global.entityGroup.add(player, layer=-999)
+Global.playerSprite = player
 
 
 
@@ -109,7 +108,11 @@ mouseHB = hitbox.new(
     owner=pygame.mouse,
 )
 
-
+def sortEntityGroup():
+    for entity in Global.entityGroup:
+        if entity is Global.playerSprite:
+            continue
+        Global.entityGroup.change_layer(entity, entity.rect.bottom)
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -125,18 +128,15 @@ while True:
                         currentMap.mapDestroy(tile.index,4,"circle")
                         break
             if event.key == pygame.K_w:
-                for _ in range(10):
-                    axis = random.choice(["horizontal", "vertical"])
-                    spawnLaser(
-                        surfaceSize=Global.minesweeperSurfaceSize,
-                        groups=Global.msAttackGroup,
-                        warningDuration=1,
-                        warningColor=(255, 50, 50),
-                        laserColor=(0,0,0),
-                        laserWidth=50,
-                        laserDuration=0.6,
-                        axis=axis,
-                    )
+                from Classes.Enemies.LaserEnemy import LaserEnemy
+                newEnemy = LaserEnemy(
+                    pos=pygame.Vector2(random.randint(500,700),random.randint(100,450)),
+                    size=pygame.Vector2(200,200),
+                    groups=Global.entityGroup,
+                )
+                Global.entityGroup.add(newEnemy)
+                sortEntityGroup()
+                
             if event.key == pygame.K_z:
                 currentMap = create_map(
                     cols=20,
@@ -159,9 +159,8 @@ while True:
                     groups=Global.entityGroup,
                 )
                 Global.entityGroup.add(newEnemy)
-                for entity in Global.entityGroup:
-                    Global.entityGroup.change_layer(entity, entity.rect.bottom)
-
+                sortEntityGroup()
+                
     screen.fill("white")
     map_update(currentMap)
     mouseHB.pos = pygame.Vector2(pygame.mouse.get_pos())

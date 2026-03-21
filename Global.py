@@ -25,6 +25,7 @@ msParticleGroup : pygame.sprite.Group = pygame.sprite.Group()
 mainAttackGroup : pygame.sprite.Group = pygame.sprite.Group()
 entityGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 uiGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
+playerSprite : pygame.sprite.Sprite = None
 
 from Utils.Game.Hitbox import Hitbox
 hitbox : Hitbox = None
@@ -33,3 +34,14 @@ playerHP : int = 100
 playerMP : int = 0
 playerMaxHP : int = 100
 playerMaxMP : int = 100
+
+enemyStats = {
+    "SpikeEnemy" : {
+        "Damage" : 10,
+        "CD": 4
+    },
+    "LaserEnemy" : {
+        "Damage" : 10,
+        "CD": 4
+    }
+}

@@ -1,6 +1,4 @@
 import pygame, Global, random, math
-from Utils.Game.mathStuff import randomEdgePos, getDirection
-from Utils.Game.Particle import Particle
 
 def spawnLaser(
     surfaceSize: pygame.Vector2,
@@ -10,14 +8,11 @@ def spawnLaser(
     laserColor: tuple = (255, 200, 50),
     laserWidth: int = 40,
     laserDuration: float = 0.5,
+    damage: int = 1,
     axis: str = "horizontal",    # "horizontal" or "vertical"
-    onHit=None,
 ):
     import random
-
     w, h = int(surfaceSize.x), int(surfaceSize.y)
-
-    # pick two edge positions
     if axis == "horizontal":
         y    = random.randint(0, h)
         pos1 = pygame.Vector2(0, y)
@@ -27,7 +22,6 @@ def spawnLaser(
         pos1 = pygame.Vector2(x, 0)
         pos2 = pygame.Vector2(x, h)
 
-    # 1. spawn warning laser — thin, flickery, semi transparent
     warning = Laser(
         pos1=pos1,
         pos2=pos2,
@@ -37,7 +31,6 @@ def spawnLaser(
         alpha=180,
     )
 
-    # 2. after warningDuration, kill warning and spawn real laser
     def spawnReal():
         warning.kill()
 
@@ -50,10 +43,26 @@ def spawnLaser(
             alpha=255,
         )
 
-        if onHit:
-            onHit(pos1, pos2)
+        # hitbox here
+        delta  = pos2 - pos1
+        length = max(1, int(delta.length()))
+        center = pos1 + delta / 2
 
-        # shrink and fade out after laserDuration
+        hbSize = pygame.Vector2(length, laserWidth) if axis == "horizontal" else pygame.Vector2(laserWidth, length)
+
+        def hit(otherHB):
+            if otherHB.owner == pygame.mouse:
+                Global.playerHP -= damage
+
+        real.hitbox = Global.hitbox.new(
+            pos=center + pygame.Vector2(Global.minesweeperBox.rect.x,Global.minesweeperBox.rect.y),
+            size=hbSize,
+            hitFunction=hit,
+            lifetime=0.2,
+            visualize=False,
+            owner=real,
+        )
+
         real.shrinkAndFade(
             targetWidth=0,
             shrinkSpeed=laserWidth / laserDuration,
@@ -62,7 +71,6 @@ def spawnLaser(
             onDone=real.kill,
         )
 
-    # use a timer sprite to delay spawnReal
     _Timer(warningDuration, spawnReal, groups)
 
 
@@ -106,7 +114,6 @@ class Laser(pygame.sprite.Sprite):
         self._onDone      = None
 
         self._build()
-
     # ──────────────────────────────────────────
     # Internal
     # ──────────────────────────────────────────
