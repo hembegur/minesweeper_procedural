@@ -14,6 +14,10 @@ def loadImage(path: str, size: tuple = None):
         cachedImages[key] = pygame.transform.scale(img, size) if size else img
     return cachedImages[key]
 
+from Services.mainGameService import mainGameService
+MainGameService: mainGameService = None
+
+
 from Utils.UiComponents.Box import Box
 minesweeperBox: Box = None
 minesweeperSurfaceSize = pygame.Vector2(1100, 1000)

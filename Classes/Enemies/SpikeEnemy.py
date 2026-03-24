@@ -15,18 +15,20 @@ class SpikeEnemy(BaseEntity):
             jiggleSpeed=10.0,
             jiggleAxis="both",
         )
-        self.pos = pos
+        self.pos = pygame.Vector2(pos.x,-100)
         self.ogPos = pos.copy()
         self.hp = 25
         self.playJiggle(loop=True)
 
         self.spikeSpawnCD = Global.enemyStats["SpikeEnemy"]["CD"]
-        self.lastSpikeSpawned = 0
+        self.lastSpikeSpawned = Global.enemyStats["SpikeEnemy"]["CD"]
         self.team = "Enemy"
 
         self._target    = None
-        self._moveSpeed = 200
+        self._moveSpeed = 300
         self._onArrive  = None
+
+        self.moveTo(self.ogPos, 200)
 
     def takeDamage(self, amount):
         self.hp -= amount

@@ -3,6 +3,7 @@ pygame.init()
 screen = pygame.display.set_mode((Global.screenWidth, Global.screenHeight), pygame.FULLSCREEN | pygame.SCALED)
 Global.screen = screen
 clock = pygame.time.Clock()
+Global.dt = clock.tick(144) / 1000
 
 from Utils.UiComponents.TextLabel import TextLabel
 from Utils.Game.Hitbox import Hitbox
@@ -113,6 +114,10 @@ def sortEntityGroup():
         if entity is Global.playerSprite:
             continue
         Global.entityGroup.change_layer(entity, entity.rect.bottom)
+
+from Services.mainGameService import mainGameService
+Global.MainGameService = mainGameService()
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -130,7 +135,7 @@ while True:
             if event.key == pygame.K_w:
                 from Classes.Enemies.LaserEnemy import LaserEnemy
                 newEnemy = LaserEnemy(
-                    pos=pygame.Vector2(random.randint(500,700),random.randint(100,450)),
+                    pos=pygame.Vector2(random.randint(450,650),random.randint(100,450)),
                     size=pygame.Vector2(200,200),
                     groups=Global.entityGroup,
                 )
@@ -154,7 +159,7 @@ while True:
             if event.key == pygame.K_e:
                 from Classes.Enemies.SpikeEnemy import SpikeEnemy
                 newEnemy = SpikeEnemy(
-                    pos=pygame.Vector2(random.randint(500,700),random.randint(100,450)),
+                    pos=pygame.Vector2(random.randint(450,650),random.randint(100,450)),
                     size=pygame.Vector2(200,200),
                     groups=Global.entityGroup,
                 )
@@ -179,6 +184,8 @@ while True:
     Global.entityGroup.draw(Global.mainGameBox.canvas)
     Global.mainAttackGroup.update()
     Global.mainAttackGroup.draw(Global.mainGameBox.canvas)
+
+    Global.MainGameService.update()
 
     Global.uiGroup.update(screen)
     Global.uiGroup.draw(screen)

@@ -15,15 +15,34 @@ class LaserEnemy(BaseEntity):
             jiggleSpeed=10.0,
             jiggleAxis="both",
         )
+        self.pos = pygame.Vector2(pos.x,-100)
+        self.ogPos = pos.copy()
         self.hp = 25
         self.playJiggle(loop=True)
 
         self.spikeSpawnCD = Global.enemyStats["LaserEnemy"]["CD"]
-        self.lastSpikeSpawned = 0
+        self.lastSpikeSpawned = Global.enemyStats["LaserEnemy"]["CD"]
         self.team = "Enemy"
+
+        self._target    = None
+        self._moveSpeed = 300
+        self._onArrive  = None
+
+        self.moveTo(self.ogPos, 200)
 
     def takeDamage(self, amount):
         self.hp -= amount
+
+    def moveTo(
+        self,
+        destination: pygame.Vector2,
+        speed: float,
+        onArrive=None,       # optional callback when destination reached
+    ):
+        """Move label toward destination at given speed (px/sec)."""
+        self._target    = pygame.Vector2(destination)
+        self._moveSpeed = speed
+        self._onArrive  = onArrive
 
     def attack(self):
         playerPos = Global.playerSprite.pos
@@ -63,18 +82,35 @@ class LaserEnemy(BaseEntity):
 
         self.lastSpikeSpawned -= Global.dt
         if self.lastSpikeSpawned <= 0:
-            axis = random.choice(["horizontal", "vertical"])
-            spawnLaser(
-                surfaceSize=Global.minesweeperSurfaceSize,
-                groups=Global.msAttackGroup,
-                warningDuration=1,
-                warningColor=(255, 50, 50),
-                laserColor=(60,60,200),
-                laserWidth=50,
-                laserDuration=0.6,
-                damage = Global.enemyStats["LaserEnemy"]["Damage"],
-                axis=axis,
-                onHit=self.attack
-            )
+            for _ in range(2):
+                axis = random.choice(["horizontal", "vertical"])
+                spawnLaser(
+                    surfaceSize=Global.minesweeperSurfaceSize,
+                    groups=Global.msAttackGroup,
+                    warningDuration=1,
+                    warningColor=(255, 50, 50),
+                    laserColor=(60,60,200),
+                    laserWidth=50,
+                    laserDuration=0.6,
+                    damage = Global.enemyStats["LaserEnemy"]["Damage"],
+                    axis=axis,
+                    onHit=self.attack
+                )
             self.lastSpikeSpawned = self.spikeSpawnCD
-        # your custom logic here
+
+        # ── movement ──
+        if self._target is not None:
+            delta = self._target - self.pos
+            dist  = delta.length()
+            step  = self._moveSpeed * Global.dt
+
+            if dist <= step:
+                # arrived
+                self.pos = pygame.Vector2(self._target)
+                self._target = None
+                if self._onArrive:
+                    self._onArrive()
+            else:
+                self.pos += delta.normalize() * step
+
+            self.rect.center = self.pos

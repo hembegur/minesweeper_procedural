@@ -86,7 +86,7 @@ class Spike(pygame.sprite.Sprite):
             self.pos[0] < -50 or
             self.pos[0] > Global.minesweeperSurfaceSize.x + 50 or
             self.pos[1] < -50 or
-            self.pos[1] > Global.minesweeperSurfaceSize.x + 50
+            self.pos[1] > Global.minesweeperSurfaceSize.y + 50
         ):
             self.kill()
             self.hitbox.kill()
