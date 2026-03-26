@@ -21,13 +21,7 @@ class SimpleSprite(pygame.sprite.Sprite):
 
         self.pos  = pygame.Vector2(pos)
         self.size = pygame.Vector2(size)
-
-        if imagePath:
-            raw        = Global.loadImage(imagePath, (int(size.x), int(size.y)))
-            self.image = raw.copy()
-        else:
-            self.image = pygame.Surface((int(size.x), int(size.y)), pygame.SRCALPHA)
-            self.image.fill(color)
+        self.image = Global.loadImage(imagePath, (int(size.x), int(size.y)))
 
         self.rect = self.image.get_rect(center=self.pos)
 
@@ -66,22 +60,36 @@ class SimpleSprite(pygame.sprite.Sprite):
 
 class mainGameService:
     def __init__(self):
-        self.spawnCD = (0.5,2)
+        self.spawnCD = (0.5,1)
         self.currentSpawn = 0 
         self.dt = Global.dt
+        #groundBox
+        currSize = pygame.Vector2(750,700)
+        ground = Box(
+            pos=pygame.Vector2(0,175),
+            size=currSize,
+            groups=Global.mainBackGroundGroup,
+            color=(245, 245, 245, 255),
+            border=True,
+            borderColor=(100, 100, 100, 255),
+            borderWidth=5,
+            borderRadius=0,
+        )
+        Global.mainBackGroundGroup.add(ground)
 
     def stop(self,stop: bool):
         if stop:
             self.dt = 0
     
     def update(self):
+        self.dt = Global.dt
         self.currentSpawn -= self.dt
-        print(self.dt)
         if self.currentSpawn <= 0: 
+            randomSize = random.randint(150,250)
             SimpleSprite(
-                pos=pygame.Vector2(800, 100),
-                size=pygame.Vector2(200,200),
-                groups=Global.entityGroup,
-                imagePath="Assets/Background/house1.png",
+                pos=pygame.Vector2(800, 100 - (randomSize/2 - 100)),
+                size=pygame.Vector2(randomSize,randomSize),
+                groups=Global.mainBackGroundGroup,
+                imagePath=random.choice(["Assets/Background/house1.png", "Assets/Background/tree.png"]),
             )
             self.currentSpawn = random.uniform(self.spawnCD[0], self.spawnCD[1])

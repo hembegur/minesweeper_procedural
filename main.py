@@ -41,7 +41,7 @@ Global.minesweeperBox = Box(
     border=True,
     borderColor=(50,50,50, 255),
     borderWidth=5,
-    borderRadius=8,
+    borderRadius=0,
 )
 Global.uiGroup.add(Global.minesweeperBox)
 #mainGameBox
@@ -54,7 +54,7 @@ Global.mainGameBox = Box(
     border=True,
     borderColor=(50,50,50, 255),
     borderWidth=5,
-    borderRadius=8,
+    borderRadius=0,
 )
 Global.uiGroup.add(Global.mainGameBox)
 #secondarySectionBox
@@ -67,7 +67,7 @@ Global.secondarySectionBox = Box(
     border=True,
     borderColor=(50,50,50, 255),
     borderWidth=5,
-    borderRadius=8,
+    borderRadius=0,
 )
 Global.uiGroup.add(Global.secondarySectionBox)
 
@@ -179,7 +179,9 @@ while True:
     Global.msAttackGroup.draw(Global.minesweeperBox.canvas)
     Global.msParticleGroup.update()
     Global.msParticleGroup.draw(Global.minesweeperBox.canvas)
-    
+
+    Global.mainBackGroundGroup.update()
+    Global.mainBackGroundGroup.draw(Global.mainGameBox.canvas)
     Global.entityGroup.update()
     Global.entityGroup.draw(Global.mainGameBox.canvas)
     Global.mainAttackGroup.update()

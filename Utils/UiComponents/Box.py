@@ -72,6 +72,8 @@ class Box(pygame.sprite.Sprite):
         baked_color = (rc, gc, bc, int(self.color[3] * self._alpha / 255))
         pygame.draw.rect(self.image, baked_color, (0, 0, w, h), border_radius=r)
 
+        self.image.blit(self.canvas, (0, 0))
+
         if self.border:
             rb, gb, bb = self.borderColor[:3]
             baked_border = (rb, gb, bb, int(self.borderColor[3] * self._alpha / 255))
@@ -135,4 +137,4 @@ class Box(pygame.sprite.Sprite):
             return
 
         self._redraw()
-        self.image.blit(self.canvas, (0, 0))
+        

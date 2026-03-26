@@ -28,6 +28,7 @@ msAttackGroup : pygame.sprite.Group = pygame.sprite.Group()
 msParticleGroup : pygame.sprite.Group = pygame.sprite.Group()
 mainAttackGroup : pygame.sprite.Group = pygame.sprite.Group()
 entityGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
+mainBackGroundGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 uiGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 playerSprite : pygame.sprite.Sprite = None
 
