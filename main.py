@@ -9,24 +9,7 @@ from Utils.UiComponents.TextLabel import TextLabel
 from Utils.Game.Hitbox import Hitbox
 hitbox = Hitbox()
 Global.hitbox = hitbox
-from Services.mapService import create_map, handle_click, map_update
-# mapPos = (
-#     boxPos.x + (currSize.x - (cols * (tileSize[0] + offset) - offset)) / 2,
-#     boxPos.y + (currSize.y - (rows * (tileSize[1] + offset) - offset)) / 2,
-# )
-currentMap = create_map(
-    cols=20,
-    rows=15,
-    offset=2,
-    color=(100,100,100,255),
-    hiddenColor=(50,50,50,255),
-    revealColor=(200,200,200,255),
-    bombColor=(255,50,50,255),
-    flagColor=(220,220,0),
-    mapPos=(857,150),
-    tileSize=(50,50),
-    bombCount=50
-)
+from Services.mapService import handle_click, mapLock, mapUnLock, map_all_tiles
 
 # UI components
 Global.uiGroup = pygame.sprite.Group()
@@ -123,15 +106,13 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        handle_click(currentMap, event)
+        handle_click(Global.currentMap, event)
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
-                mouse_pos = pygame.mouse.get_pos()
-                for tile in currentMap.tilesGroup:
-                    if tile.rect.collidepoint(mouse_pos):
-                        currentMap.mapDestroy(tile.index,4,"circle")
-                        break
+                mapLock(Global.currentMap)
+            if event.key == pygame.K_a:
+                mapUnLock(Global.currentMap)
             if event.key == pygame.K_w:
                 from Classes.Enemies.LaserEnemy import LaserEnemy
                 newEnemy = LaserEnemy(
@@ -141,21 +122,6 @@ while True:
                 )
                 Global.entityGroup.add(newEnemy)
                 sortEntityGroup()
-                
-            if event.key == pygame.K_z:
-                currentMap = create_map(
-                    cols=20,
-                    rows=15,
-                    offset=2,
-                    color=(100,100,100,255),
-                    hiddenColor=(50,50,50,255),
-                    revealColor=(200,200,200,255),
-                    bombColor=(255,50,50,255),
-                    flagColor=(220,220,0),
-                    mapPos=(857,150),
-                    tileSize=(50,50),
-                    bombCount=50
-                )
             if event.key == pygame.K_e:
                 from Classes.Enemies.SpikeEnemy import SpikeEnemy
                 newEnemy = SpikeEnemy(
@@ -167,7 +133,6 @@ while True:
                 sortEntityGroup()
                 
     screen.fill("white")
-    map_update(currentMap)
     mouseHB.pos = pygame.Vector2(pygame.mouse.get_pos())
     hitbox.update(screen)
 

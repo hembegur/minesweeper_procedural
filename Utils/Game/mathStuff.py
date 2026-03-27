@@ -1,4 +1,4 @@
-import pygame, random
+import pygame, random, Global
 
 def getDirection(fromPos, toPos):
     direction = pygame.Vector2(toPos) - pygame.Vector2(fromPos)
@@ -23,3 +23,18 @@ def randomEdgePos(width, height):
         return (0, random.randint(0, height))
     else:  # right
         return (width, random.randint(0, height))
+    
+class Timer(pygame.sprite.Sprite):
+    def __init__(self, delay: float, onDone, groups):
+        super().__init__(groups)
+        self.image   = pygame.Surface((1, 1), pygame.SRCALPHA)
+        self.rect    = self.image.get_rect()
+        self._t      = delay
+        self._onDone = onDone
+
+    def update(self, dt: float = None):
+        dt = dt or Global.dt
+        self._t -= dt
+        if self._t <= 0:
+            self._onDone()
+            self.kill()

@@ -1,6 +1,7 @@
 import pygame, Global, random
 from Utils.UiComponents.TextLabel import TextLabel
 from Utils.UiComponents.Box import Box
+from Services.mapService import create_map, handle_click, map_update
 
 class SimpleSprite(pygame.sprite.Sprite):
     def __init__(
@@ -60,8 +61,8 @@ class SimpleSprite(pygame.sprite.Sprite):
 
 class mainGameService:
     def __init__(self):
-        self.spawnCD = (0.5,1)
-        self.currentSpawn = 0 
+        self.bgSpawnCD = (0.5,1)
+        self.bgCurrentSpawn = 0 
         self.dt = Global.dt
         #groundBox
         currSize = pygame.Vector2(750,700)
@@ -77,14 +78,32 @@ class mainGameService:
         )
         Global.mainBackGroundGroup.add(ground)
 
+        # mapPos = (
+        #     boxPos.x + (currSize.x - (cols * (tileSize[0] + offset) - offset)) / 2,
+        #     boxPos.y + (currSize.y - (rows * (tileSize[1] + offset) - offset)) / 2,
+        # )
+        Global.currentMap = create_map(
+            cols=20,
+            rows=15,
+            offset=2,
+            color=(100,100,100,255),
+            hiddenColor=(50,50,50,255),
+            revealColor=(200,200,200,255),
+            bombColor=(255,50,50,255),
+            flagColor=(220,220,0),
+            mapPos=(857,150),
+            tileSize=(50,50),
+            bombCount=50
+        )
+
     def stop(self,stop: bool):
         if stop:
             self.dt = 0
     
     def update(self):
         self.dt = Global.dt
-        self.currentSpawn -= self.dt
-        if self.currentSpawn <= 0: 
+        self.bgCurrentSpawn -= self.dt
+        if self.bgCurrentSpawn <= 0: 
             randomSize = random.randint(150,250)
             SimpleSprite(
                 pos=pygame.Vector2(800, 100 - (randomSize/2 - 100)),
@@ -92,4 +111,7 @@ class mainGameService:
                 groups=Global.mainBackGroundGroup,
                 imagePath=random.choice(["Assets/Background/house1.png", "Assets/Background/tree.png"]),
             )
-            self.currentSpawn = random.uniform(self.spawnCD[0], self.spawnCD[1])
+            self.bgCurrentSpawn = random.uniform(self.bgSpawnCD[0], self.bgSpawnCD[1])
+        
+
+        map_update(Global.currentMap)

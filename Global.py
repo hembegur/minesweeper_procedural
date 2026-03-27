@@ -17,7 +17,6 @@ def loadImage(path: str, size: tuple = None):
 from Services.mainGameService import mainGameService
 MainGameService: mainGameService = None
 
-
 from Utils.UiComponents.Box import Box
 minesweeperBox: Box = None
 minesweeperSurfaceSize = pygame.Vector2(1100, 1000)
@@ -37,8 +36,10 @@ hitbox : Hitbox = None
 
 playerHP : int = 100
 playerMP : int = 0
+playerUlt : int = 0
 playerMaxHP : int = 100
 playerMaxMP : int = 100
+playerMaxUlt : int = 1
 
 enemyStats = {
     "SpikeEnemy" : {
@@ -50,3 +51,11 @@ enemyStats = {
         "CD": 4
     }
 }
+
+
+currentRound = 0
+gameState = "Playing"
+enemyCount = 0
+
+from Services.mapService import create_map
+currentMap : create_map = None

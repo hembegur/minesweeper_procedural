@@ -3,6 +3,7 @@ import Global
 import random
 from typing import Tuple
 from Utils.Game.Highlight import highlight
+from Utils.Game.mathStuff import Timer
 from Utils.UiComponents.TextLabel import TextLabel
 
 RGBA = Tuple[int, int, int, int]
@@ -103,12 +104,33 @@ def create_map(
         "normalColor": color,
         "hiddenColor": hiddenColor,
         "firstClick":  True,
+        "mapLock":  False,
     }
 
 
 # ──────────────────────────────────────────────
 # Map operations
 # ──────────────────────────────────────────────
+
+def mapLock(m: dict):
+    m["savedRevealState"] = {}
+    m["mapLock"] = True
+    for tile in map_all_tiles(m):
+        m["savedRevealState"][id(tile)] = tile["revealed"]
+        tile["revealed"] = False
+        tile_change_color(tile, m["hiddenColor"])
+
+def mapUnLock(m: dict):
+    if "savedRevealState" not in m:
+        return
+    m["mapLock"] = False
+    for tile in map_all_tiles(m):
+        wasRevealed = m["savedRevealState"].get(id(tile), False)
+        tile["revealed"] = wasRevealed
+        if wasRevealed:
+            tile_change_color(tile, m["revealColor"])
+        else:
+            tile_change_color(tile, m["normalColor"])
 
 def map_all_tiles(m: dict):
     """Flat iterator over every tile (skips None slots)."""
@@ -299,6 +321,14 @@ def quick_tile_reveal(m: dict, tile: dict):
 # ──────────────────────────────────────────────
 
 def handle_click(m: dict, event: pygame.event.Event):
+    if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+        for tile in map_all_tiles(m):
+            if tile["clicked"]:
+                tile["clicked"] = False
+                break
+
+    if m["mapLock"]:
+        return
     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
         mouse_pos = event.pos
         for tile in map_all_tiles(m):
@@ -318,12 +348,6 @@ def handle_click(m: dict, event: pygame.event.Event):
                 tile["flagged"] = not tile["flagged"]
                 color = m["flagColor"] if tile["flagged"] else m["normalColor"]
                 tile_change_color(tile, color)
-                break
-
-    if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-        for tile in map_all_tiles(m):
-            if tile["clicked"]:
-                tile["clicked"] = False
                 break
 
 
