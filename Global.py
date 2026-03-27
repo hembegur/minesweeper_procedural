@@ -53,9 +53,48 @@ enemyStats = {
 }
 
 
-currentRound = 0
-gameState = "Playing"
+currentRound = 3
+currentDifficulty = "Normal"
+gameState = "Preparing"
 enemyCount = 0
 
 from Services.mapService import create_map
 currentMap : create_map = None
+
+gameProgress = {
+    "Normal": {
+        "SpawnRate": (1,2),
+        "Round1" : {
+            "SpikeEnemy" : {
+                "EnemyLeft" : 8,
+                "MaxEnemy": 4
+            },
+        },
+        "Round2" : {
+            "SpikeEnemy" : {
+                "EnemyLeft" : 12,
+                "MaxEnemy": 6
+            },
+        },
+        "Round3" : {
+            "SpikeEnemy" : {
+                "EnemyLeft" : 9,
+                "MaxEnemy": 3
+            },
+            "LaserEnemy" : {
+                "EnemyLeft" : 9,
+                "MaxEnemy": 3
+            },
+        },
+        "Round4" : {
+            "SpikeEnemy" : {
+                "EnemyLeft" : 15,
+                "MaxEnemy": 5
+            },
+            "LaserEnemy" : {
+                "EnemyLeft" : 15,
+                "MaxEnemy": 5
+            },
+        },
+    }
+}

@@ -83,6 +83,7 @@ class SpikeEnemy(BaseEntity):
         self.lastSpikeSpawned -= Global.dt
         if self.lastSpikeSpawned <= 0:
             spawnSpike(onHit=self.attack, damage=Global.enemyStats["SpikeEnemy"]["Damage"])
+            spawnSpike(onHit=self.attack, damage=Global.enemyStats["SpikeEnemy"]["Damage"])
             self.lastSpikeSpawned = self.spikeSpawnCD
         # your custom logic here
 

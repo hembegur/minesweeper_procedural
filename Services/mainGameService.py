@@ -1,6 +1,7 @@
 import pygame, Global, random
 from Utils.UiComponents.TextLabel import TextLabel
 from Utils.UiComponents.Box import Box
+from Utils.Game.mathStuff import Timer
 from Services.mapService import create_map, handle_click, map_update
 
 class SimpleSprite(pygame.sprite.Sprite):
@@ -59,6 +60,13 @@ class SimpleSprite(pygame.sprite.Sprite):
             self.kill()
        # Global.mainGameBox.canvas.blit(self.image, self.rect)
 
+from Classes.Enemies.SpikeEnemy import SpikeEnemy
+from Classes.Enemies.LaserEnemy import LaserEnemy
+ENEMY_REGISTRY = {
+    "SpikeEnemy": SpikeEnemy,
+    "LaserEnemy": LaserEnemy,
+}
+
 class mainGameService:
     def __init__(self):
         self.bgSpawnCD = (0.5,1)
@@ -77,14 +85,17 @@ class mainGameService:
             borderRadius=0,
         )
         Global.mainBackGroundGroup.add(ground)
+        self.create_and_position_map()
 
+    def create_and_position_map(self):
         # mapPos = (
         #     boxPos.x + (currSize.x - (cols * (tileSize[0] + offset) - offset)) / 2,
         #     boxPos.y + (currSize.y - (rows * (tileSize[1] + offset) - offset)) / 2,
         # )
+        mapSize = (2,2)
         Global.currentMap = create_map(
-            cols=20,
-            rows=15,
+            cols=mapSize[0],
+            rows=mapSize[1],
             offset=2,
             color=(100,100,100,255),
             hiddenColor=(50,50,50,255),
@@ -93,7 +104,7 @@ class mainGameService:
             flagColor=(220,220,0),
             mapPos=(857,150),
             tileSize=(50,50),
-            bombCount=50
+            bombCount=int((mapSize[0] * mapSize[1]) / 5)
         )
 
     def stop(self,stop: bool):
@@ -113,5 +124,46 @@ class mainGameService:
             )
             self.bgCurrentSpawn = random.uniform(self.bgSpawnCD[0], self.bgSpawnCD[1])
         
-
         map_update(Global.currentMap)
+
+        #|----------------------------Game Loop
+
+        if Global.gameState == "Preparing":
+            gameProgress = Global.gameProgress[Global.currentDifficulty]
+            self.enemySpawnCD = gameProgress["SpawnRate"]
+            self.enemyLastSpawn = 2
+            self.currentEnemies = gameProgress[f"Round{Global.currentRound}"].copy()
+            Global.gameState = "Playing"
+        if Global.gameState == "Playing":
+            self.enemyLastSpawn -= self.dt
+            if self.enemyLastSpawn <= 0:
+                self.enemyLastSpawn = random.uniform(self.enemySpawnCD[0], self.enemySpawnCD[1])
+
+                available = [k for k, v in self.currentEnemies.items() 
+                 if v.get("InGame", 0) < v["MaxEnemy"] and v["EnemyLeft"] > 0]
+
+                if not available:
+                    return  # all at max, skip this spawn tick
+
+                chosenEnemy = random.choice(available)
+                enemyData   = self.currentEnemies[chosenEnemy]
+
+                if "InGame" not in enemyData:
+                    enemyData["InGame"] = 0
+
+                newEnemy = ENEMY_REGISTRY[chosenEnemy](
+                    pos=pygame.Vector2(random.randint(450, 650), random.randint(100, 450)),
+                    size=pygame.Vector2(200, 200),
+                    groups=Global.entityGroup,
+                )
+                Global.entityGroup.add(newEnemy)
+
+                enemyData["InGame"]   += 1
+                enemyData["EnemyLeft"] -= 1
+
+                def removal():
+                    enemyData["InGame"] -= 1
+                newEnemy.dieFunction = removal
+
+            if Global.currentMap["completed"]:
+                self.create_and_position_map()

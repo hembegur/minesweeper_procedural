@@ -37,6 +37,8 @@ class BaseEntity(pygame.sprite.Sprite):
         )
         self._jiggling = False
 
+        self.dieFunction = None
+
     # ──────────────────────────────────────────
     # Build
     # ──────────────────────────────────────────
@@ -129,6 +131,11 @@ class BaseEntity(pygame.sprite.Sprite):
     def moveCenter(self, direction: pygame.Vector2, speed: float, dt: float):
         self.pos += direction * speed * dt
         self.rect.center = self.pos
+
+    def kill(self):
+        if self.dieFunction:
+            self.dieFunction()
+        super().kill()
 
     # ──────────────────────────────────────────
     # Update

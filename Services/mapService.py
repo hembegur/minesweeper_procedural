@@ -105,6 +105,8 @@ def create_map(
         "hiddenColor": hiddenColor,
         "firstClick":  True,
         "mapLock":  False,
+        "remaining": (rows * cols) - bombCount,
+        "completed": False,
     }
 
 
@@ -232,7 +234,7 @@ def generate_bombs(m: dict, initial_tile: dict):
 # Reveal logic
 # ──────────────────────────────────────────────
 
-def on_successful_reveal(tile: dict):
+def on_successful_reveal(tile: dict, m : map):
     if Global.playerMP < Global.playerMaxMP:
         text_label = TextLabel(
             text="+1MP",
@@ -277,9 +279,10 @@ def tile_reveal(m: dict, tile: dict, first: bool):
 
     tile_change_color(tile, m["revealColor"])
     tile["revealed"] = True
+    m["remaining"] -= 1
 
     if first:
-        on_successful_reveal(tile)
+        on_successful_reveal(tile, m)
 
     if tile["bombCount"] > 0:
         return
@@ -372,3 +375,21 @@ def map_update(m: dict):
         # click glow
         if tile["clicked"]:
             highlight(tile["rect"].size, tile["rect"].topleft, (150, 150, 150, 80))
+
+        #print(m["remaining"])
+        if m["remaining"] <= 0 and not m["completed"]:
+            m["completed"] = True
+            Global.playerUlt += 1
+
+            middle = pygame.Vector2(Global.screenWidth/2, Global.screenHeight/2)
+            text_label = TextLabel(
+                text="+1ULT",
+                pos=middle,
+                font_size=100,
+                color=(200,0,200),
+                font_name="Assets/Fonts/Minecraft.ttf",
+                center=True,
+            )
+            text_label.moveTo(middle + pygame.Vector2(0,-100), speed=300 )
+            text_label.fadeOut(speed=300, onDone=text_label.kill)
+            Global.uiGroup.add(text_label)

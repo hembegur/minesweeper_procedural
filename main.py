@@ -70,6 +70,24 @@ playerMPText = TextLabel(
     font_name="Assets/Fonts/Rimouski.otf",
     center=False,
 )
+
+playerUltText = TextLabel(
+    text=f"ULT: {Global.playerUlt} / {Global.playerMaxUlt}",
+    pos=pygame.Vector2(100,750),
+    font_size=30,
+    color=(200,0,200),
+    font_name="Assets/Fonts/Rimouski.otf",
+    center=False,
+)
+
+currentRoundText = TextLabel(
+    text=f"Current Round: {Global.currentRound}",
+    pos=pygame.Vector2(50,5),
+    font_size=30,
+    color=(20,20,20),
+    font_name="Assets/Fonts/Rimouski.otf",
+    center=False,
+)
 #----------------------------------------------------
 from Classes.Player import PlayerSprite
 
@@ -159,8 +177,12 @@ while True:
     
     playerHPText.setText(f"HP: {Global.playerHP} / {Global.playerMaxHP}")
     playerMPText.setText(f"MP: {Global.playerMP} / {Global.playerMaxMP}")
+    playerUltText.setText(f"ULT: {Global.playerUlt} / {Global.playerMaxUlt}")
+    currentRoundText.setText(f"Current Round: {Global.currentRound}")
     Global.screen.blit(playerHPText.image, playerHPText.rect)
     Global.screen.blit(playerMPText.image, playerMPText.rect)
+    Global.screen.blit(playerUltText.image, playerUltText.rect)
+    Global.screen.blit(currentRoundText.image, currentRoundText.rect)
 
     pygame.display.flip()
     Global.dt = clock.tick(144) / 1000
