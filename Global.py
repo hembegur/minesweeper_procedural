@@ -33,17 +33,36 @@ mainAttackGroup : pygame.sprite.Group = pygame.sprite.Group()
 entityGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 mainBackGroundGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 uiGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
-playerSprite : pygame.sprite.Sprite = None
+
+from Classes.Player import PlayerSprite
+playerSprite : PlayerSprite = None
 
 from Utils.Game.Hitbox import Hitbox
 hitbox : Hitbox = None
 
-playerHP : int = 100
-playerMP : int = 0
-playerUlt : int = 0
-playerMaxHP : int = 100
-playerMaxMP : int = 100
-playerMaxUlt : int = 1
+playerStats = {
+    "HP" :  100,
+    "MP" :  0,
+    "Ult" : 0,
+    "MaxHP" : 100,
+    "MaxMP" : 100,
+    "MaxUlt" : 1,
+    "NormalDamage" : 10,
+    "UltDamage" : 30,
+    "NormalCD": 2.5,
+}
+
+playerStatsGain = {
+    "HP" :  1,
+    "MP" :  1,
+    "Ult" : 1,
+}
+
+playerStatsLose = {
+    "HP" :  1,
+    "MP" :  1,
+    "Ult" : 1,
+}
 
 enemyStats = {
     "SpikeEnemy" : {

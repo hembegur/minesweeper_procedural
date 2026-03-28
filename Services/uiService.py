@@ -2,6 +2,7 @@ import pygame, sys, Global, random
 from Utils.UiComponents.Box import Box
 from Utils.UiComponents.TextLabel import TextLabel
 from Utils.UiComponents.ScrollBox import ScrollBox
+from Utils.UiComponents.Shop import Shop
 
 class uiService:
     def __init__(self):
@@ -47,7 +48,7 @@ class uiService:
         Global.uiGroup.add(Global.secondarySectionBox)
 
         self.playerHPText = TextLabel(
-            text=f"HP: {Global.playerHP} / {Global.playerMaxHP}",
+            text=f"HP: {Global.playerStats["HP"]} / {Global.playerStats["MaxHP"]}",
             pos=pygame.Vector2(100,700),
             font_size=30,
             color=(0,200,0),
@@ -55,7 +56,7 @@ class uiService:
             center=False,
         )
         self.playerMPText = TextLabel(
-            text=f"MP: {Global.playerMP} / {Global.playerMaxMP}",
+            text=f"MP: {Global.playerStats["MP"]} / {Global.playerStats["MaxMP"]}",
             pos=pygame.Vector2(100,725),
             font_size=30,
             color=(0,0,200),
@@ -64,7 +65,7 @@ class uiService:
         )
 
         self.playerUltText = TextLabel(
-            text=f"ULT: {Global.playerUlt} / {Global.playerMaxUlt}",
+            text=f"ULT: {Global.playerStats["Ult"]} / {Global.playerStats["MaxUlt"]}",
             pos=pygame.Vector2(100,750),
             font_size=30,
             color=(200,0,200),
@@ -93,22 +94,18 @@ class uiService:
             scrollSpeed=20,
             scrollbar=True,
             scrollbarColor=(120, 120, 120, 255),
-            scrollbarWidth=6,
+            scrollbarWidth=3,
         )
-        label = TextLabel("TEST_TEST", (0, 0), font_size=24, color=(0,0,0))
-        self.Inventory.addItem(label.image)
-        for _ in range(20):
-            icon = pygame.Surface((280, 60), pygame.SRCALPHA)
-            icon.fill((0,0,0, 200))
-            self.Inventory.addItem(icon)
+
+        newShop = Shop()
 
     def handleEvents(self, event):
         self.Inventory.handleScroll(event)
 
     def update(self):
-        self.playerHPText.setText(f"HP: {Global.playerHP} / {Global.playerMaxHP}")
-        self.playerMPText.setText(f"MP: {Global.playerMP} / {Global.playerMaxMP}")
-        self.playerUltText.setText(f"ULT: {Global.playerUlt} / {Global.playerMaxUlt}")
+        self.playerHPText.setText(f"HP: {Global.playerStats["HP"]} / {Global.playerStats["MaxHP"]}")
+        self.playerMPText.setText(f"MP: {Global.playerStats["MP"]} / {Global.playerStats["MaxMP"]}")
+        self.playerUltText.setText(f"ULT: {Global.playerStats["Ult"]} / {Global.playerStats["MaxUlt"]}")
         self.currentRoundText.setText(f"Current Round: {Global.currentRound}")
         Global.screen.blit(self.playerHPText.image, self.playerHPText.rect)
         Global.screen.blit(self.playerMPText.image, self.playerMPText.rect)

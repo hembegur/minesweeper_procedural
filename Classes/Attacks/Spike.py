@@ -46,7 +46,7 @@ class Spike(pygame.sprite.Sprite):
 
         def hit(otherHB):
             if otherHB.owner == pygame.mouse:
-                Global.playerHP -= damage
+                Global.playerSprite.takeDamage(damage)
                 if self.onHit:
                     self.onHit()
                 self.kill()

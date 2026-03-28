@@ -53,7 +53,7 @@ def spawnLaser(
 
         def hit(otherHB):
             if otherHB.owner == pygame.mouse:
-                Global.playerHP -= damage
+                Global.playerSprite.takeDamage(damage)
                 if onHit:
                     onHit()
 

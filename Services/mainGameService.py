@@ -183,7 +183,6 @@ class mainGameService:
 
         if Global.gameState == "Shop":
             #Global.currentRound += 1
-            mapLock(Global.currentMap)
             if not self.shopSprite:
                 self.shopSprite = SimpleSprite(
                     pos=pygame.Vector2(900, 150),
@@ -199,4 +198,6 @@ class mainGameService:
             else:
                 Global.mainBackGroundDt = Global.dt
         if Global.gameState == "Buying":
-            pass
+            Global.msAttackGroup.empty()
+            Global.msParticleGroup.empty()
+            mapLock(Global.currentMap)

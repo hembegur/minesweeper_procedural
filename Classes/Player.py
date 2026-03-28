@@ -19,8 +19,6 @@ class PlayerSprite(BaseEntity):
         )
         self.hp = 100
         self.playJiggle(loop=True)
-
-        self.attackCD = 2
         self.lastAttack = 0
 
         self.attackJiggle = Jiggle(
@@ -33,18 +31,18 @@ class PlayerSprite(BaseEntity):
         self.attackJiggle._ogSize   = pygame.Vector2(self.size)
 
     def takeDamage(self, amount):
-        self.hp -= amount
+        Global.playerStats["HP"] -= amount
 
     def update(self):
         super().update()
         self.attackJiggle.update(Global.dt)
         self.lastAttack -= Global.dt
-        if self.lastAttack <= 0 and Global.playerMP >= 1:
+        if self.lastAttack <= 0 and Global.playerStats["MP"] >= Global.playerStatsLose["MP"]:
             for sprite in Global.entityGroup:
                 if sprite.team == "Enemy":
                     def hit():
                         text_label = TextLabel(
-                            text="-10HP",
+                            text=f"-{Global.playerStats["NormalDamage"]}HP",
                             pos=sprite.pos,
                             font_size=20,
                             color=(225,0,0),
@@ -54,7 +52,7 @@ class PlayerSprite(BaseEntity):
                         text_label.moveTo(sprite.pos - pygame.Vector2(0,50), speed=300)
                         text_label.fadeOut(speed=300, onDone=text_label.kill)
                         Global.uiGroup.add(text_label)
-                        sprite.takeDamage(10)
+                        sprite.takeDamage(Global.playerStats["NormalDamage"])
                         newBullet.kill()
 
                         for _ in range(20):
@@ -70,8 +68,8 @@ class PlayerSprite(BaseEntity):
                                 fadeSpeed=500,
                             )
 
-                    Global.playerMP -= 1
-                    self.lastAttack = self.attackCD
+                    Global.playerStats["MP"] -= Global.playerStatsLose["MP"]
+                    self.lastAttack = Global.playerStats["NormalCD"]
 
                     self.attackJiggle.play(loop=False)
                     newBullet = Bullet(
