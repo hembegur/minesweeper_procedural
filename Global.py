@@ -1,8 +1,10 @@
 import pygame
 
+dt = 0
+mainBackGroundDt = 0
+
 screenWidth = 1920 #1280 #1920
 screenHeight = 1080 #720#1080
-dt = 0
 screen : pygame.display.set_mode = None
 animationFPS = 12
 animationCache = {}
@@ -16,6 +18,8 @@ def loadImage(path: str, size: tuple = None):
 
 from Services.mainGameService import mainGameService
 MainGameService: mainGameService = None
+from Services.uiService import uiService
+UiService : uiService = None
 
 from Utils.UiComponents.Box import Box
 minesweeperBox: Box = None
@@ -53,7 +57,7 @@ enemyStats = {
 }
 
 
-currentRound = 3
+currentRound = 1
 currentDifficulty = "Normal"
 gameState = "Preparing"
 enemyCount = 0
@@ -66,8 +70,8 @@ gameProgress = {
         "SpawnRate": (1,2),
         "Round1" : {
             "SpikeEnemy" : {
-                "EnemyLeft" : 8,
-                "MaxEnemy": 4
+                "EnemyLeft" : 1,
+                "MaxEnemy": 1,
             },
         },
         "Round2" : {

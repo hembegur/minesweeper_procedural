@@ -379,17 +379,18 @@ def map_update(m: dict):
         #print(m["remaining"])
         if m["remaining"] <= 0 and not m["completed"]:
             m["completed"] = True
-            Global.playerUlt += 1
+            if Global.playerMaxUlt > Global.playerUlt:
+                Global.playerUlt += 1
 
-            middle = pygame.Vector2(Global.screenWidth/2, Global.screenHeight/2)
-            text_label = TextLabel(
-                text="+1ULT",
-                pos=middle,
-                font_size=100,
-                color=(200,0,200),
-                font_name="Assets/Fonts/Minecraft.ttf",
-                center=True,
-            )
-            text_label.moveTo(middle + pygame.Vector2(0,-100), speed=300 )
-            text_label.fadeOut(speed=300, onDone=text_label.kill)
-            Global.uiGroup.add(text_label)
+                middle = pygame.Vector2(Global.screenWidth/2, Global.screenHeight/2)
+                text_label = TextLabel(
+                    text="+1ULT",
+                    pos=middle,
+                    font_size=100,
+                    color=(200,0,200),
+                    font_name="Assets/Fonts/Minecraft.ttf",
+                    center=True,
+                )
+                text_label.moveTo(middle + pygame.Vector2(0,-100), speed=300 )
+                text_label.fadeOut(speed=300, onDone=text_label.kill)
+                Global.uiGroup.add(text_label)

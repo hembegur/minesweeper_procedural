@@ -12,82 +12,9 @@ Global.hitbox = hitbox
 from Services.mapService import handle_click, mapLock, mapUnLock, map_all_tiles
 
 # UI components
-Global.uiGroup = pygame.sprite.Group()
 from Utils.UiComponents.Box import Box
-#minesweeperBox
-currSize = pygame.Vector2(1100, 1000)
-Global.minesweeperBox = Box(
-    pos=pygame.Vector2(1350 - currSize.x/2,540 - currSize.y/2),
-    size=currSize,
-    groups=Global.uiGroup,
-    color=(30, 30, 30, 0),
-    border=True,
-    borderColor=(50,50,50, 255),
-    borderWidth=5,
-    borderRadius=0,
-)
-Global.uiGroup.add(Global.minesweeperBox)
-#mainGameBox
-currSize = pygame.Vector2(750,600)
-Global.mainGameBox = Box(
-    pos=pygame.Vector2(400 - currSize.x/2,340 - currSize.y/2),
-    size=currSize,
-    groups=Global.uiGroup,
-    color=(30, 30, 30, 0),
-    border=True,
-    borderColor=(50,50,50, 255),
-    borderWidth=5,
-    borderRadius=0,
-)
-Global.uiGroup.add(Global.mainGameBox)
-#secondarySectionBox
-currSize = pygame.Vector2(750,375)
-Global.secondarySectionBox = Box(
-    pos=pygame.Vector2(400 - currSize.x/2,850 - currSize.y/2),
-    size=currSize,
-    groups=Global.uiGroup,
-    color=(30, 30, 30, 0),
-    border=True,
-    borderColor=(50,50,50, 255),
-    borderWidth=5,
-    borderRadius=0,
-)
-Global.uiGroup.add(Global.secondarySectionBox)
 
-playerHPText = TextLabel(
-    text=f"HP: {Global.playerHP} / {Global.playerMaxHP}",
-    pos=pygame.Vector2(100,700),
-    font_size=30,
-    color=(0,200,0),
-    font_name="Assets/Fonts/Rimouski.otf", 
-    center=False,
-)
-playerMPText = TextLabel(
-    text=f"MP: {Global.playerMP} / {Global.playerMaxMP}",
-    pos=pygame.Vector2(100,725),
-    font_size=30,
-    color=(0,0,200),
-    font_name="Assets/Fonts/Rimouski.otf",
-    center=False,
-)
 
-playerUltText = TextLabel(
-    text=f"ULT: {Global.playerUlt} / {Global.playerMaxUlt}",
-    pos=pygame.Vector2(100,750),
-    font_size=30,
-    color=(200,0,200),
-    font_name="Assets/Fonts/Rimouski.otf",
-    center=False,
-)
-
-currentRoundText = TextLabel(
-    text=f"Current Round: {Global.currentRound}",
-    pos=pygame.Vector2(50,5),
-    font_size=30,
-    color=(20,20,20),
-    font_name="Assets/Fonts/Rimouski.otf",
-    center=False,
-)
 #----------------------------------------------------
 from Classes.Player import PlayerSprite
 
@@ -98,7 +25,6 @@ player = PlayerSprite(
 )
 Global.entityGroup.add(player, layer=-999)
 Global.playerSprite = player
-
 
 
 mouseHB = hitbox.new(
@@ -118,13 +44,17 @@ def sortEntityGroup():
 
 from Services.mainGameService import mainGameService
 Global.MainGameService = mainGameService()
+from Services.uiService import uiService
+Global.UiService = uiService()
 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
         handle_click(Global.currentMap, event)
+        Global.UiService.handleEvents(event=event)
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
@@ -171,18 +101,10 @@ while True:
     Global.mainAttackGroup.draw(Global.mainGameBox.canvas)
 
     Global.MainGameService.update()
+    Global.UiService.update()
 
     Global.uiGroup.update(screen)
     Global.uiGroup.draw(screen)
-    
-    playerHPText.setText(f"HP: {Global.playerHP} / {Global.playerMaxHP}")
-    playerMPText.setText(f"MP: {Global.playerMP} / {Global.playerMaxMP}")
-    playerUltText.setText(f"ULT: {Global.playerUlt} / {Global.playerMaxUlt}")
-    currentRoundText.setText(f"Current Round: {Global.currentRound}")
-    Global.screen.blit(playerHPText.image, playerHPText.rect)
-    Global.screen.blit(playerMPText.image, playerMPText.rect)
-    Global.screen.blit(playerUltText.image, playerUltText.rect)
-    Global.screen.blit(currentRoundText.image, currentRoundText.rect)
 
     pygame.display.flip()
     Global.dt = clock.tick(144) / 1000

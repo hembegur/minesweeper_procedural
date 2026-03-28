@@ -2,7 +2,7 @@ import pygame, Global, random
 from Utils.UiComponents.TextLabel import TextLabel
 from Utils.UiComponents.Box import Box
 from Utils.Game.mathStuff import Timer
-from Services.mapService import create_map, handle_click, map_update
+from Services.mapService import create_map, handle_click, map_update, mapLock, mapUnLock
 
 class SimpleSprite(pygame.sprite.Sprite):
     def __init__(
@@ -12,14 +12,15 @@ class SimpleSprite(pygame.sprite.Sprite):
         groups=None,
         imagePath: str = None,
         color: tuple = (255, 255, 255, 255),
+        layer: int = 0,
     ):
         super().__init__()
         if groups is not None:
             if isinstance(groups, (list, tuple)):
                 for g in groups:
-                    g.add(self)
+                    g.add(self, layer=layer)
             else:
-                groups.add(self)
+                groups.add(self, layer=layer)
 
         self.pos  = pygame.Vector2(pos)
         self.size = pygame.Vector2(size)
@@ -28,14 +29,14 @@ class SimpleSprite(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=self.pos)
 
     def move(self, direction: pygame.Vector2, speed: float, dt: float = None):
-        dt = dt or Global.dt
+        dt = dt or Global.mainBackGroundDt
         if direction.length() == 0:
             return
         self.pos += direction.normalize() * speed * dt
         self.rect.center = self.pos
 
     def moveTo(self, destination: pygame.Vector2, speed: float, dt: float = None):
-        dt    = dt or Global.dt
+        dt    = dt or Global.mainBackGroundDt
         delta = pygame.Vector2(destination) - self.pos
         dist  = delta.length()
         step  = speed * dt
@@ -50,12 +51,12 @@ class SimpleSprite(pygame.sprite.Sprite):
         self.rect.center = self.pos
 
     def update(self):
-        self.move(pygame.Vector2(-1, 0), speed=200)
+        self.move(pygame.Vector2(-1, 0), speed=200, dt=Global.mainBackGroundDt)
         if (
-            self.pos[0] < -100 or
-            self.pos[0] > Global.mainGameBox.size.x + 100 or
-            self.pos[1] < -100 or
-            self.pos[1] > Global.mainGameBox.size.y + 100
+            self.pos[0] < -200 or
+            self.pos[0] > Global.mainGameBox.size.x + 200 or
+            self.pos[1] < -200 or
+            self.pos[1] > Global.mainGameBox.size.y + 200
         ):
             self.kill()
        # Global.mainGameBox.canvas.blit(self.image, self.rect)
@@ -71,7 +72,8 @@ class mainGameService:
     def __init__(self):
         self.bgSpawnCD = (0.5,1)
         self.bgCurrentSpawn = 0 
-        self.dt = Global.dt
+        Global.mainBackGroundDt = Global.dt
+        self.shopSprite = None
         #groundBox
         currSize = pygame.Vector2(750,700)
         ground = Box(
@@ -92,7 +94,7 @@ class mainGameService:
         #     boxPos.x + (currSize.x - (cols * (tileSize[0] + offset) - offset)) / 2,
         #     boxPos.y + (currSize.y - (rows * (tileSize[1] + offset) - offset)) / 2,
         # )
-        mapSize = (2,2)
+        mapSize = (10,10)
         Global.currentMap = create_map(
             cols=mapSize[0],
             rows=mapSize[1],
@@ -112,12 +114,14 @@ class mainGameService:
             self.dt = 0
     
     def update(self):
-        self.dt = Global.dt
-        self.bgCurrentSpawn -= self.dt
+        if Global.gameState == "Playing":
+            Global.mainBackGroundDt = Global.dt
+
+        self.bgCurrentSpawn -= Global.mainBackGroundDt
         if self.bgCurrentSpawn <= 0: 
             randomSize = random.randint(150,250)
             SimpleSprite(
-                pos=pygame.Vector2(800, 100 - (randomSize/2 - 100)),
+                pos=pygame.Vector2(900, 100 - (randomSize/2 - 100)),
                 size=pygame.Vector2(randomSize,randomSize),
                 groups=Global.mainBackGroundGroup,
                 imagePath=random.choice(["Assets/Background/house1.png", "Assets/Background/tree.png"]),
@@ -134,8 +138,17 @@ class mainGameService:
             self.enemyLastSpawn = 2
             self.currentEnemies = gameProgress[f"Round{Global.currentRound}"].copy()
             Global.gameState = "Playing"
+
         if Global.gameState == "Playing":
-            self.enemyLastSpawn -= self.dt
+            self.enemyLastSpawn -= Global.mainBackGroundDt
+
+            # Enemy left check
+            enemyLeft = [k for k, v in self.currentEnemies.items() if v.get("InGame", 0) > 0 or v["EnemyLeft"] > 0] 
+
+            if not enemyLeft:
+                Global.gameState = "Shop"
+
+            # spawn Enemies
             if self.enemyLastSpawn <= 0:
                 self.enemyLastSpawn = random.uniform(self.enemySpawnCD[0], self.enemySpawnCD[1])
 
@@ -167,3 +180,23 @@ class mainGameService:
 
             if Global.currentMap["completed"]:
                 self.create_and_position_map()
+
+        if Global.gameState == "Shop":
+            #Global.currentRound += 1
+            mapLock(Global.currentMap)
+            if not self.shopSprite:
+                self.shopSprite = SimpleSprite(
+                    pos=pygame.Vector2(900, 150),
+                    size=pygame.Vector2(200,200),
+                    groups=Global.mainBackGroundGroup,
+                    imagePath="Assets/Background/shop.png",
+                    layer=999,
+                )
+            
+            if self.shopSprite.pos.x <= 400:
+                Global.mainBackGroundDt = 0
+                Global.gameState = "Buying"
+            else:
+                Global.mainBackGroundDt = Global.dt
+        if Global.gameState == "Buying":
+            pass
