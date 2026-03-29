@@ -73,6 +73,7 @@ class mainGameService:
         self.bgCurrentSpawn = 0 
         Global.mainBackGroundDt = Global.dt
         self.shopSprite = None
+        self.shop = None
         #groundBox
         currSize = pygame.Vector2(750,700)
         ground = Box(
@@ -137,6 +138,7 @@ class mainGameService:
             self.enemyLastSpawn = 2
             self.currentEnemies = gameProgress[f"Round{Global.currentRound}"].copy()
             Global.gameState = "Playing"
+            self.shopSprite = None
 
         if Global.gameState == "Playing":
             self.enemyLastSpawn -= Global.mainBackGroundDt
@@ -194,9 +196,18 @@ class mainGameService:
             if self.shopSprite.pos.x <= 400:
                 Global.mainBackGroundDt = 0
                 Global.gameState = "Buying"
+                self.shop = None
             else:
                 Global.mainBackGroundDt = Global.dt
         if Global.gameState == "Buying":
-            Global.msAttackGroup.empty()
-            Global.msParticleGroup.empty()
-            mapLock(Global.currentMap)
+            if not self.shop:
+                for sprite in list(Global.msAttackGroup):
+                    sprite.kill()
+                Global.msParticleGroup.empty()
+                mapLock(Global.currentMap)
+                self.shop = Global.UiService.spawnShop()
+
+            if self.shop.removed:
+                mapUnLock(Global.currentMap)
+                Global.currentRound += 1
+                Global.gameState = "Preparing"

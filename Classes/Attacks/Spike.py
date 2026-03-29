@@ -80,7 +80,6 @@ class Spike(pygame.sprite.Sprite):
         self.lifetime -= Global.dt
         if self.lifetime <= 0:
             self.kill()
-            self.hitbox.kill()
 
         if (
             self.pos[0] < -50 or
@@ -89,7 +88,6 @@ class Spike(pygame.sprite.Sprite):
             self.pos[1] > Global.minesweeperSurfaceSize.y + 50
         ):
             self.kill()
-            self.hitbox.kill()
 
         self.particleCD1 -= Global.dt
         if self.particleCD1 <= 0:
@@ -104,5 +102,10 @@ class Spike(pygame.sprite.Sprite):
                 size=25,
                 fadeSpeed=1000,
             )
+
+    def kill(self):
+        if hasattr(self, "hitbox"):
+            self.hitbox.kill()
+        super().kill()
 
         

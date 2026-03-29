@@ -7,6 +7,7 @@ from Utils.UiComponents.Shop import Shop
 class uiService:
     def __init__(self):
         super().__init__()
+        self.shop = None
         #minesweeperBox
         currSize = pygame.Vector2(1100, 1000)
         Global.minesweeperBox = Box(
@@ -106,11 +107,15 @@ class uiService:
             scrollbarColor=(120, 120, 120, 255),
             scrollbarWidth=3,
         )
+
+    def spawnShop(self):
         self.shop = Shop()
+        return self.shop
 
     def handleEvents(self, event):
         Global.inventoryBox.handleScroll(event)
-        self.shop.handleEvent(event)
+        if self.shop:
+            self.shop.handleEvent(event)
 
     def update(self):
         self.playerHPText.setText(f"HP: {Global.playerStats["HP"]} / {Global.playerStats["MaxHP"]}")

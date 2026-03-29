@@ -98,8 +98,8 @@ gameProgress = {
         },
         "Round2" : {
             "SpikeEnemy" : {
-                "EnemyLeft" : 12,
-                "MaxEnemy": 6
+                "EnemyLeft" : 1,
+                "MaxEnemy": 1
             },
         },
         "Round3" : {

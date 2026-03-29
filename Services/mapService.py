@@ -131,8 +131,12 @@ def mapUnLock(m: dict):
         tile["revealed"] = wasRevealed
         if wasRevealed:
             tile_change_color(tile, m["revealColor"])
+            if tile["isBomb"]:
+                tile_change_color(tile, m["bombColor"])
         else:
             tile_change_color(tile, m["normalColor"])
+            if tile["flagged"]:
+                tile_change_color(tile, m["flagColor"])
 
 def map_all_tiles(m: dict):
     """Flat iterator over every tile (skips None slots)."""

@@ -140,6 +140,7 @@ class Shop:
         self.items = self.itemsLoader.randomItems(3)
         self.rerollPrice = 20
         self.buySlots = []
+        self.removed = False
 
         self.mainFrame = Box(
             pos=pos,
@@ -245,6 +246,7 @@ class Shop:
             button.handleEvent(event)
 
     def removeShop(self):
+        self.removed = True
         for buyslot in self.buySlots:
             buyslot.destroy()
         self.buySlots.clear()
