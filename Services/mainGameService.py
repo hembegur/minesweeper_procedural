@@ -90,23 +90,26 @@ class mainGameService:
         self.create_and_position_map()
 
     def create_and_position_map(self):
-        # mapPos = (
-        #     boxPos.x + (currSize.x - (cols * (tileSize[0] + offset) - offset)) / 2,
-        #     boxPos.y + (currSize.y - (rows * (tileSize[1] + offset) - offset)) / 2,
-        # )
-        mapSize = (10,10)
+        mapSize = (random.randint(5,15), random.randint(5,15))
+        tileSize = (50,50)
+        offset = 2
+        boxRect = Global.minesweeperBox.rect
+        mapPos = (
+            boxRect.x + (boxRect.width- (mapSize[0] * (tileSize[0] + offset) - offset)) / 2  + tileSize[0] / 2,
+            boxRect.y + (boxRect.height - (mapSize[1] * (tileSize[1] + offset) - offset)) / 2  + tileSize[1] / 2,
+        )
         Global.currentMap = create_map(
             cols=mapSize[0],
             rows=mapSize[1],
-            offset=2,
+            offset=offset,
             color=(100,100,100,255),
             hiddenColor=(50,50,50,255),
             revealColor=(200,200,200,255),
             bombColor=(255,50,50,255),
             flagColor=(220,220,0),
-            mapPos=(857,150),
-            tileSize=(50,50),
-            bombCount=int((mapSize[0] * mapSize[1]) / 5)
+            mapPos=mapPos,
+            tileSize=tileSize,
+            bombCount=int((mapSize[0] * mapSize[1]) * 0.1)
         )
 
     def stop(self,stop: bool):

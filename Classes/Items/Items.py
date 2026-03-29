@@ -1,13 +1,29 @@
 import pygame, Global, random
+from Utils.UiComponents.Box import Box
+from Utils.UiComponents.TextLabel import TextLabel
 
-class SimpleItem(pygame.sprite.Sprite):
+class preview(Box):
+    def __init__(self, pos):
+        super().__init__(
+            pos=pos,
+            size=pygame.Vector2(200,300),
+            groups=Global.uiGroup,
+            color=(230, 230, 230, 255),
+            border=True,
+            borderColor=(50, 50, 50, 255),
+            borderWidth=5,
+            borderRadius=0,
+        )
+        Global.uiGroup.add(self, layer=10)
+    
+class Item(pygame.sprite.Sprite):
     def __init__(
         self,
         pos: pygame.Vector2 = pygame.Vector2(-100,-100),
         size: pygame.Vector2 = pygame.Vector2(80, 80),
         groups=None,
         imagePath: str = None,
-        layer: int = 0,
+        layer: int = 10,
     ):
         super().__init__()
         if groups is not None:
@@ -20,61 +36,58 @@ class SimpleItem(pygame.sprite.Sprite):
         self.pos = pygame.Vector2(pos)
         self.size = pygame.Vector2(size)
         self.imagePath = imagePath
-        self.image = Global.loadImage(imagePath, (int(size.x), int(size.y)))
+        self.image = Global.loadImage(self.imagePath, (int(size.x), int(size.y)))
         self.rect = self.image.get_rect(center=self.pos)
+        self.previewBox : preview = None
+    
+    def setSize(self, size):
+        self.size = pygame.Vector2(size)
+        self.image = Global.loadImage(self.imagePath, (int(size.x), int(size.y)))
+        self.rect = self.image.get_rect(center=self.pos)
+    
+    def update(self, screen):
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos):
+            if not self.previewBox:
+                self.previewBox = preview(pos=mouse_pos)
+            self.previewBox.setPos(mouse_pos - pygame.Vector2(0,self.previewBox.size.y))
+        else:
+            if self.previewBox:
+                self.previewBox.kill()
+                self.previewBox = None
 
-class heavy_ammo(SimpleItem):
-    def __init__(self):
-        super().__init__(
-            groups=Global.uiGroup,
-            imagePath="Assets/Items/heavy_ammo.png",
-        )
-        Global.playerStats["NormalDamage"] += 5
-        Global.playerStatsLose["MP"] += 0.5
+def heavy_ammo():
+    Global.playerStats["NormalDamage"] += 5
+    Global.playerStatsLose["MP"] += 0.5
 
-class enegy_boost(SimpleItem):
-    def __init__(self):
-        super().__init__(
-            groups=Global.uiGroup,
-            imagePath="Assets/Items/energy_boost.png",
-        )
-        Global.playerStatsGain["MP"] += 0.5
+def enegy_boost():
+    Global.playerStatsGain["MP"] += 0.5
 
-class recycle(SimpleItem):
-    def __init__(self):
-        super().__init__(
-            groups=Global.uiGroup,
-            imagePath="Assets/Items/recycle.png",
-        )
-        Global.playerStats["NormalCD"] -= 0.2 
+def recycle():
+    Global.playerStats["NormalCD"] -= 0.2 
 
-class twin_shot(SimpleItem):
-    def __init__(self):
-        super().__init__(
-            groups=Global.uiGroup,
-            imagePath="Assets/Items/twin_shot.png",
-        )
-        Global.playerStats["NormalDamage"] += 5
+def twin_shot():
+    Global.playerStats["NormalDamage"] += 5
 
 itemInfos = {
     "Heavy ammo" : {
         "Price": 100,
-        "Link": heavy_ammo,
+        "Function": heavy_ammo,
         "ImagePath": "Assets/Items/heavy_ammo.png",
     },
     "Energy boost" : {
         "Price": 120,
-        "Link": enegy_boost,
+        "Function": enegy_boost,
         "ImagePath": "Assets/Items/energy_boost.png",
     },
     "Recycle" : {
         "Price": 120,
-        "Link": recycle,
+        "Function": recycle,
         "ImagePath": "Assets/Items/recycle.png",
     },
     "Twin shots" : {
         "Price": 150,
-        "Link": twin_shot,
+        "Function": twin_shot,
         "ImagePath": "Assets/Items/twin_shot.png",
     },
 }

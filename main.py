@@ -42,10 +42,10 @@ def sortEntityGroup():
             continue
         Global.entityGroup.change_layer(entity, entity.rect.bottom)
 
-from Services.mainGameService import mainGameService
-Global.MainGameService = mainGameService()
 from Services.uiService import uiService
 Global.UiService = uiService()
+from Services.mainGameService import mainGameService
+Global.MainGameService = mainGameService()
 
 while True:
     for event in pygame.event.get():

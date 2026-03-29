@@ -70,11 +70,7 @@ class ScrollBox(pygame.sprite.Sprite):
 
     def addItem(self, item):
         """Add a surface or sprite as an item."""
-        if isinstance(item, pygame.sprite.Sprite):
-            surface = item.image
-        else:
-            surface = item
-        self._items.append(surface)
+        self._items.append(item)
         self._repositionItems()
         return len(self._items) - 1
 
@@ -90,26 +86,27 @@ class ScrollBox(pygame.sprite.Sprite):
         self._maxScroll    = 0
         self._repositionItems()
 
+    def _getSurface(self, item):
+        if isinstance(item, pygame.sprite.Sprite):
+            return item.image
+        return item
+
     def _repositionItems(self):
-        """Calculate total content size and max scroll."""
         if not self._items:
             self._maxScroll = 0
             return
-
         total = self.padding
-        for surf in self._items:
+        for item in self._items:
+            surf = self._getSurface(item)
             if self.direction == "vertical":
                 total += surf.get_height() + self.spacing
             else:
                 total += surf.get_width() + self.spacing
         total += self.padding
-
         if self.direction == "vertical":
             self._maxScroll = max(0, total - int(self.size.y))
         else:
             self._maxScroll = max(0, total - int(self.size.x))
-
-        # clamp scroll after resize
         self._scrollOffset = min(self._scrollOffset, self._maxScroll)
 
     # ──────────────────────────────────────────
@@ -191,17 +188,36 @@ class ScrollBox(pygame.sprite.Sprite):
         # draw items onto canvas with scroll offset applied
         self.canvas.fill((0, 0, 0, 0))
         cursor = self.padding
-
-        for surf in self._items:
+        
+        for item in self._items:
+            surf = item.image if isinstance(item, pygame.sprite.Sprite) else item
             if self.direction == "vertical":
                 y = cursor - self._scrollOffset
-                if -surf.get_height() < y < h:   # only draw if visible
+                if -surf.get_height() < y < h:
                     self.canvas.blit(surf, (self.padding, y))
+                    # update sprite rect to match screen position
+                    if isinstance(item, pygame.sprite.Sprite):
+                        item.rect.topleft = (
+                            self.rect.x + self.padding,
+                            self.rect.y + y,
+                        )
+                else:
+                    # off screen — move rect out of view so collide doesn't trigger
+                    if isinstance(item, pygame.sprite.Sprite):
+                        item.rect.topleft = (-1000, -1000)
                 cursor += surf.get_height() + self.spacing
             else:
                 x = cursor - self._scrollOffset
                 if -surf.get_width() < x < w:
                     self.canvas.blit(surf, (x, self.padding))
+                    if isinstance(item, pygame.sprite.Sprite):
+                        item.rect.topleft = (
+                            self.rect.x + x,
+                            self.rect.y + self.padding,
+                        )
+                else:
+                    if isinstance(item, pygame.sprite.Sprite):
+                        item.rect.topleft = (-1000, -1000)
                 cursor += surf.get_width() + self.spacing
 
         self.image.blit(self.canvas, (0, 0))

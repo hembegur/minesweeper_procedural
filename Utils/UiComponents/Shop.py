@@ -2,7 +2,7 @@ import pygame, Global
 from Utils.UiComponents.Box import Box
 from Utils.UiComponents.TextLabel import TextLabel
 from Utils.UiComponents.Button import Button
-from Classes.Items.Items import itemLoader, SimpleItem
+from Classes.Items.Items import itemLoader, Item
 
 class SimpleImage(pygame.sprite.Sprite):
     def __init__(
@@ -23,7 +23,7 @@ class SimpleImage(pygame.sprite.Sprite):
 class buySlot:
     def __init__(self, pos, buttonGroup, itemData=None):
         self.pos = pos
-        self.itemClass : SimpleItem = None
+        self.itemClass : Item = None
         self.bought = False
         self.itemImage = None
 
@@ -54,21 +54,20 @@ class buySlot:
         self.onClickFunc = onClickPlaceHolder
 
         if itemData:
-            self.itemImage = SimpleImage(
+            self.itemClass = Item(
                 pos = pos + pygame.Vector2(self.itemFrame.size.x/2, self.itemFrame.size.y/2),
                 size=pygame.Vector2(125,125),
-                groups=Global.uiGroup,
                 imagePath=itemData["ImagePath"],
+                groups=Global.uiGroup,
             )
             self.priceText.setText(f"${str(itemData["Price"])}")
 
             def onClick():
                 if float(itemData["Price"]) <= Global.money and not self.bought:
                     Global.money -= itemData["Price"]
-                    self.itemClass = itemData["Link"]()
                     Global.inventoryBox.addItem(self.itemClass)
-
-                    self.itemImage.kill()
+                    self.itemClass.setSize(pygame.Vector2(80,80))
+                    itemData["Function"]()
                     self.priceText.setText(f"None")
                     self.bought = True
             self.onClickFunc = onClick
