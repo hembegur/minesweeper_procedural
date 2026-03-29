@@ -248,7 +248,9 @@ def on_successful_reveal(tile: dict, m : map):
         text_label.fadeOut(speed=300, onDone=text_label.kill)
         Global.uiGroup.add(text_label)
 
-        Global.playerStats["MP"] += 1
+        Global.playerStats["MP"] += Global.playerStatsGain["MP"]
+        if Global.playerStats["MP"] > Global.playerStats["MaxMP"]:
+            Global.playerStats["MP"] = Global.playerStats["MaxMP"]
 
 
 def on_bomb_reveal(tile: dict):

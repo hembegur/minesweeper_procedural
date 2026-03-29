@@ -40,6 +40,9 @@ playerSprite : PlayerSprite = None
 from Utils.Game.Hitbox import Hitbox
 hitbox : Hitbox = None
 
+from Utils.UiComponents.ScrollBox import ScrollBox
+inventoryBox: ScrollBox = None
+money = 10000
 playerStats = {
     "HP" :  100,
     "MP" :  0,

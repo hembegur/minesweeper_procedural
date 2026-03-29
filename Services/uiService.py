@@ -82,7 +82,17 @@ class uiService:
             center=False,
         )
 
-        self.Inventory = ScrollBox(
+        self.moneyText = TextLabel(
+            text=f"$: {Global.money}",
+            pos=pygame.Vector2(450,5),
+            font_size=30,
+            color=(50,200,50),
+            font_name="Assets/Fonts/Rimouski.otf",
+            center=False,
+        )
+        Global.uiGroup.add(self.moneyText)
+
+        Global.inventoryBox = ScrollBox(
             pos=pygame.Vector2(50, 925),
             size=pygame.Vector2(700, 100),
             groups=Global.uiGroup,
@@ -96,17 +106,18 @@ class uiService:
             scrollbarColor=(120, 120, 120, 255),
             scrollbarWidth=3,
         )
-
-        newShop = Shop()
+        self.shop = Shop()
 
     def handleEvents(self, event):
-        self.Inventory.handleScroll(event)
+        Global.inventoryBox.handleScroll(event)
+        self.shop.handleEvent(event)
 
     def update(self):
         self.playerHPText.setText(f"HP: {Global.playerStats["HP"]} / {Global.playerStats["MaxHP"]}")
         self.playerMPText.setText(f"MP: {Global.playerStats["MP"]} / {Global.playerStats["MaxMP"]}")
         self.playerUltText.setText(f"ULT: {Global.playerStats["Ult"]} / {Global.playerStats["MaxUlt"]}")
         self.currentRoundText.setText(f"Current Round: {Global.currentRound}")
+        self.moneyText.setText(f"$: {Global.money}")
         Global.screen.blit(self.playerHPText.image, self.playerHPText.rect)
         Global.screen.blit(self.playerMPText.image, self.playerMPText.rect)
         Global.screen.blit(self.playerUltText.image, self.playerUltText.rect)

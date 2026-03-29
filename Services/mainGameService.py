@@ -25,7 +25,6 @@ class SimpleSprite(pygame.sprite.Sprite):
         self.pos  = pygame.Vector2(pos)
         self.size = pygame.Vector2(size)
         self.image = Global.loadImage(imagePath, (int(size.x), int(size.y)))
-
         self.rect = self.image.get_rect(center=self.pos)
 
     def move(self, direction: pygame.Vector2, speed: float, dt: float = None):
