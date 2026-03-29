@@ -3,7 +3,7 @@ from Utils.UiComponents.Box import Box
 from Utils.UiComponents.TextLabel import TextLabel
 
 class preview(Box):
-    def __init__(self, pos):
+    def __init__(self, pos, text):
         super().__init__(
             pos=pos,
             size=pygame.Vector2(200,300),
@@ -15,6 +15,18 @@ class preview(Box):
             borderRadius=0,
         )
         Global.uiGroup.add(self, layer=10)
+        self.descText = TextLabel(
+            text=text,
+            pos=pos,
+            font_size=20,
+            color=(50,50,50),
+            font_name="Assets/Fonts/Rimouski.otf",
+            center=False,
+        )
+        Global.uiGroup.add(self.descText, layer = 999)
+    def setPos_(self, pos):
+        self.setPos(pos)
+        self.descText.setPosition(pos + pygame.Vector2(10,10))
     
 class Item(pygame.sprite.Sprite):
     def __init__(
@@ -24,6 +36,7 @@ class Item(pygame.sprite.Sprite):
         groups=None,
         imagePath: str = None,
         layer: int = 10,
+        text = "",
     ):
         super().__init__()
         if groups is not None:
@@ -32,7 +45,7 @@ class Item(pygame.sprite.Sprite):
                     g.add(self, layer=layer)
             else:
                 groups.add(self, layer=layer)
-
+        self.previewText = text
         self.pos = pygame.Vector2(pos)
         self.size = pygame.Vector2(size)
         self.imagePath = imagePath
@@ -49,10 +62,11 @@ class Item(pygame.sprite.Sprite):
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             if not self.previewBox:
-                self.previewBox = preview(pos=mouse_pos)
-            self.previewBox.setPos(mouse_pos - pygame.Vector2(0,self.previewBox.size.y))
+                self.previewBox = preview(pos=mouse_pos, text=self.previewText)
+            self.previewBox.setPos_(mouse_pos - pygame.Vector2(0,self.previewBox.size.y))
         else:
             if self.previewBox:
+                self.previewBox.descText.kill()
                 self.previewBox.kill()
                 self.previewBox = None
 
@@ -74,21 +88,25 @@ itemInfos = {
         "Price": 100,
         "Function": heavy_ammo,
         "ImagePath": "Assets/Items/heavy_ammo.png",
+        "Description": "Heavy Ammo\n\nNormal damage +5\nEnergy cost +0.5",
     },
     "Energy boost" : {
         "Price": 120,
         "Function": enegy_boost,
         "ImagePath": "Assets/Items/energy_boost.png",
+        "Description": "Energy Boost\n\nEnergy gain +0.5",
     },
     "Recycle" : {
         "Price": 120,
         "Function": recycle,
         "ImagePath": "Assets/Items/recycle.png",
+        "Description": "Recycle\n\nNormal reload -0.2",
     },
     "Twin shots" : {
-        "Price": 150,
+        "Price": 250,
         "Function": twin_shot,
         "ImagePath": "Assets/Items/twin_shot.png",
+        "Description": "Twin shots\n\nAmmo per shot +1\nEnergy cost +1",
     },
 }
 

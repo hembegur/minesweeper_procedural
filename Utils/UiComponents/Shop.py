@@ -59,6 +59,7 @@ class buySlot:
                 size=pygame.Vector2(125,125),
                 imagePath=itemData["ImagePath"],
                 groups=Global.uiGroup,
+                text=itemData["Description"],
             )
             self.priceText.setText(f"${str(itemData["Price"])}")
 
@@ -87,6 +88,8 @@ class buySlot:
         self.priceText.kill()
         self.itemFrame.kill()
         self.buyButtonText.kill()
+        if self.itemClass:
+            self.itemClass.kill()
         if self.itemImage:
             self.itemImage.kill()    
 
