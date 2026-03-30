@@ -33,6 +33,7 @@ mainAttackGroup : pygame.sprite.Group = pygame.sprite.Group()
 entityGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 mainBackGroundGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 uiGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
+timerGroup : pygame.sprite.Group = pygame.sprite.Group()
 
 from Classes.Player import PlayerSprite
 playerSprite : PlayerSprite = None

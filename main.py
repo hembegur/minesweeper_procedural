@@ -58,9 +58,10 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
-                mapLock(Global.currentMap)
+                from Classes.Attacks.SpikePunch import spawnSpikePunch
+                spawnSpikePunch(damage=15)
             if event.key == pygame.K_a:
-                mapUnLock(Global.currentMap)
+                pass
             if event.key == pygame.K_w:
                 from Classes.Enemies.LaserEnemy import LaserEnemy
                 newEnemy = LaserEnemy(
@@ -105,6 +106,8 @@ while True:
 
     Global.uiGroup.update(screen)
     Global.uiGroup.draw(screen)
+
+    Global.timerGroup.update()
 
     pygame.display.flip()
     Global.dt = clock.tick(144) / 1000
