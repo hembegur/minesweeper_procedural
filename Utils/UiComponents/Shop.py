@@ -67,7 +67,7 @@ class buySlot:
                 if float(itemData["Price"]) <= Global.money and not self.bought:
                     Global.money -= itemData["Price"]
                     Global.inventoryBox.addItem(self.itemClass)
-                    Global.uiGroup.change_layer(self.itemClass, -10)
+                    Global.uiGroup.remove(self.itemClass)
                     self.itemClass.setSize(pygame.Vector2(80,80))
                     itemData["Function"]()
                     self.priceText.setText(f"None")

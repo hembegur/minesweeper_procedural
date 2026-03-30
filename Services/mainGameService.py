@@ -62,9 +62,11 @@ class SimpleSprite(pygame.sprite.Sprite):
 
 from Classes.Enemies.SpikeEnemy import SpikeEnemy
 from Classes.Enemies.LaserEnemy import LaserEnemy
+from Classes.Enemies.ClownEnemy import ClownEnemy
 ENEMY_REGISTRY = {
     "SpikeEnemy": SpikeEnemy,
     "LaserEnemy": LaserEnemy,
+    "ClownEnemy": ClownEnemy,
 }
 
 class mainGameService:

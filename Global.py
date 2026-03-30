@@ -69,12 +69,20 @@ playerStatsLose = {
 
 enemyStats = {
     "SpikeEnemy" : {
+        "HP" : 30,
         "Damage" : 10,
         "CD": 4
     },
     "LaserEnemy" : {
+        "HP" : 25,
         "Damage" : 10,
         "CD": 4
+    },
+    "ClownEnemy" : {
+        "HP" : 40,
+        "PunchDamage" : 10,
+        "SpikeDamage" : 10,
+        "CD": 4,
     }
 }
 
@@ -91,7 +99,11 @@ gameProgress = {
     "Normal": {
         "SpawnRate": (1,2),
         "Round1" : {
-            "SpikeEnemy" : {
+            # "SpikeEnemy" : {
+            #     "EnemyLeft" : 1,
+            #     "MaxEnemy": 1,
+            # },
+            "ClownEnemy" : {
                 "EnemyLeft" : 1,
                 "MaxEnemy": 1,
             },

@@ -74,6 +74,73 @@ class Particle(pygame.sprite.Sprite):
         self.check_pos()
         self.check_alpha()
 
+class ImageParticle(pygame.sprite.Sprite):
+    def __init__(self,
+        groups,
+        pos,
+        imagePath: str,
+        direction: pygame.math.Vector2,
+        speed: int,
+        size: int,
+        fadeSpeed: int = 200,
+        shrinkSpeed: float = 0,   # shrink size per second, 0 = no shrink
+        rotation: float = 0,      # rotation speed in degrees per second
+    ):
+        super().__init__(groups)
+        self.pos        = pygame.Vector2(pos)
+        self.direction  = direction
+        self.speed      = speed
+        self.alpha      = 255
+        self.fadeSpeed  = fadeSpeed
+        self.size       = float(size)
+        self.shrinkSpeed = shrinkSpeed
+        self.angle      = 0
+        self.rotation   = rotation
+        self.imagePath  = imagePath
+
+        self.ogImage = Global.loadImage(imagePath, (int(size), int(size)))
+        self.image   = self.ogImage.copy()
+        self.rect    = self.image.get_rect(center=self.pos)
+
+    def _rebuild(self):
+        s = max(1, int(self.size))
+        scaled = pygame.transform.scale(self.ogImage, (s, s))
+        if self.rotation != 0:
+            self.image = pygame.transform.rotate(scaled, self.angle)
+        else:
+            self.image = scaled
+        self.image.set_alpha(int(self.alpha))
+        self.rect = self.image.get_rect(center=self.pos)
+
+    def update(self):
+        dt = Global.dt
+
+        # move
+        self.pos += self.direction * self.speed * dt
+        self.rect.center = self.pos
+
+        # fade
+        self.alpha = max(0, self.alpha - self.fadeSpeed * dt)
+
+        # shrink
+        if self.shrinkSpeed > 0:
+            self.size = max(1, self.size - self.shrinkSpeed * dt)
+
+        # rotate
+        if self.rotation != 0:
+            self.angle += self.rotation * dt
+
+        self._rebuild()
+
+        # kill checks
+        if self.alpha <= 0 or self.size <= 1:
+            self.kill()
+        if (
+            self.pos.x < -50 or self.pos.x > Global.screenWidth + 50 or
+            self.pos.y < -50 or self.pos.y > Global.screenHeight + 50
+        ):
+            self.kill()
+
 
 class ExplodingParticle(Particle):
     def __init__(self,

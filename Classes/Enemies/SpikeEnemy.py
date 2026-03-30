@@ -17,7 +17,7 @@ class SpikeEnemy(BaseEntity):
         )
         self.pos = pygame.Vector2(pos.x,-100)
         self.ogPos = pos.copy()
-        self.hp = 25
+        self.hp = Global.enemyStats["SpikeEnemy"]["HP"]
         self.playJiggle(loop=True)
 
         self.spikeSpawnCD = Global.enemyStats["SpikeEnemy"]["CD"]
@@ -85,7 +85,6 @@ class SpikeEnemy(BaseEntity):
             spawnSpike(onHit=self.attack, damage=Global.enemyStats["SpikeEnemy"]["Damage"])
             spawnSpike(onHit=self.attack, damage=Global.enemyStats["SpikeEnemy"]["Damage"])
             self.lastSpikeSpawned = self.spikeSpawnCD
-        # your custom logic here
 
         # ── movement ──
         if self._target is not None:

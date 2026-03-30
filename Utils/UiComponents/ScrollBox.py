@@ -1,4 +1,4 @@
-import pygame
+import pygame, Global
 from typing import Tuple, Optional, List
 
 RGBA = Tuple[int, int, int, int]
@@ -190,6 +190,9 @@ class ScrollBox(pygame.sprite.Sprite):
         cursor = self.padding
 
         for item in self._items:
+            if isinstance(item, pygame.sprite.Sprite):
+                item.update(Global.screen)
+
             surf = item.image if isinstance(item, pygame.sprite.Sprite) else item
             if self.direction == "vertical":
                 y = cursor - self._scrollOffset
