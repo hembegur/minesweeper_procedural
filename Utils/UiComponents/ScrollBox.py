@@ -188,7 +188,7 @@ class ScrollBox(pygame.sprite.Sprite):
         # draw items onto canvas with scroll offset applied
         self.canvas.fill((0, 0, 0, 0))
         cursor = self.padding
-        
+
         for item in self._items:
             surf = item.image if isinstance(item, pygame.sprite.Sprite) else item
             if self.direction == "vertical":

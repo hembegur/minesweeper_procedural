@@ -67,6 +67,7 @@ class buySlot:
                 if float(itemData["Price"]) <= Global.money and not self.bought:
                     Global.money -= itemData["Price"]
                     Global.inventoryBox.addItem(self.itemClass)
+                    Global.uiGroup.change_layer(self.itemClass, -10)
                     self.itemClass.setSize(pygame.Vector2(80,80))
                     itemData["Function"]()
                     self.priceText.setText(f"None")
@@ -88,7 +89,7 @@ class buySlot:
         self.priceText.kill()
         self.itemFrame.kill()
         self.buyButtonText.kill()
-        if self.itemClass:
+        if self.itemClass and not self.bought:
             self.itemClass.kill()
         if self.itemImage:
             self.itemImage.kill()    

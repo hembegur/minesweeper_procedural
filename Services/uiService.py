@@ -8,7 +8,7 @@ class uiService:
     def __init__(self):
         super().__init__()
         self.shop = None
-        self.shop = Shop()
+        #self.shop = Shop()
         #minesweeperBox
         currSize = pygame.Vector2(1100, 1000)
         Global.minesweeperBox = Box(
