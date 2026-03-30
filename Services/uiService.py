@@ -3,6 +3,7 @@ from Utils.UiComponents.Box import Box
 from Utils.UiComponents.TextLabel import TextLabel
 from Utils.UiComponents.ScrollBox import ScrollBox
 from Utils.UiComponents.Shop import Shop
+from Utils.UiComponents.Bar import Bar
 
 class uiService:
     def __init__(self):
@@ -51,28 +52,65 @@ class uiService:
 
         self.playerHPText = TextLabel(
             text=f"HP: {Global.playerStats["HP"]} / {Global.playerStats["MaxHP"]}",
-            pos=pygame.Vector2(100,700),
+            pos=pygame.Vector2(50,700),
             font_size=30,
             color=(0,200,0),
             font_name="Assets/Fonts/Rimouski.otf", 
             center=False,
         )
+        self.hpBar = Bar(
+            pos=pygame.Vector2(250,715),
+            size=pygame.Vector2(475, 10),
+            groups=Global.uiGroup,
+            value=100,
+            maxValue=100,
+            fillColor=(50, 200, 50, 255),
+            emptyColor=(60, 60, 60, 255),
+            border=False,
+            smooth=True,
+            smoothSpeed=150,
+        )
+
         self.playerMPText = TextLabel(
             text=f"MP: {Global.playerStats["MP"]} / {Global.playerStats["MaxMP"]}",
-            pos=pygame.Vector2(100,725),
+            pos=pygame.Vector2(50,725),
             font_size=30,
             color=(0,0,200),
             font_name="Assets/Fonts/Rimouski.otf",
             center=False,
         )
+        self.mpBar = Bar(
+            pos=pygame.Vector2(250,740),
+            size=pygame.Vector2(475, 10),
+            groups=Global.uiGroup,
+            value=0,
+            maxValue=100,
+            fillColor=(60,225,225, 255),
+            emptyColor=(60, 60, 60, 255),
+            border=False,
+            smooth=True,
+            smoothSpeed=150,
+        )
 
         self.playerUltText = TextLabel(
             text=f"ULT: {Global.playerStats["Ult"]} / {Global.playerStats["MaxUlt"]}",
-            pos=pygame.Vector2(100,750),
+            pos=pygame.Vector2(50,750),
             font_size=30,
             color=(200,0,200),
             font_name="Assets/Fonts/Rimouski.otf",
             center=False,
+        )
+        self.ultBar = Bar(
+            pos=pygame.Vector2(250,765),
+            size=pygame.Vector2(475, 10),
+            groups=Global.uiGroup,
+            value=0,
+            maxValue=100,
+            fillColor=(200,0,200, 255),
+            emptyColor=(60, 60, 60, 255),
+            border=False,
+            smooth=True,
+            smoothSpeed=150,
         )
 
         self.currentRoundText = TextLabel(
@@ -122,6 +160,10 @@ class uiService:
         self.playerHPText.setText(f"HP: {Global.playerStats["HP"]} / {Global.playerStats["MaxHP"]}")
         self.playerMPText.setText(f"MP: {Global.playerStats["MP"]} / {Global.playerStats["MaxMP"]}")
         self.playerUltText.setText(f"ULT: {Global.playerStats["Ult"]} / {Global.playerStats["MaxUlt"]}")
+        self.hpBar.setValue(Global.playerStats["HP"] / max(1, Global.playerStats["MaxHP"]) * 100)
+        self.mpBar.setValue(Global.playerStats["MP"] / max(1, Global.playerStats["MaxMP"]) * 100)
+        self.ultBar.setValue(Global.playerStats["Ult"] / max(1, Global.playerStats["MaxUlt"]) * 100)
+
         self.currentRoundText.setText(f"Current Round: {Global.currentRound}")
         self.moneyText.setText(f"$: {Global.money}")
         Global.screen.blit(self.playerHPText.image, self.playerHPText.rect)

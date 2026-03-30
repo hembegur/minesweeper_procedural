@@ -48,7 +48,7 @@ playerStats = {
     "MP" :  0,
     "Ult" : 0,
     "MaxHP" : 100,
-    "MaxMP" : 100,
+    "MaxMP" : 10,
     "MaxUlt" : 1,
     "NormalDamage" : 10,
     "UltDamage" : 30,
