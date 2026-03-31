@@ -57,8 +57,10 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
-                from Classes.Attacks.Minigun import shootMinigun
-                shootMinigun(onHit=None, damage=15, bulletCount=30)
+                from Classes.Enemies.MinigunEnemy import MinigunEnemy
+                MinigunEnemy(pos=pygame.Vector2(random.randint(450,650),random.randint(100,450)),
+                    size=pygame.Vector2(200,200),
+                    groups=Global.entityGroup,)
             if event.key == pygame.K_a:
                 pass
             if event.key == pygame.K_w:

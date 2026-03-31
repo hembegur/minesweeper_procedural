@@ -53,6 +53,8 @@ class bullet(pygame.sprite.Sprite):
             if otherHB.owner == pygame.mouse:
                 Global.playerSprite.takeDamage(damage)
                 self.kill()
+                if self.onHit:
+                    self.onHit()
 
         self.hitbox = Global.hitbox.new(
             pos=self.pos + pygame.Vector2(Global.minesweeperBox.rect.x, Global.minesweeperBox.rect.y),

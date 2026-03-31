@@ -3,6 +3,7 @@ from Classes.BaseEntity import BaseEntity
 from Classes.Attacks.Laser import spawnLaser, Laser
 from Utils.Game.Particle import Particle
 from Utils.UiComponents.TextLabel import TextLabel
+from Classes.Attacks.Minigun import shootMinigun
 
 class MinigunEnemy(BaseEntity):
     def __init__(self, pos, size, groups):
@@ -46,7 +47,7 @@ class MinigunEnemy(BaseEntity):
 
     def attack(self):
         playerPos = Global.playerSprite.pos
-        laser = Laser(pos1=self.pos, pos2=playerPos, groups=Global.mainAttackGroup, width=30, color=(100,100,255))
+        laser = Laser(pos1=self.pos, pos2=playerPos, groups=Global.mainAttackGroup, width=20, color=(0, 255, 255))
         laser.shrinkAndFade(targetWidth=0, shrinkSpeed=60, targetAlpha=0, fadeSpeed=510, onDone=laser.kill)
 
         text_label = TextLabel(
@@ -66,11 +67,11 @@ class MinigunEnemy(BaseEntity):
             Particle(
                 groups=Global.mainAttackGroup, 
                 pos=particlePos, 
-                color=(50,50,255), 
+                color=(0, 255, 255), 
                 direction=pygame.Vector2(math.cos(random.uniform(0, 2 * math.pi)), 
                                             math.sin(random.uniform(0, 2 * math.pi))), 
-                speed=random.randint(100, 250),
-                size=random.randint(30, 60),
+                speed=random.randint(80, 150),
+                size=random.randint(15, 35),
                 fadeSpeed=500,
             )
 
@@ -82,20 +83,11 @@ class MinigunEnemy(BaseEntity):
 
         self.lastSpikeSpawned -= Global.dt
         if self.lastSpikeSpawned <= 0:
-            for _ in range(2):
-                axis = random.choice(["horizontal", "vertical"])
-                spawnLaser(
-                    surfaceSize=Global.minesweeperSurfaceSize,
-                    groups=Global.msAttackGroup,
-                    warningDuration=1,
-                    warningColor=(255, 50, 50),
-                    laserColor=(60,60,200),
-                    laserWidth=50,
-                    laserDuration=0.6,
-                    damage = Global.enemyStats["MinigunEnemy"]["Damage"],
-                    axis=axis,
-                    onHit=self.attack
-                )
+            shootMinigun(
+                damage=Global.enemyStats["MinigunEnemy"]["Damage"],
+                bulletCount=Global.enemyStats["MinigunEnemy"]["BulletCount"],
+                onHit=self.attack
+            )
             self.lastSpikeSpawned = self.spikeSpawnCD
 
         # ── movement ──

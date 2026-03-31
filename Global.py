@@ -88,7 +88,8 @@ enemyStats = {
     "MinigunEnemy" : {
         "HP" : 25,
         "Damage" : 8,
-        "CD": 4,
+        "CD": 6,
+        "BulletCount": 30,
     }
 }
 
