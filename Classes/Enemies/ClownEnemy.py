@@ -55,7 +55,7 @@ class ClownEnemy(BaseEntity):
             Particle(
                 groups=Global.mainAttackGroup, 
                 pos=particlePos, 
-                color=(50,50,50), 
+                color=(101, 9, 171), 
                 direction=pygame.Vector2(math.cos(random.uniform(0, 2 * math.pi)), 
                                             math.sin(random.uniform(0, 2 * math.pi))), 
                 speed=random.randint(100, 250),
@@ -82,7 +82,7 @@ class ClownEnemy(BaseEntity):
 
         self.lastAttack -= Global.dt
         if self.lastAttack <= 0:
-            spawnSpikePunch(damage=Global.enemyStats["ClownEnemy"]["PunchDamage"])
+            spawnSpikePunch(damage=Global.enemyStats["ClownEnemy"]["PunchDamage"], onHit=self.attack)
             self.lastAttack = self.attackCD
 
         # ── movement ──

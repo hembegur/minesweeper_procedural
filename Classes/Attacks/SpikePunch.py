@@ -3,7 +3,7 @@ from Utils.Game.mathStuff import randomEdgePos, getDirection, Timer
 from Utils.Game.Particle import Particle, ImageParticle
 from Utils.Game.mathStuff import getAngle
 
-def spawnSpikePunch(damage: int = 10, spikeDamage: int = 5):
+def spawnSpikePunch(damage: int = 10, spikeDamage: int = 5, onHit = None):
     def newPos():
         screenWidth  = random.randint(100, int(Global.minesweeperSurfaceSize.x)-100)
         screenHeight = random.randint(100, int(Global.minesweeperSurfaceSize.y)-100)
@@ -20,12 +20,12 @@ def spawnSpikePunch(damage: int = 10, spikeDamage: int = 5):
     # ── 2. After 1 second, spawn the punch ──
     def onWarningDone():
         warning.kill()
-        _spawnPunch(pos1, damage, spikeDamage)
+        _spawnPunch(pos1, damage, spikeDamage, onHit=onHit)
 
     Timer(1.0, onWarningDone, Global.timerGroup)
 
 
-def _spawnPunch(pos, damage, spikeDamage, count=8):
+def _spawnPunch(pos, damage, spikeDamage, count=8, onHit=None):
     # punch image particle
     punch = ImageParticle(
         groups=Global.msAttackGroup,
@@ -44,6 +44,8 @@ def _spawnPunch(pos, damage, spikeDamage, count=8):
         if otherHB.owner == pygame.mouse:
             Global.playerSprite.takeDamage(damage)
             punch.kill()
+            if onHit:
+                onHit()
 
     punch.hitbox = Global.hitbox.new(
         pos=pygame.Vector2(pos) + pygame.Vector2(Global.minesweeperBox.rect.x, Global.minesweeperBox.rect.y),
