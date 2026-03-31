@@ -82,7 +82,12 @@ enemyStats = {
     "ClownEnemy" : {
         "HP" : 40,
         "PunchDamage" : 10,
-        "SpikeDamage" : 10,
+        "SpikeDamage" : 5,
+        "CD": 4,
+    },
+    "MinigunEnemy" : {
+        "HP" : 25,
+        "Damage" : 8,
         "CD": 4,
     }
 }

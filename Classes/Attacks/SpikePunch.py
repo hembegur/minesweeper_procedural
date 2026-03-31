@@ -4,20 +4,23 @@ from Utils.Game.Particle import Particle, ImageParticle
 from Utils.Game.mathStuff import getAngle
 
 def spawnSpikePunch(damage: int = 10, spikeDamage: int = 5):
-    screenWidth  = random.randint(100, int(Global.minesweeperSurfaceSize.x)-100)
-    screenHeight = random.randint(100, int(Global.minesweeperSurfaceSize.y)-100)
-    pos = pygame.Vector2(screenWidth, screenHeight)
+    def newPos():
+        screenWidth  = random.randint(100, int(Global.minesweeperSurfaceSize.x)-100)
+        screenHeight = random.randint(100, int(Global.minesweeperSurfaceSize.y)-100)
+        return pygame.Vector2(screenWidth, screenHeight)
+    pos1 = newPos()
+    #pos2 = newPos()
 
     # ── 1. Warning sign ──
     warning = _WarningSign(
-        pos=pos,
+        pos=pos1,
         groups=Global.msAttackGroup,
     )
 
     # ── 2. After 1 second, spawn the punch ──
     def onWarningDone():
         warning.kill()
-        _spawnPunch(pos, damage, spikeDamage)
+        _spawnPunch(pos1, damage, spikeDamage)
 
     Timer(1.0, onWarningDone, Global.timerGroup)
 
@@ -47,7 +50,7 @@ def _spawnPunch(pos, damage, spikeDamage, count=8):
         size=pygame.Vector2(150,150),
         hitFunction=punchHit,
         lifetime=0.2,
-        visualize=True,
+        visualize=False,
         owner=punch,
     )
 
@@ -159,11 +162,11 @@ class _SpikeShard(pygame.sprite.Sprite):
             self.particleCD = 0.06
             Particle(
                 groups=Global.msParticleGroup,
-                pos=self.pos.copy(),
-                color=(82, 0, 136),
+                pos=(self.pos.x + random.randint(-10,10), self.pos.y + random.randint(-10,10)),
+                color=(120, 0, 180),
                 direction=-self.direction,
                 speed=0,
-                size=15,
+                size=8,
                 fadeSpeed=1200,
             )
 

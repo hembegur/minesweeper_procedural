@@ -26,7 +26,6 @@ player = PlayerSprite(
 Global.entityGroup.add(player, layer=-999)
 Global.playerSprite = player
 
-
 mouseHB = hitbox.new(
     pos=pygame.Vector2(pygame.mouse.get_pos()),
     visualize=True,
@@ -58,8 +57,8 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
-                from Classes.Attacks.SpikePunch import spawnSpikePunch
-                spawnSpikePunch(damage=15)
+                from Classes.Attacks.Minigun import shootMinigun
+                shootMinigun(onHit=None, damage=15, bulletCount=30)
             if event.key == pygame.K_a:
                 pass
             if event.key == pygame.K_w:
