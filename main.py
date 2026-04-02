@@ -111,4 +111,5 @@ while True:
     Global.timerGroup.update()
 
     pygame.display.flip()
-    Global.dt = clock.tick(144) / 1000
+
+    Global.tick = clock.tick(144) / 1000

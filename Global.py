@@ -1,5 +1,6 @@
 import pygame
 
+tick = 0
 dt = 0
 mainBackGroundDt = 0
 

@@ -11,6 +11,8 @@ class uiService:
         self.shop = None
         #self.shop = Shop()
         #minesweeperBox
+        self.hideBox : Box = None
+        self.continueText : TextLabel = None
         currSize = pygame.Vector2(1100, 1000)
         Global.minesweeperBox = Box(
             pos=pygame.Vector2(1350 - currSize.x/2,540 - currSize.y/2),
@@ -155,6 +157,34 @@ class uiService:
         Global.inventoryBox.handleScroll(event)
         if self.shop:
             self.shop.handleEvent(event)
+
+    def hideMap(self):
+        if not self.hideBox or not self.continueText:
+            currSize = pygame.Vector2(1100, 1000)
+            self.hideBox = Box(
+                pos=pygame.Vector2(1350 - currSize.x/2,540 - currSize.y/2),
+                size=currSize,
+                groups=Global.uiGroup,
+                color=(30, 30, 30, 255),
+                border=False,
+            )
+            Global.uiGroup.add(self.hideBox)
+            self.continueText = TextLabel(
+                text=f"Hover to continue",
+                pos=pygame.Vector2(1350,540),
+                font_size=80,
+                color=(200,50,50),
+                font_name="Assets/Fonts/Rimouski.otf",
+                center=True,
+            )
+            Global.uiGroup.add(self.continueText)
+    
+    def revealMap(self):
+        if self.hideBox or self.continueText:
+            self.hideBox.kill()
+            self.hideBox = None
+            self.continueText.kill()
+            self.continueText = None
 
     def update(self):
         self.playerHPText.setText(f"HP: {Global.playerStats["HP"]} / {Global.playerStats["MaxHP"]}")

@@ -138,6 +138,13 @@ class mainGameService:
         map_update(Global.currentMap)
 
         #|----------------------------Game Loop
+        if Global.minesweeperBox.rect.collidepoint(pygame.mouse.get_pos()):
+            Global.dt = Global.tick 
+            Global.UiService.revealMap()
+        else:
+            Global.dt = 0
+            Global.UiService.hideMap()
+            
 
         if Global.gameState == "Preparing":
             gameProgress = Global.gameProgress[Global.currentDifficulty]
