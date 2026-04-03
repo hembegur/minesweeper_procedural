@@ -55,6 +55,7 @@ class buySlot:
 
         if itemData:
             self.itemClass = Item(
+                name = itemData["Name"],
                 pos = pos + pygame.Vector2(self.itemFrame.size.x/2, self.itemFrame.size.y/2),
                 size=pygame.Vector2(125,125),
                 imagePath=itemData["ImagePath"],

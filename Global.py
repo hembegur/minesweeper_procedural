@@ -44,6 +44,8 @@ hitbox : Hitbox = None
 
 from Utils.UiComponents.ScrollBox import ScrollBox
 inventoryBox: ScrollBox = None
+toolBar: ScrollBox = None
+
 money = 10000
 playerStats = {
     "HP" :  100,

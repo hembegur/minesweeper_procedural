@@ -138,12 +138,12 @@ class mainGameService:
         map_update(Global.currentMap)
 
         #|----------------------------Game Loop
-        if Global.minesweeperBox.rect.collidepoint(pygame.mouse.get_pos()):
-            Global.dt = Global.tick 
-            Global.UiService.revealMap()
-        else:
+        Global.dt = Global.tick 
+        Global.UiService.revealMap()
+        if not Global.minesweeperBox.rect.collidepoint(pygame.mouse.get_pos()) and Global.gameState == "Playing":
             Global.dt = 0
             Global.UiService.hideMap()
+            
             
 
         if Global.gameState == "Preparing":

@@ -9,7 +9,7 @@ class uiService:
     def __init__(self):
         super().__init__()
         self.shop = None
-        #self.shop = Shop()
+        self.shop = Shop()
         #minesweeperBox
         self.hideBox : Box = None
         self.continueText : TextLabel = None
@@ -142,6 +142,21 @@ class uiService:
             border=False,
             padding=10,
             spacing=6,
+            direction="horizontal",
+            scrollSpeed=20,
+            scrollbar=True,
+            scrollbarColor=(120, 120, 120, 255),
+            scrollbarWidth=3,
+        )
+
+        Global.toolBar = ScrollBox(
+            pos=pygame.Vector2(150, 800),
+            size=pygame.Vector2(500, 115),
+            groups=Global.uiGroup,
+            color=(220,220,220, 255),
+            border=False,
+            padding=10,
+            spacing=15,
             direction="horizontal",
             scrollSpeed=20,
             scrollbar=True,
