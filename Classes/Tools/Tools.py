@@ -28,9 +28,10 @@ class preview(Box):
         self.setPos(pos)
         self.descText.setPosition(pos + pygame.Vector2(10,10))
     
-class ToolBase(pygame.sprite.Sprite):
+class Tool(pygame.sprite.Sprite):
     def __init__(
         self,
+        name: str = "",
         pos: pygame.Vector2 = pygame.Vector2(-100,-100),
         size: pygame.Vector2 = pygame.Vector2(80, 80),
         groups=None,
@@ -45,6 +46,7 @@ class ToolBase(pygame.sprite.Sprite):
                     g.add(self, layer=layer)
             else:
                 groups.add(self, layer=layer)
+        self.name = name
         self.previewText = text
         self.pos = pygame.Vector2(pos)
         self.size = pygame.Vector2(size)
@@ -58,7 +60,7 @@ class ToolBase(pygame.sprite.Sprite):
         self.image = Global.loadImage(self.imagePath, (int(size.x), int(size.y)))
         self.rect = self.image.get_rect(center=self.pos)
     
-    def update(self):
+    def update(self, screen):
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             if not self.previewBox:
@@ -69,3 +71,61 @@ class ToolBase(pygame.sprite.Sprite):
                 self.previewBox.descText.kill()
                 self.previewBox.kill()
                 self.previewBox = None
+
+def bob_the_bomb():
+    print("bob the bomb")
+
+def deflect():
+    print("deflect")
+
+def eat():
+    print("yummy")
+
+def foresee():
+    print("see da future")
+
+toolInfos = {
+    "Bob the bomb" : {
+        "Name" : "Bob the bomb",
+        "Price": 120,
+        "Function": bob_the_bomb,
+        "ImagePath": "Assets/Tools/BobTheBomb.png",
+        "Description": "Bob the bomb\n\nExplode in a\n3x3 radius\nand destroy map.",
+    },
+    "Deflect" : {
+        "Name" : "Deflect",
+        "Price": 80,
+        "Function": deflect,
+        "ImagePath": "Assets/Tools/deflect.png",
+        "Description": "Energy Boost\n\nEnergy gain +0.5",
+    },
+    "Eat" : {
+        "Name" : "Eat",
+        "Price": 120,
+        "Function": eat,
+        "ImagePath": "Assets/Tools/eat.png",
+        "Description": "Recycle\n\nNormal reload -0.2",
+    },
+    "Foresee" : {
+        "Name" : "Foresee",
+        "Price": 80,
+        "Function": foresee,
+        "ImagePath": "Assets/Tools/Foresee.png",
+        "Description": "Twin shots\n\nAmmo per shot +1\nEnergy cost +1",
+    },
+}
+
+class toolLoader:
+    def __init__(self):
+        pass
+    def randomItems(self, amount):
+        self.toolInfos = toolInfos.copy()
+        self.itemsList = {}
+
+        for i in range(amount):
+            randomItem = random.choice(list(self.toolInfos.keys()))
+            self.itemsList[i] = self.toolInfos[randomItem]
+            self.itemsList[i]["Name"] = randomItem
+            del self.toolInfos[randomItem]
+        
+        return self.itemsList

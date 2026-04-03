@@ -3,6 +3,7 @@ from Utils.UiComponents.Box import Box
 from Utils.UiComponents.TextLabel import TextLabel
 from Utils.UiComponents.Button import Button
 from Classes.Items.Items import itemLoader, Item
+from Classes.Tools.Tools import toolLoader, Tool
 
 class SimpleImage(pygame.sprite.Sprite):
     def __init__(
@@ -21,7 +22,7 @@ class SimpleImage(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=self.pos)
 
 class buySlot:
-    def __init__(self, pos, buttonGroup, itemData=None):
+    def __init__(self, pos, buttonGroup, itemData=None, toolData=None):
         self.pos = pos
         self.itemClass : Item = None
         self.bought = False
@@ -71,6 +72,28 @@ class buySlot:
                     Global.uiGroup.remove(self.itemClass)
                     self.itemClass.setSize(pygame.Vector2(80,80))
                     itemData["Function"]()
+                    self.priceText.setText(f"None")
+                    self.bought = True
+            self.onClickFunc = onClick
+
+        if toolData:
+            self.itemClass = Item(
+                name = toolData["Name"],
+                pos = pos + pygame.Vector2(self.itemFrame.size.x/2, self.itemFrame.size.y/2),
+                size=pygame.Vector2(125,125),
+                imagePath=toolData["ImagePath"],
+                groups=Global.uiGroup,
+                text=toolData["Description"],
+            )
+            self.priceText.setText(f"${str(toolData["Price"])}")
+
+            def onClick():
+                if float(toolData["Price"]) <= Global.money and not self.bought:
+                    Global.money -= toolData["Price"]
+                    Global.toolBar.addItem(self.itemClass)
+                    Global.uiGroup.remove(self.itemClass)
+                    self.itemClass.setSize(pygame.Vector2(105,105))
+                    toolData["Function"]()
                     self.priceText.setText(f"None")
                     self.bought = True
             self.onClickFunc = onClick
@@ -140,8 +163,10 @@ class Shop:
         self.pos = pos
         self.buttonGroup = pygame.sprite.Group()
         self.itemsLoader = itemLoader()
+        self.toolsLoader = toolLoader()
         self.tools = {}
         self.items = self.itemsLoader.randomItems(3)
+        self.tools = self.toolsLoader.randomItems(3)
         self.rerollPrice = 20
         self.buySlots = []
         self.removed = False
@@ -201,6 +226,7 @@ class Shop:
                 newBuySlot = buySlot(
                     pos=pos + placePos + pygame.Vector2(200 * i,0),
                     buttonGroup=self.buttonGroup,
+                    toolData=self.tools[i],
                 )
                 self.buySlots.append(newBuySlot)
             placePos = pygame.Vector2(125,480)
@@ -219,6 +245,7 @@ class Shop:
                 Global.money -= self.rerollPrice
                 self.rerollPrice += 50
                 self.items = self.itemsLoader.randomItems(3)
+                self.tools = self.toolsLoader.randomItems(3)
                 self.rerollButtonText.setText(f"Reroll({self.rerollPrice})")
         self.rerollButton, self.rerollButtonText = buttonAndText(
             pos=pos + pygame.Vector2(125,775),

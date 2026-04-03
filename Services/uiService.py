@@ -151,17 +151,15 @@ class uiService:
 
         Global.toolBar = ScrollBox(
             pos=pygame.Vector2(150, 800),
-            size=pygame.Vector2(500, 115),
+            size=pygame.Vector2(475, 115),
             groups=Global.uiGroup,
             color=(220,220,220, 255),
             border=False,
-            padding=10,
+            padding=5,
             spacing=15,
             direction="horizontal",
             scrollSpeed=20,
-            scrollbar=True,
-            scrollbarColor=(120, 120, 120, 255),
-            scrollbarWidth=3,
+            scrollbar=False,
         )
 
     def spawnShop(self):

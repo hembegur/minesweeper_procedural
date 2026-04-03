@@ -53,7 +53,7 @@ class ScrollBox(pygame.sprite.Sprite):
         self.visible       = visible
         self._alpha        = alpha
 
-        self._items: List[pygame.Surface] = []   # list of (surface, rect) tuples
+        self._items: List = []
         self._scrollOffset = 0
         self._maxScroll    = 0
 
@@ -69,16 +69,65 @@ class ScrollBox(pygame.sprite.Sprite):
     # ──────────────────────────────────────────
 
     def addItem(self, item):
-        """Add a surface or sprite as an item."""
+        """Add a surface or sprite. If sprite has 'name', stack duplicates with a counter."""
+        if isinstance(item, pygame.sprite.Sprite) and hasattr(item, "name"):
+            # check if already exists
+            for existing in self._items:
+                if isinstance(existing, pygame.sprite.Sprite) and hasattr(existing, "name"):
+                    if existing.name == item.name:
+                        existing._stackCount = getattr(existing, "_stackCount", 1) + 1
+                        self._updateCountLabel(existing)
+                        item.kill()
+                        return self._items.index(existing)
+
+        # new item — init stack count and label
+        if isinstance(item, pygame.sprite.Sprite):
+            item._stackCount = 1
+            item._countLabel = None
+            self._updateCountLabel(item)
+
         self._items.append(item)
         self._repositionItems()
         return len(self._items) - 1
 
+    def _updateCountLabel(self, item):
+        from Utils.UiComponents.TextLabel import TextLabel
+        if not isinstance(item, pygame.sprite.Sprite):
+            return
+
+        # kill old label
+        if getattr(item, "_countLabel", None):
+            item._countLabel.kill()
+            item._countLabel = None
+
+        # only show label if count > 1
+        if getattr(item, "_stackCount", 1) > 1:
+            item._countLabel = TextLabel(
+                text=f"x{item._stackCount}",
+                pos=pygame.Vector2(0, 0),   # positioned in _redraw
+                font_size=20,
+                color=(20, 20, 20),
+                font_name="Assets/Fonts/Rimouski.otf",
+                center=False,
+            )
+
     def removeItem(self, index: int):
-        """Remove item by index."""
         if 0 <= index < len(self._items):
-            self._items.pop(index)
-            self._repositionItems()
+            item = self._items[index]
+            if isinstance(item, pygame.sprite.Sprite) and getattr(item, "_stackCount", 1) > 1:
+                item._stackCount -= 1
+                self._updateCountLabel(item)
+            else:
+                if isinstance(item, pygame.sprite.Sprite) and getattr(item, "_countLabel", None):
+                    item._countLabel.kill()
+                self._items.pop(index)
+                self._repositionItems()
+
+    def removeItemByName(self, name: str):
+        for i, item in enumerate(self._items):
+            if isinstance(item, pygame.sprite.Sprite) and getattr(item, "name", None) == name:
+                self.removeItem(i)
+                return
 
     def clearItems(self):
         self._items.clear()
@@ -192,20 +241,22 @@ class ScrollBox(pygame.sprite.Sprite):
         for item in self._items:
             if isinstance(item, pygame.sprite.Sprite):
                 item.update(Global.screen)
-
             surf = item.image if isinstance(item, pygame.sprite.Sprite) else item
+            #surf = self._getSurface(item)
             if self.direction == "vertical":
                 y = cursor - self._scrollOffset
                 if -surf.get_height() < y < h:
                     self.canvas.blit(surf, (self.padding, y))
-                    # update sprite rect to match screen position
                     if isinstance(item, pygame.sprite.Sprite):
-                        item.rect.topleft = (
-                            self.rect.x + self.padding,
-                            self.rect.y + y,
-                        )
+                        item.rect.topleft = (self.rect.x + self.padding, self.rect.y + y)
+                        # draw count label bottom right of item
+                        if getattr(item, "_countLabel", None):
+                            lbl = item._countLabel
+                            lbl._render()
+                            lx = self.padding + surf.get_width()  - lbl.image.get_width()  - 4
+                            ly = y            + surf.get_height() - lbl.image.get_height() - 4
+                            self.canvas.blit(lbl.image, (lx, ly))
                 else:
-                    # off screen — move rect out of view so collide doesn't trigger
                     if isinstance(item, pygame.sprite.Sprite):
                         item.rect.topleft = (-1000, -1000)
                 cursor += surf.get_height() + self.spacing
@@ -214,10 +265,13 @@ class ScrollBox(pygame.sprite.Sprite):
                 if -surf.get_width() < x < w:
                     self.canvas.blit(surf, (x, self.padding))
                     if isinstance(item, pygame.sprite.Sprite):
-                        item.rect.topleft = (
-                            self.rect.x + x,
-                            self.rect.y + self.padding,
-                        )
+                        item.rect.topleft = (self.rect.x + x, self.rect.y + self.padding)
+                        if getattr(item, "_countLabel", None):
+                            lbl = item._countLabel
+                            lbl._render()
+                            lx = x            + surf.get_width()  - lbl.image.get_width()  - 4
+                            ly = self.padding + surf.get_height() - lbl.image.get_height() - 4
+                            self.canvas.blit(lbl.image, (lx, ly))
                 else:
                     if isinstance(item, pygame.sprite.Sprite):
                         item.rect.topleft = (-1000, -1000)
