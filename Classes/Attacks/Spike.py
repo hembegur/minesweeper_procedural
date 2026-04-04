@@ -39,6 +39,7 @@ class Spike(pygame.sprite.Sprite):
         self.lifetime = lifetime
         self._lastAngle = None
         self.onHit = onHit
+        self.type = "EnemyProjectile"
 
         self.ogImage = Global.loadImage("Assets/Attacks/Spike.png", (int(size.x), int(size.y)))
         self.image = self.ogImage

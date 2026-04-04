@@ -43,6 +43,7 @@ class bullet(pygame.sprite.Sprite):
         self.lifetime  = lifetime
         self.angle     = 0
         self.onHit = onHit
+        self.type = "EnemyProjectile"
 
         self.ogImage = Global.loadImage("Assets/Projectiles/minigunShot.png", (40, 40))
         angle = pygame.Vector2(1, 0).angle_to(direction)

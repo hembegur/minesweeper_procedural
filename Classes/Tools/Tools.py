@@ -6,6 +6,7 @@ def useTool(index: int):
     if index >= len(Global.toolBar._items):
         return
     func = Global.toolBar._items[index].func
+    Global.toolBar.removeItemByName(Global.toolBar._items[index].name)
     func()
 
 class preview(Box):
@@ -81,10 +82,7 @@ class Tool(pygame.sprite.Sprite):
                 self.previewBox = None
 
 from Classes.Tools.BobTheBomb import bob_the_bomb
-
-def deflect():
-    print("deflect")
-
+from Classes.Tools.Deflect import deflect
 def eat():
     print("yummy")
 

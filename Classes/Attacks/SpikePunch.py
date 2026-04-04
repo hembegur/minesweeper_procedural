@@ -118,6 +118,7 @@ class _SpikeShard(pygame.sprite.Sprite):
         self.lifetime  = 5
         self._lastAngle = None
         self.angle     = 0
+        self.type = "EnemyProjectile"
 
         self.ogImage = Global.loadImage("Assets/Attacks/SmallSpike.png", (40,40))
         angle = pygame.Vector2(1, 0).angle_to(direction)  # adjust +180 if your spike faces left
