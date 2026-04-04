@@ -13,6 +13,8 @@ def eat():
             pos = tile["rect"].center
             chosenTile = tile
             break
+
+
     if pos:
         map_destroy(
             m=Global.currentMap,
@@ -36,8 +38,10 @@ def eat():
                 size=random.randint(5,20),
                 fadeSpeed=500,
             )
+        if chosenTile["revealed"]:
+            return
         
-        if tile["isBomb"]:
+        if chosenTile["isBomb"]:
             gainAmount = Global.playerStats["MaxHP"] / 5
             if Global.playerStats["HP"] + gainAmount <= Global.playerStats["MaxHP"]:
                 Global.playerStats["HP"] += gainAmount

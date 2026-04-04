@@ -112,8 +112,13 @@ class Box(pygame.sprite.Sprite):
     def setSize(self, size: pygame.Vector2):
         self.size = pygame.Vector2(size)
         old_topleft = self.rect.topleft if self.rect else self.pos
-        self._build()
-        self.rect.topleft = old_topleft
+        
+        # rebuild surfaces at new size
+        w, h = int(self.size.x), int(self.size.y)
+        self.image  = pygame.Surface((w, h), pygame.SRCALPHA)
+        self.canvas = pygame.Surface((w, h), pygame.SRCALPHA)
+        self.rect   = self.image.get_rect(topleft=old_topleft)
+        self._redraw()
 
     def setPos(self, pos: pygame.Vector2):
         self.pos = pygame.Vector2(pos)

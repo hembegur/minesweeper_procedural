@@ -85,6 +85,7 @@ class buySlot:
                 groups=Global.uiGroup,
                 text=toolData["Description"],
                 func=toolData["Function"],
+                cooldown=toolData["CD"],
             )
             self.priceText.setText(f"${str(toolData["Price"])}")
 
