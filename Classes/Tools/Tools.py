@@ -83,8 +83,7 @@ class Tool(pygame.sprite.Sprite):
 
 from Classes.Tools.BobTheBomb import bob_the_bomb
 from Classes.Tools.Deflect import deflect
-def eat():
-    print("yummy")
+from Classes.Tools.Eat import eat
 
 def foresee():
     print("see da future")
