@@ -150,7 +150,7 @@ class uiService:
         )
 
         Global.toolBar = ScrollBox(
-            pos=pygame.Vector2(150, 800),
+            pos=pygame.Vector2(163, 800),
             size=pygame.Vector2(475, 115),
             groups=Global.uiGroup,
             color=(220,220,220, 255),

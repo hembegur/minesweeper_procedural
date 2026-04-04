@@ -153,16 +153,24 @@ def map_destroy(m: dict, initialPos: pygame.Vector2, radius: int, shape: str):
         for y in range(cy - radius, cy + radius + 1):
             if 0 <= x < m["rows"] and 0 <= y < m["cols"]:
                 tile = m["tilesArray"][x][y]
+                if tile is None:
+                    continue
                 if shape == "square":
-                    tile["destroyed"] = True
-                    m["tilesArray"][x][y] = None          # "kill" the tile
+                    _destroyTile(m, tile, x, y)
                 elif shape == "circle":
                     dx, dy = x - cx, y - cy
                     if dx*dx + dy*dy <= radius*radius:
-                        tile["destroyed"] = True
-                        m["tilesArray"][x][y] = None
+                        _destroyTile(m, tile, x, y)
 
     calculate_numbers(m)
+
+
+def _destroyTile(m: dict, tile: dict, x: int, y: int):
+    # adjust remaining count — only count tiles that haven't been revealed and aren't bombs
+    if not tile["revealed"] and not tile["isBomb"]:
+        m["remaining"] -= 1
+    tile["destroyed"] = True
+    m["tilesArray"][x][y] = None
 
 
 def map_hidden(m: dict, initialPos: pygame.Vector2, radius: int, shape: str):
@@ -384,19 +392,25 @@ def map_update(m: dict):
 
         #print(m["remaining"])
         if m["remaining"] <= 0 and not m["completed"]:
-            m["completed"] = True
-            if Global.playerStats["Ult"] < Global.playerStats["MaxUlt"]:
-                Global.playerStats["Ult"] += 1
+            # make sure there are actually no unrevealed non-bomb tiles left
+            unrevealed = sum(
+                1 for tile in map_all_tiles(m)
+                if not tile["revealed"] and not tile["isBomb"]
+            )
+            if unrevealed <= 0:
+                m["completed"] = True
+                if Global.playerStats["Ult"] < Global.playerStats["MaxUlt"]:
+                    Global.playerStats["Ult"] += 1
 
-                middle = pygame.Vector2(Global.screenWidth/2, Global.screenHeight/2)
-                text_label = TextLabel(
-                    text="+1ULT",
-                    pos=middle,
-                    font_size=100,
-                    color=(200,0,200),
-                    font_name="Assets/Fonts/Minecraft.ttf",
-                    center=True,
-                )
-                text_label.moveTo(middle + pygame.Vector2(0,-100), speed=300 )
-                text_label.fadeOut(speed=300, onDone=text_label.kill)
-                Global.uiGroup.add(text_label)
+                    middle = pygame.Vector2(Global.screenWidth/2, Global.screenHeight/2)
+                    text_label = TextLabel(
+                        text="+1ULT",
+                        pos=middle,
+                        font_size=100,
+                        color=(200,0,200),
+                        font_name="Assets/Fonts/Minecraft.ttf",
+                        center=True,
+                    )
+                    text_label.moveTo(middle + pygame.Vector2(0,-100), speed=300 )
+                    text_label.fadeOut(speed=300, onDone=text_label.kill)
+                    Global.uiGroup.add(text_label)

@@ -77,13 +77,14 @@ class buySlot:
             self.onClickFunc = onClick
 
         if toolData:
-            self.itemClass = Item(
+            self.itemClass = Tool(
                 name = toolData["Name"],
                 pos = pos + pygame.Vector2(self.itemFrame.size.x/2, self.itemFrame.size.y/2),
                 size=pygame.Vector2(125,125),
                 imagePath=toolData["ImagePath"],
                 groups=Global.uiGroup,
                 text=toolData["Description"],
+                func=toolData["Function"],
             )
             self.priceText.setText(f"${str(toolData["Price"])}")
 
@@ -93,7 +94,6 @@ class buySlot:
                     Global.toolBar.addItem(self.itemClass)
                     Global.uiGroup.remove(self.itemClass)
                     self.itemClass.setSize(pygame.Vector2(105,105))
-                    toolData["Function"]()
                     self.priceText.setText(f"None")
                     self.bought = True
             self.onClickFunc = onClick

@@ -2,6 +2,12 @@ import pygame, Global, random
 from Utils.UiComponents.Box import Box
 from Utils.UiComponents.TextLabel import TextLabel
 
+def useTool(index: int):
+    if index >= len(Global.toolBar._items):
+        return
+    func = Global.toolBar._items[index].func
+    func()
+
 class preview(Box):
     def __init__(self, pos, text):
         super().__init__(
@@ -38,6 +44,7 @@ class Tool(pygame.sprite.Sprite):
         imagePath: str = None,
         layer: int = 10,
         text = "",
+        func = None,
     ):
         super().__init__()
         if groups is not None:
@@ -54,6 +61,7 @@ class Tool(pygame.sprite.Sprite):
         self.image = Global.loadImage(self.imagePath, (int(size.x), int(size.y)))
         self.rect = self.image.get_rect(center=self.pos)
         self.previewBox : preview = None
+        self.func = func
     
     def setSize(self, size):
         self.size = pygame.Vector2(size)
@@ -72,8 +80,7 @@ class Tool(pygame.sprite.Sprite):
                 self.previewBox.kill()
                 self.previewBox = None
 
-def bob_the_bomb():
-    print("bob the bomb")
+from Classes.Tools.BobTheBomb import bob_the_bomb
 
 def deflect():
     print("deflect")

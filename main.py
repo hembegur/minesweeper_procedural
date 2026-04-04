@@ -56,6 +56,12 @@ while True:
         Global.UiService.handleEvents(event=event)
 
         if event.type == pygame.KEYDOWN:
+            #Use tool if have
+            if pygame.K_1 <= event.key <= pygame.K_4:
+                from Classes.Tools.Tools import useTool
+                toolNumber = event.key - pygame.K_0
+                useTool(toolNumber-1)
+            
             if event.key == pygame.K_q:
                 from Classes.Enemies.MinigunEnemy import MinigunEnemy
                 MinigunEnemy(pos=pygame.Vector2(random.randint(450,650),random.randint(100,450)),
