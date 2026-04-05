@@ -101,7 +101,7 @@ class Tool(pygame.sprite.Sprite):
             self._cdBox = Box(
                 pos=pygame.Vector2(self.rect.left, y),
                 size=pygame.Vector2(w, max(1, h)),
-                color=(0, 0, 0, 50),
+                color=(0, 0, 0, 150),
             )
             Global.uiGroup.add(self._cdBox)
         else:
