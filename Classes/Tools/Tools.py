@@ -12,7 +12,7 @@ class preview(Box):
     def __init__(self, pos, text):
         super().__init__(
             pos=pos,
-            size=pygame.Vector2(200,300),
+            size=pygame.Vector2(350,300),
             groups=Global.uiGroup,
             color=(230, 230, 230, 255),
             border=True,
@@ -156,9 +156,7 @@ class Tool(pygame.sprite.Sprite):
 from Classes.Tools.BobTheBomb import bob_the_bomb
 from Classes.Tools.Deflect import deflect
 from Classes.Tools.Eat import eat
-
-def foresee():
-    print("see da future")
+from Classes.Tools.Foresee import foresee
 
 toolInfos = {
     "Bob the bomb" : {
@@ -166,7 +164,7 @@ toolInfos = {
         "Price": 120,
         "Function": bob_the_bomb,
         "ImagePath": "Assets/Tools/BobTheBomb.png",
-        "Description": "Bob the bomb\n\nExplode in a\n3x3 radius\nand destroy map.",
+        "Description": "Bob the bomb\n\nExplode in a 3x3 radius cross \nshape and destroy map.\n\nCD: 3",
         "CD": 3,
     },
     "Deflect" : {
@@ -174,7 +172,7 @@ toolInfos = {
         "Price": 80,
         "Function": deflect,
         "ImagePath": "Assets/Tools/deflect.png",
-        "Description": "Energy Boost\n\nEnergy gain +0.5",
+        "Description": "Defleat\n\nReleases an engergy blast that\ndestroy enemy projectiles.\n\nCD: 3",
         "CD": 3,
     },
     "Eat" : {
@@ -182,7 +180,7 @@ toolInfos = {
         "Price": 100,
         "Function": eat,
         "ImagePath": "Assets/Tools/eat.png",
-        "Description": "Recycle\n\nNormal reload -0.2",
+        "Description": "Eat\n\nUsed on bomb tile: +1/5 max hp\nUsed on normal tile: -1/10 max hp\nUsed on revealed tile: Nothing\n\nCD: 2",
         "CD": 2,
     },
     "Foresee" : {
@@ -190,8 +188,8 @@ toolInfos = {
         "Price": 120,
         "Function": foresee,
         "ImagePath": "Assets/Tools/Foresee.png",
-        "Description": "Twin shots\n\nAmmo per shot +1\nEnergy cost +1",
-        "CD": 10,
+        "Description": "Foresee\n\nIn the range of 5x5 pick 5 random\ntiles to reveal with the accuracy of\n90%\n\nCD: 20",
+        "CD": 20,
     },
 }
 

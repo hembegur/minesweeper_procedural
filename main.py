@@ -54,6 +54,7 @@ while True:
 
         handle_click(Global.currentMap, event)
         Global.UiService.handleEvents(event=event)
+        Global.playerSprite.handleEvents(event=event)
 
         if event.type == pygame.KEYDOWN:
             #Use tool if have
@@ -61,7 +62,7 @@ while True:
                 from Classes.Tools.Tools import useTool
                 toolNumber = event.key - pygame.K_0
                 useTool(toolNumber-1)
-            
+                
             if event.key == pygame.K_q:
                 from Classes.Enemies.MinigunEnemy import MinigunEnemy
                 MinigunEnemy(pos=pygame.Vector2(random.randint(450,650),random.randint(100,450)),

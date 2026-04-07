@@ -85,6 +85,7 @@ class ImageParticle(pygame.sprite.Sprite):
         fadeSpeed: int = 200,
         shrinkSpeed: float = 0,   # shrink size per second, 0 = no shrink
         rotation: float = 0,      # rotation speed in degrees per second
+        lifetime: float = None,
     ):
         super().__init__(groups)
         self.pos        = pygame.Vector2(pos)
@@ -97,6 +98,7 @@ class ImageParticle(pygame.sprite.Sprite):
         self.angle      = 0
         self.rotation   = rotation
         self.imagePath  = imagePath
+        self._lifetime = lifetime
 
         self.ogImage = Global.loadImage(imagePath, (int(size), int(size)))
         self.image   = self.ogImage.copy()
@@ -115,6 +117,10 @@ class ImageParticle(pygame.sprite.Sprite):
     def update(self):
         dt = Global.dt
 
+        if self._lifetime is not None:
+            self._lifetime -= Global.dt
+            if self._lifetime <= 0:
+                self.kill()
         # move
         self.pos += self.direction * self.speed * dt
         self.rect.center = self.pos

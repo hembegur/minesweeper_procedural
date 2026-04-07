@@ -37,6 +37,7 @@ def _spawnPunch(pos, damage, spikeDamage, count=8, onHit=None):
         fadeSpeed=150,
         shrinkSpeed=0,
         rotation=0,
+        lifetime=3.0,
     )
 
     # punch hitbox — moves with the particle
@@ -71,6 +72,7 @@ def _spawnPunch(pos, damage, spikeDamage, count=8, onHit=None):
     def _punchKill():
         if hasattr(punch, "hitbox"):
             punch.hitbox.kill()
+        ImageParticle.kill(punch)
     punch.kill = _punchKill
 
     # ── 3. Spawn 5 spikes in spread directions ──

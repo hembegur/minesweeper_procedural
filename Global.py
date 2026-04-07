@@ -30,7 +30,7 @@ secondarySectionBox: Box = None
 
 msAttackGroup : pygame.sprite.Group = pygame.sprite.Group()
 msParticleGroup : pygame.sprite.Group = pygame.sprite.Group()
-mainAttackGroup : pygame.sprite.Group = pygame.sprite.Group()
+mainAttackGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 entityGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 mainBackGroundGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
 uiGroup : pygame.sprite.Group = pygame.sprite.LayeredUpdates()
@@ -69,6 +69,12 @@ playerStatsLose = {
     "HP" :  1,
     "MP" :  1,
     "Ult" : 1,
+}
+
+playerStatsMultiplier = {
+    "NormalDamage" : 100,
+    "UltDamage" : 100,
+    "NormalCD": 100,
 }
 
 enemyStats = {
@@ -114,8 +120,8 @@ gameProgress = {
             #     "MaxEnemy": 1,
             # },
             "ClownEnemy" : {
-                "EnemyLeft" : 1,
-                "MaxEnemy": 1,
+                "EnemyLeft" : 10,
+                "MaxEnemy": 10,
             },
         },
         "Round2" : {
@@ -127,11 +133,11 @@ gameProgress = {
         "Round3" : {
             "SpikeEnemy" : {
                 "EnemyLeft" : 9,
-                "MaxEnemy": 3
+                "MaxEnemy": 6
             },
             "LaserEnemy" : {
                 "EnemyLeft" : 9,
-                "MaxEnemy": 3
+                "MaxEnemy": 6
             },
         },
         "Round4" : {
