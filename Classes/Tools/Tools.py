@@ -30,9 +30,24 @@ class preview(Box):
             center=False,
         )
         Global.uiGroup.add(self.descText, layer = 999)
+        self.sellText = TextLabel(
+            text="[X] sell",
+            pos=pos + pygame.Vector2(0,250),
+            font_size=20,
+            color=(150,0,0),
+            font_name="Assets/Fonts/Rimouski.otf",
+            center=False,
+        )
+        Global.uiGroup.add(self.sellText, layer = 999)
     def setPos_(self, pos):
         self.setPos(pos)
         self.descText.setPosition(pos + pygame.Vector2(10,10))
+        self.sellText.setPosition(pos + pygame.Vector2(10,265))
+
+    def kill(self):
+        self.descText.kill()
+        self.sellText.kill()
+        super().kill()
     
 class Tool(pygame.sprite.Sprite):
     def __init__(
@@ -149,7 +164,6 @@ class Tool(pygame.sprite.Sprite):
             self.previewBox.setPos_(mouse_pos - pygame.Vector2(0, self.previewBox.size.y))
         else:
             if self.previewBox:
-                self.previewBox.descText.kill()
                 self.previewBox.kill()
                 self.previewBox = None
 

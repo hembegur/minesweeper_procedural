@@ -57,6 +57,7 @@ playerStats = {
     "NormalDamage" : 10,
     "UltDamage" : 30,
     "NormalCD": 2.5,
+    "Burst" : 1,
 }
 
 playerStatsGain = {
@@ -103,7 +104,7 @@ enemyStats = {
 }
 
 
-currentRound = 1
+currentRound = 3
 currentDifficulty = "Normal"
 gameState = "Preparing"
 enemyCount = 0

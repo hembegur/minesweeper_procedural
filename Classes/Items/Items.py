@@ -83,7 +83,8 @@ def recycle():
     Global.playerStats["NormalCD"] -= 0.2 
 
 def twin_shot():
-    Global.playerStats["NormalDamage"] += 5
+    Global.playerStats["Burst"] += 1
+    Global.playerStatsGain["MP"] += 1
 
 itemInfos = {
     "Heavy ammo" : {

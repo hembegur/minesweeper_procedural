@@ -76,8 +76,9 @@ class mainGameService:
         self.bgSpawnCD = (0.5,1)
         self.bgCurrentSpawn = 0 
         Global.mainBackGroundDt = Global.dt
-        self.shopSprite = None
-        self.shop = None
+        self.shopSprite = None # on main game box
+        self.shop = Global.UiService.spawnShop()
+        #self.shop = None
         #groundBox
         currSize = pygame.Vector2(750,700)
         ground = Box(
