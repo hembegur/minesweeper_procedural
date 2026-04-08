@@ -118,20 +118,20 @@ class PlayerSprite(BaseEntity):
 
                 def shoot():
                     Global.playerStats["MP"] -= Global.playerStatsLose["MP"]
-
+                    target = self.currentTarget
                     def hit():
                         text_label = TextLabel(
                             text=f"-{Global.playerStats["NormalDamage"]}HP",
-                            pos=self.currentTarget.pos,
+                            pos=target.pos,
                             font_size=20,
                             color=(225,0,0),
                             font_name="Assets/Fonts/Minecraft.ttf",
                             center=True,
                         )
-                        text_label.moveTo(self.currentTarget.pos - pygame.Vector2(0,50), speed=300)
+                        text_label.moveTo(target.pos - pygame.Vector2(0,50), speed=300)
                         text_label.fadeOut(speed=300, onDone=text_label.kill)
                         Global.uiGroup.add(text_label)
-                        self.currentTarget.takeDamage(Global.playerStats["NormalDamage"])
+                        target.takeDamage(Global.playerStats["NormalDamage"])
                         newBullet.kill()
 
                         for _ in range(20):
@@ -151,11 +151,17 @@ class PlayerSprite(BaseEntity):
                     newBullet = Bullet(
                         size=pygame.Vector2(100,150),
                         ogPos=self.pos + pygame.Vector2(100,0),
-                        targetPos=self.currentTarget.pos,
+                        targetPos=target.pos,
                         speed=500,
                     )
                     newBullet._onArrive = hit
                     Global.mainAttackGroup.add(newBullet)
+
+                    if self.currentTarget.hp - Global.playerStats["NormalDamage"] <= 0:
+                        for sprite in Global.entityGroup:
+                            if sprite.team == "Enemy" and sprite != self.currentTarget:
+                                self.currentTarget = sprite
+                                break
                 #shoot()
                 for i in range(Global.playerStats["Burst"]):
                     Timer(0.3 * i, shoot, Global.timerGroup)

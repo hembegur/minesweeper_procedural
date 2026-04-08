@@ -86,7 +86,6 @@ def recycle():
 
 def twin_shot():
     Global.playerStats["Burst"] += 1
-    Global.playerStatsGain["MP"] += 1
 
 itemInfos = {
     "Heavy ammo" : {
@@ -94,7 +93,7 @@ itemInfos = {
         "Price": 100,
         "Function": heavy_ammo,
         "ImagePath": "Assets/Items/heavy_ammo.png",
-        "Description": "Heavy Ammo\n\nNormal damage +2.5\nEnergy cost +0.5",
+        "Description": "Heavy Ammo\n\nNormal damage +5\nEnergy cost +0.5",
         "Rarity": "Common",
     },
     "Energy boost" : {

@@ -200,9 +200,17 @@ class uiService:
             self.continueText = None
 
     def update(self):
-        self.playerHPText.setText(f"HP: {Global.playerStats["HP"]} / {Global.playerStats["MaxHP"]}")
-        self.playerMPText.setText(f"MP: {Global.playerStats["MP"]} / {Global.playerStats["MaxMP"]}")
-        self.playerUltText.setText(f"ULT: {Global.playerStats["Ult"]} / {Global.playerStats["MaxUlt"]}")
+        self.playerHPText.setText(
+            f"HP: {formatStat(Global.playerStats['HP'])} / {formatStat(Global.playerStats['MaxHP'])}"
+        )
+
+        self.playerMPText.setText(
+            f"MP: {formatStat(Global.playerStats['MP'])} / {formatStat(Global.playerStats['MaxMP'])}"
+        )
+
+        self.playerUltText.setText(
+            f"ULT: {formatStat(Global.playerStats['Ult'])} / {formatStat(Global.playerStats['MaxUlt'])}"
+        )
         self.hpBar.setValue(Global.playerStats["HP"] / max(1, Global.playerStats["MaxHP"]) * 100)
         self.mpBar.setValue(Global.playerStats["MP"] / max(1, Global.playerStats["MaxMP"]) * 100)
         self.ultBar.setValue(Global.playerStats["Ult"] / max(1, Global.playerStats["MaxUlt"]) * 100)
@@ -213,3 +221,6 @@ class uiService:
         Global.screen.blit(self.playerMPText.image, self.playerMPText.rect)
         Global.screen.blit(self.playerUltText.image, self.playerUltText.rect)
         Global.screen.blit(self.currentRoundText.image, self.currentRoundText.rect)
+
+def formatStat(value):
+        return f"{value:.1f}".rstrip('0').rstrip('.')

@@ -68,7 +68,7 @@ playerStatsGain = {
 
 playerStatsLose = {
     "HP" :  1,
-    "MP" :  1,
+    "MP" :  0.1,
     "Ult" : 1,
 }
 
@@ -147,12 +147,12 @@ gameProgress = {
         },
         "Round3" : {
             "SpikeEnemy" : {
-                "EnemyLeft" : 9,
-                "MaxEnemy": 6
+                "EnemyLeft" : 1,
+                "MaxEnemy": 1
             },
             "LaserEnemy" : {
-                "EnemyLeft" : 9,
-                "MaxEnemy": 6
+                "EnemyLeft" : 1,
+                "MaxEnemy": 1
             },
         },
         "Round4" : {
