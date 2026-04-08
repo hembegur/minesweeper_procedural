@@ -3,14 +3,14 @@ from Utils.UiComponents.Box import Box
 from Utils.UiComponents.TextLabel import TextLabel
 
 class preview(Box):
-    def __init__(self, pos, text):
+    def __init__(self, pos, text, rarity):
         super().__init__(
             pos=pos,
             size=pygame.Vector2(200,300),
             groups=Global.uiGroup,
-            color=(230, 230, 230, 255),
+            color=Global.rarityColor[rarity]["color"],
             border=True,
-            borderColor=(50, 50, 50, 255),
+            borderColor=Global.rarityColor[rarity]["borderColor"],
             borderWidth=5,
             borderRadius=0,
         )
@@ -38,6 +38,7 @@ class Item(pygame.sprite.Sprite):
         imagePath: str = None,
         layer: int = 10,
         text = "",
+        rarity = "Common",
     ):
         super().__init__()
         if groups is not None:
@@ -54,6 +55,7 @@ class Item(pygame.sprite.Sprite):
         self.image = Global.loadImage(self.imagePath, (int(size.x), int(size.y)))
         self.rect = self.image.get_rect(center=self.pos)
         self.previewBox : preview = None
+        self.rarity = rarity
     
     def setSize(self, size):
         self.size = pygame.Vector2(size)
@@ -64,7 +66,7 @@ class Item(pygame.sprite.Sprite):
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             if not self.previewBox:
-                self.previewBox = preview(pos=mouse_pos, text=self.previewText)
+                self.previewBox = preview(pos=mouse_pos, text=self.previewText, rarity=self.rarity)
             self.previewBox.setPos_(mouse_pos - pygame.Vector2(0,self.previewBox.size.y))
         else:
             if self.previewBox:
@@ -92,7 +94,8 @@ itemInfos = {
         "Price": 100,
         "Function": heavy_ammo,
         "ImagePath": "Assets/Items/heavy_ammo.png",
-        "Description": "Heavy Ammo\n\nNormal damage +5\nEnergy cost +0.5",
+        "Description": "Heavy Ammo\n\nNormal damage +2.5\nEnergy cost +0.5",
+        "Rarity": "Common",
     },
     "Energy boost" : {
         "Name" : "Energy boost",
@@ -100,6 +103,7 @@ itemInfos = {
         "Function": enegy_boost,
         "ImagePath": "Assets/Items/energy_boost.png",
         "Description": "Energy Boost\n\nEnergy gain +0.5",
+        "Rarity": "Common",
     },
     "Recycle" : {
         "Name" : "Recycle",
@@ -107,6 +111,7 @@ itemInfos = {
         "Function": recycle,
         "ImagePath": "Assets/Items/recycle.png",
         "Description": "Recycle\n\nNormal reload -0.2",
+        "Rarity": "Common",
     },
     "Twin shots" : {
         "Name" : "Twin shots",
@@ -114,6 +119,7 @@ itemInfos = {
         "Function": twin_shot,
         "ImagePath": "Assets/Items/twin_shot.png",
         "Description": "Twin shots\n\nAmmo per shot +1\nEnergy cost +1",
+        "Rarity": "Rare",
     },
 }
 

@@ -9,14 +9,14 @@ def useTool(index: int):
     Global.toolBar.removeItemByName(Global.toolBar._items[index].name)
 
 class preview(Box):
-    def __init__(self, pos, text):
+    def __init__(self, pos, text, rarity):
         super().__init__(
             pos=pos,
             size=pygame.Vector2(350,300),
             groups=Global.uiGroup,
-            color=(230, 230, 230, 255),
+            color=Global.rarityColor[rarity]["color"],
             border=True,
-            borderColor=(50, 50, 50, 255),
+            borderColor=Global.rarityColor[rarity]["borderColor"],
             borderWidth=5,
             borderRadius=0,
         )
@@ -61,6 +61,7 @@ class Tool(pygame.sprite.Sprite):
         text = "",
         func = None,
         cooldown: float = 0,
+        rarity = "Common",
     ):
         super().__init__()
         if groups is not None:
@@ -82,6 +83,7 @@ class Tool(pygame.sprite.Sprite):
         self.cooldown    = cooldown
         self._cdTimer    = 0
         self._cdBox      = None
+        self.rarity = rarity
 
     # ──────────────────────────────────────────
     # Cooldown
@@ -160,7 +162,7 @@ class Tool(pygame.sprite.Sprite):
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             if not self.previewBox:
-                self.previewBox = preview(pos=mouse_pos, text=self.previewText)
+                self.previewBox = preview(pos=mouse_pos, text=self.previewText, rarity=self.rarity)
             self.previewBox.setPos_(mouse_pos - pygame.Vector2(0, self.previewBox.size.y))
         else:
             if self.previewBox:
@@ -180,14 +182,7 @@ toolInfos = {
         "ImagePath": "Assets/Tools/BobTheBomb.png",
         "Description": "Bob the bomb\n\nExplode in a 3x3 radius cross \nshape and destroy map.\n\nCD: 3",
         "CD": 3,
-    },
-    "Deflect" : {
-        "Name" : "Deflect",
-        "Price": 80,
-        "Function": deflect,
-        "ImagePath": "Assets/Tools/deflect.png",
-        "Description": "Defleat\n\nReleases an engergy blast that\ndestroy enemy projectiles.\n\nCD: 3",
-        "CD": 3,
+        "Rarity": "Common",
     },
     "Eat" : {
         "Name" : "Eat",
@@ -196,6 +191,16 @@ toolInfos = {
         "ImagePath": "Assets/Tools/eat.png",
         "Description": "Eat\n\nUsed on bomb tile: +1/5 max hp\nUsed on normal tile: -1/10 max hp\nUsed on revealed tile: Nothing\n\nCD: 2",
         "CD": 2,
+        "Rarity": "Common",
+    },
+    "Deflect" : {
+        "Name" : "Deflect",
+        "Price": 80,
+        "Function": deflect,
+        "ImagePath": "Assets/Tools/deflect.png",
+        "Description": "Defleat\n\nReleases an engergy blast that\ndestroy enemy projectiles.\n\nCD: 3",
+        "CD": 3,
+        "Rarity": "Rare",
     },
     "Foresee" : {
         "Name" : "Foresee",
@@ -204,6 +209,7 @@ toolInfos = {
         "ImagePath": "Assets/Tools/Foresee.png",
         "Description": "Foresee\n\nIn the range of 5x5 pick 5 random\ntiles to reveal with the accuracy of\n90%\n\nCD: 20",
         "CD": 20,
+        "Rarity": "Epic",
     },
 }
 

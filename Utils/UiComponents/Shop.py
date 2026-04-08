@@ -32,9 +32,9 @@ class buySlot:
             pos=pos,
             size=pygame.Vector2(150, 150),
             groups=Global.uiGroup,
-            color=(250, 250, 250, 255),
+            color=Global.rarityColor[itemData["Rarity"]]["color"] if itemData else Global.rarityColor[toolData["Rarity"]]["color"],
             border=True,
-            borderColor=(50, 50, 50, 255),
+            borderColor=Global.rarityColor[itemData["Rarity"]]["borderColor"] if itemData else Global.rarityColor[toolData["Rarity"]]["borderColor"],
             borderWidth=5,
             borderRadius=0,
         )
@@ -62,6 +62,7 @@ class buySlot:
                 imagePath=itemData["ImagePath"],
                 groups=Global.uiGroup,
                 text=itemData["Description"],
+                rarity=itemData["Rarity"],
             )
             self.priceText.setText(f"${str(itemData["Price"])}")
 
@@ -86,6 +87,7 @@ class buySlot:
                 text=toolData["Description"],
                 func=toolData["Function"],
                 cooldown=toolData["CD"],
+                rarity=toolData["Rarity"],
             )
             self.priceText.setText(f"${str(toolData["Price"])}")
 

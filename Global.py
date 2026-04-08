@@ -103,6 +103,20 @@ enemyStats = {
     }
 }
 
+rarityColor = {
+    "Common" : { 
+        "color" : (250, 250, 250, 255), 
+        "borderColor" : (50, 50, 50, 255) 
+    },
+    "Rare": {
+        "color": (180, 210, 255, 255),
+        "borderColor": (0, 100, 255, 255)
+    },
+    "Epic": {
+        "color": (220, 180, 255, 255),
+        "borderColor": (180, 0, 255, 255)
+    }
+}
 
 currentRound = 3
 currentDifficulty = "Normal"
