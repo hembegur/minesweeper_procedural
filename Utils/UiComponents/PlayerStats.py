@@ -58,16 +58,16 @@ class PlayerStatsBox(pygame.sprite.Sprite):
         self.statsScroll.clearItems()
 
         stat_display = [
-            ("## Vitals ##",          None,                                   (180, 180, 180)),
             ("HP",                    f"{Global.playerStats['HP']} / {Global.playerStats['MaxHP']}",   (100, 220, 100)),
             ("MP",                    f"{Global.playerStats['MP']} / {Global.playerStats['MaxMP']}",   (100, 100, 220)),
             ("Ult",                   f"{Global.playerStats['Ult']} / {Global.playerStats['MaxUlt']}", (200, 100, 220)),
-            ("## Offense ##",         None,                                   (180, 180, 180)),
-            ("Normal Damage",         f"{Global.playerStats['NormalDamage']} x {Global.playerStatsMultiplier['NormalDamage']}%", (220, 180, 80)),
-            ("Ult Damage",            f"{Global.playerStats['UltDamage']} x {Global.playerStatsMultiplier['UltDamage']}%",      (220, 120, 80)),
+            ("Damage",         f"{Global.playerStats['NormalDamage']} x {Global.playerStatsMultiplier['NormalDamage']}%", (220, 180, 80)),
             ("Attack Speed",          f"{Global.playerStats['AttackSpeed']}",                       (220, 180, 80)),
             ("Burst Count",           str(Global.playerStats['Burst']),                                (220, 180, 80)),
             ("Burst Attack Speed",    f"{Global.playerStats['BurstAttackSpeed']}",                  (160, 140, 80)),
+            ("Defense",    f"{Global.playerStats['Defense']}",                  (180, 180, 180)),
+            ("HP Regen",    f"{Global.playerStats['HPRegen']}",                  (100, 220, 100)),
+            ("Life Steal",    f"{Global.playerStats['LifeSteal']}",                  (220, 80,  80)),
             ("## Gain ##", None,                                   (180, 180, 180)),
             ("HP Gain",               f"+{Global.playerStatsGain['HP']}",     (100, 220, 100)),
             ("MP Gain",               f"+{Global.playerStatsGain['MP']}",     (100, 100, 220)),

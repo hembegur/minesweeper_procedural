@@ -46,7 +46,12 @@ from Utils.UiComponents.ScrollBox import ScrollBox
 inventoryBox: ScrollBox = None
 toolBar: ScrollBox = None
 
-money = 10000
+money = 1000000000000
+currentRarity = {
+    "Common" : 60,
+    "Rare" : 30,
+    "Epic" : 10,
+}
 playerStats = {
     "HP" :  100,
     "MP" :  0,
@@ -55,7 +60,6 @@ playerStats = {
     "MaxMP" : 10,
     "MaxUlt" : 1,
     "NormalDamage" : 10,
-    "UltDamage" : 30,
     "BaseAttackSpeed" : 250,
     "AttackSpeed": 100,
     "Burst" : 3,

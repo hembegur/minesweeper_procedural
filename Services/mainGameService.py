@@ -162,6 +162,7 @@ class mainGameService:
             self.enemySpawnCD = gameProgress["SpawnRate"]
             self.enemyLastSpawn = 2
             self.currentEnemies = gameProgress[f"Round{Global.currentRound}"].copy()
+            Global.playerStats["HP"] = Global.playerStats["MaxHP"]
             Global.gameState = "Playing"
             self.shopSprite = None
 

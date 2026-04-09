@@ -212,18 +212,28 @@ toolInfos = {
         "Rarity": "Epic",
     },
 }
-
+def _weightedRandom(infos: dict) -> str:
+    """Pick a random key from infos based on its Rarity field and currentRarity weights."""
+    keys = list(infos.keys())
+    weights = [
+        Global.currentRarity.get(infos[k].get("Rarity", "Common"), 60)
+        for k in keys
+    ]
+    return random.choices(keys, weights=weights, k=1)[0]
 class toolLoader:
     def __init__(self):
         pass
+
     def randomItems(self, amount):
         self.toolInfos = toolInfos.copy()
         self.itemsList = {}
 
         for i in range(amount):
-            randomItem = random.choice(list(self.toolInfos.keys()))
-            self.itemsList[i] = self.toolInfos[randomItem]
+            if not self.toolInfos:
+                break
+            randomItem = _weightedRandom(self.toolInfos)
+            self.itemsList[i] = self.toolInfos[randomItem].copy()
             self.itemsList[i]["Name"] = randomItem
             del self.toolInfos[randomItem]
-        
+
         return self.itemsList

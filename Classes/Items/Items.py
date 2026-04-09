@@ -104,18 +104,19 @@ def vampire():
     Global.playerStats["LifeSteal"] += 2
 def angelic_touch():
     Global.playerStats["HPRegen"] += 5
+    Global.playerStatsGain["MP"] += 1.5
 
 # ==============================EPIC==============================
 
 def one_shot():
-    Global.playerStats["NormalDamage"] += 5
+    Global.playerStats["NormalDamage"] += 12
     Global.playerStatsMultiplier["NormalDamage"] += 40
     Global.playerStats["Burst"] -= 3
-    Global.playerStats["BurstAttackSpeed"] -= 150
+    Global.playerStats["BurstAttackSpeed"] -= 100
     if Global.playerStats["Burst"] <= 0:
         Global.playerStats["Burst"] = 1
-    Global.playerStatsLose["MP"] += 2
-    Global.playerStats["AttackSpeed"] -= 50
+    Global.playerStatsLose["MP"] += 1.5
+    Global.playerStats["AttackSpeed"] -= 25
 def glass_cannon():
     Global.playerStatsMultiplier["NormalDamage"] += 20
     Global.playerStats["MaxHP"] -= 20
@@ -219,7 +220,7 @@ itemInfos = {
         "Price": 280,
         "Function": angelic_touch,
         "ImagePath": "Assets/Items/angelic_touch.png",
-        "Description": "Angelic Touch\n\nHP regen +5",
+        "Description": "Angelic Touch\n\nHP regen +5\nMP gain +1.5",
         "Rarity": "Rare",
     },
 
@@ -229,7 +230,7 @@ itemInfos = {
         "Price": 500,
         "Function": one_shot,
         "ImagePath": "Assets/Items/one_shot.png",
-        "Description": "One Shot\n\n+5 damage\n+40% damage\nBurst -3 (min 1)\nMP cost +2\nAttack speed -50",
+        "Description": "One Shot\n\n+12 damage\n+40% damage\nBurst -3 (min 1)\nMP cost +1.5\nAttack speed -25",
         "Rarity": "Epic",
     },
     "Glass cannon": {
@@ -258,17 +259,30 @@ itemInfos = {
     },
 }
 
+def _weightedRandom(infos: dict) -> str:
+    """Pick a random key from infos based on its Rarity field and currentRarity weights."""
+    keys = list(infos.keys())
+    weights = [
+        Global.currentRarity.get(infos[k].get("Rarity", "Common"), 60)
+        for k in keys
+    ]
+    return random.choices(keys, weights=weights, k=1)[0]
+
+
 class itemLoader:
     def __init__(self):
         pass
+
     def randomItems(self, amount):
         self.itemInfos = itemInfos.copy()
         self.itemsList = {}
 
         for i in range(amount):
-            randomItem = random.choice(list(self.itemInfos.keys()))
-            self.itemsList[i] = self.itemInfos[randomItem]
+            if not self.itemInfos:
+                break
+            randomItem = _weightedRandom(self.itemInfos)
+            self.itemsList[i] = self.itemInfos[randomItem].copy()
             self.itemsList[i]["Name"] = randomItem
             del self.itemInfos[randomItem]
-        
+
         return self.itemsList

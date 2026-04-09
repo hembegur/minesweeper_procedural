@@ -78,7 +78,7 @@ class PlayerSprite(BaseEntity):
                 for sprite in Global.entityGroup:
                     if sprite.team == "Enemy":
                         text_label = TextLabel(
-                            text=f"-{Global.playerStats["UltDamage"]}HP",
+                            text=f"-{Global.playerStats["NormalDamage"] * 3}HP",
                             pos=sprite.pos,
                             font_size=20,
                             color=(225,0,0),
@@ -88,7 +88,7 @@ class PlayerSprite(BaseEntity):
                         text_label.moveTo(sprite.pos - pygame.Vector2(0,50), speed=300)
                         text_label.fadeOut(speed=300, onDone=text_label.kill)
                         Global.uiGroup.add(text_label)
-                        sprite.takeDamage(Global.playerStats["UltDamage"])
+                        sprite.takeDamage(Global.playerStats["NormalDamage"] * 3)
                 newBullet.kill()
 
                 for _ in range(20):
@@ -150,6 +150,7 @@ class PlayerSprite(BaseEntity):
                     target = self.currentTarget
                     damage = Global.playerStats["NormalDamage"] * Global.playerStatsMultiplier["NormalDamage"]/100
                     def hit():
+                        Global.playerStats["HP"] += damage * Global.playerStats["LifeSteal"]/100
                         text_label = TextLabel(
                             text=f"-{damage}HP",
                             pos=target.pos,
