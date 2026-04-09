@@ -56,26 +56,27 @@ playerStats = {
     "MaxUlt" : 1,
     "NormalDamage" : 10,
     "UltDamage" : 30,
-    "NormalCD": 2.5,
-    "Burst" : 1,
+    "BaseAttackSpeed" : 250,
+    "AttackSpeed": 100,
+    "Burst" : 3,
+    "BurstAttackSpeed": 800,
+    "HPRegen" : 0,
+    "Defense" : 0,
+    "LifeSteal" : 0,
 }
-
+playerStatsMultiplier = {
+    "NormalDamage" : 100,
+    "UltDamage" : 100,
+}
 playerStatsGain = {
     "HP" :  1,
     "MP" :  1,
     "Ult" : 1,
 }
-
 playerStatsLose = {
     "HP" :  1,
     "MP" :  0.1,
     "Ult" : 1,
-}
-
-playerStatsMultiplier = {
-    "NormalDamage" : 100,
-    "UltDamage" : 100,
-    "NormalCD": 100,
 }
 
 enemyStats = {

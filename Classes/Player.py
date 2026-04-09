@@ -114,7 +114,7 @@ class PlayerSprite(BaseEntity):
             if self.currentTarget and not self.currentTarget.alive():
                 self.currentTarget = None
             if self.currentTarget:
-                self.lastAttack = Global.playerStats["NormalCD"]
+                self.lastAttack = Global.playerStats["BaseAttackSpeed"] / Global.playerStats["AttackSpeed"]
 
                 def shoot():
                     Global.playerStats["MP"] -= Global.playerStatsLose["MP"]
@@ -164,7 +164,7 @@ class PlayerSprite(BaseEntity):
                                 break
                 #shoot()
                 for i in range(Global.playerStats["Burst"]):
-                    Timer(0.3 * i, shoot, Global.timerGroup)
+                    Timer(Global.playerStats["BaseAttackSpeed"] / Global.playerStats["BurstAttackSpeed"] * i, shoot, Global.timerGroup)
                 
             else:
                 for sprite in Global.entityGroup:

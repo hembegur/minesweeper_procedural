@@ -55,6 +55,7 @@ while True:
         handle_click(Global.currentMap, event)
         Global.UiService.handleEvents(event=event)
         Global.playerSprite.handleEvents(event=event)
+        Global.MainGameService.handleEvent(event=event)
 
         if event.type == pygame.KEYDOWN:
             #Use tool if have

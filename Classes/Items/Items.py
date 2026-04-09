@@ -74,18 +74,51 @@ class Item(pygame.sprite.Sprite):
                 self.previewBox.kill()
                 self.previewBox = None
 
+# ==============================COMMON==============================
+
 def heavy_ammo():
     Global.playerStats["NormalDamage"] += 5
     Global.playerStatsLose["MP"] += 0.5
-
 def enegy_boost():
     Global.playerStatsGain["MP"] += 0.5
-
 def recycle():
     Global.playerStats["NormalCD"] -= 0.2 
+def tough_iron():
+    Global.playerStats["MaxHP"] += 8 
+def hardened_iron():
+    Global.playerStats["Defense"] += 3
+def fuel_tank():
+    Global.playerStats["MaxMP"] += 2
+def auto_bot():
+    Global.playerStats["HPRegen"] += 2
+
+# ==============================Rare==============================
 
 def twin_shot():
     Global.playerStats["Burst"] += 1
+def explosive_round(): # pls add Aoe damage 
+    Global.playerStatsMultiplier["NormalDamage"] -= 15
+def vampire():
+    Global.playerStats["LifeSteal"] += 2
+def angelic_touch():
+    Global.playerStats["HPRegen"] += 5
+
+# ==============================Epic==============================
+
+# common:
+# + Tough Iron: +8 max hp
+# + Hardened Iron: +3% defense
+# + Fuel tank: +2 max mp
+# + Auto bot: +2 hp regen
+# Rare:
+# + Explosive round: +1 Extra enemy hit, -15% damage
+# + Vampire: +2% life steal
+# + Angelic touch: +5 hp regen
+# Epic:
+# + One shot: +5 flat damage, +50% damage ,-3 ammo, +2 mp lose, +1.5CD
+# + Glass cannon: +20% damage, -20 max hp, -10% defense
+# + Rapid Trigger: +3 ammo, -0.5 mp lose, -20% damage
+# + Titanium: +30 max hp, +10% defense 
 
 itemInfos = {
     "Heavy ammo" : {

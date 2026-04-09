@@ -77,8 +77,9 @@ class mainGameService:
         self.bgCurrentSpawn = 0 
         Global.mainBackGroundDt = Global.dt
         self.shopSprite = None # on main game box
-        self.shop = Global.UiService.spawnShop()
-        #self.shop = None
+        #self.shop = Global.UiService.spawnShop()
+        self.mapHidden = False
+        self.shop = None
         #groundBox
         currSize = pygame.Vector2(750,700)
         ground = Box(
@@ -120,6 +121,12 @@ class mainGameService:
     def stop(self,stop: bool):
         if stop:
             self.dt = 0
+
+    def handleEvent(self, event):
+        if event.type == pygame.MOUSEBUTTONUP and event.button == 1 and Global.minesweeperBox.rect.collidepoint(pygame.mouse.get_pos()) and Global.gameState == "Playing":
+            self.mapHidden = False
+            Global.UiService.revealMap()
+            
     
     def update(self):
         if Global.gameState == "Playing":
@@ -140,12 +147,15 @@ class mainGameService:
 
         #|----------------------------Game Loop
         Global.dt = Global.tick 
-        Global.UiService.revealMap()
-        if not Global.minesweeperBox.rect.collidepoint(pygame.mouse.get_pos()) and Global.gameState == "Playing":
+        
+        if (not Global.minesweeperBox.rect.collidepoint(pygame.mouse.get_pos()) and Global.gameState == "Playing") or self.mapHidden:
             Global.dt = 0
-            Global.UiService.hideMap()
-            
-            
+            if not self.mapHidden:
+                Global.UiService.hideMap()
+            self.mapHidden = True
+        else:
+            Global.UiService.revealMap()
+            self.mapHidden = False            
 
         if Global.gameState == "Preparing":
             gameProgress = Global.gameProgress[Global.currentDifficulty]
