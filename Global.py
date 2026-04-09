@@ -48,9 +48,9 @@ toolBar: ScrollBox = None
 
 money = 1000000000000
 currentRarity = {
-    "Common" : 60,
+    "Common" : 30,
     "Rare" : 30,
-    "Epic" : 10,
+    "Epic" : 30,
 }
 playerStats = {
     "HP" :  100,
@@ -67,6 +67,7 @@ playerStats = {
     "HPRegen" : 0,
     "Defense" : 0,
     "LifeSteal" : 0,
+    "Aoe" : 0,
 }
 playerStatsMultiplier = {
     "NormalDamage" : 100,

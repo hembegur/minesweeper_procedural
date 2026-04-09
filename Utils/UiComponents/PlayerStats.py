@@ -68,6 +68,7 @@ class PlayerStatsBox(pygame.sprite.Sprite):
             ("Defense",    f"{Global.playerStats['Defense']}",                  (180, 180, 180)),
             ("HP Regen",    f"{Global.playerStats['HPRegen']}",                  (100, 220, 100)),
             ("Life Steal",    f"{Global.playerStats['LifeSteal']}",                  (220, 80,  80)),
+            ("Aoe",    f"{Global.playerStats['Aoe']}",                  (220, 180, 80)),
             ("## Gain ##", None,                                   (180, 180, 180)),
             ("HP Gain",               f"+{Global.playerStatsGain['HP']}",     (100, 220, 100)),
             ("MP Gain",               f"+{Global.playerStatsGain['MP']}",     (100, 100, 220)),

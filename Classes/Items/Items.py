@@ -98,8 +98,9 @@ def auto_bot():
 def twin_shot():
     Global.playerStats["Burst"] += 1
     Global.playerStats["BurstAttackSpeed"] += 100
-def explosive_round(): # pls add Aoe damage 
+def explosive_round():
     Global.playerStatsMultiplier["NormalDamage"] -= 15
+    Global.playerStats["Aoe"] += 1
 def vampire():
     Global.playerStats["LifeSteal"] += 2
 def angelic_touch():

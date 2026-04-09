@@ -78,7 +78,7 @@ class PlayerSprite(BaseEntity):
                 for sprite in Global.entityGroup:
                     if sprite.team == "Enemy":
                         text_label = TextLabel(
-                            text=f"-{Global.playerStats["NormalDamage"] * 3}HP",
+                            text=f"-{round(Global.playerStats["NormalDamage"] * 3,1):g}HP",
                             pos=sprite.pos,
                             font_size=20,
                             color=(225,0,0),
@@ -148,18 +148,18 @@ class PlayerSprite(BaseEntity):
 
                     Global.playerStats["MP"] -= Global.playerStatsLose["MP"]
                     target = self.currentTarget
-                    damage = Global.playerStats["NormalDamage"] * Global.playerStatsMultiplier["NormalDamage"]/100
-                    def hit():
+                    damageCalc = Global.playerStats["NormalDamage"] * Global.playerStatsMultiplier["NormalDamage"]/100
+                    def hit(pos = target.pos, first = True, damage=damageCalc):
                         Global.playerStats["HP"] += damage * Global.playerStats["LifeSteal"]/100
                         text_label = TextLabel(
-                            text=f"-{damage}HP",
-                            pos=target.pos,
+                            text=f"-{round(damage,1):g}HP",
+                            pos=pos,
                             font_size=20,
                             color=(225,0,0),
                             font_name="Assets/Fonts/Minecraft.ttf",
                             center=True,
                         )
-                        text_label.moveTo(target.pos - pygame.Vector2(0,50), speed=300)
+                        text_label.moveTo(pos - pygame.Vector2(0,50), speed=300)
                         text_label.fadeOut(speed=300, onDone=text_label.kill)
                         Global.uiGroup.add(text_label)
                         target.takeDamage(damage)
@@ -177,6 +177,18 @@ class PlayerSprite(BaseEntity):
                                 size=random.randint(20, 60),
                                 fadeSpeed=500,
                             )
+
+                        if first:
+                            enemies = [e for e in Global.entityGroup if e.team == "Enemy" and e != target]
+                            enemies.sort(key=lambda e: (e.pos - pos).length())
+
+                            falloff = 0.7
+                            i = 0
+                            while i < min(Global.playerStats["Aoe"], len(enemies)):
+                                e = enemies[i]
+                                #e.takeDamage(damage * (falloff ** (i + 1)))
+                                hit(e.pos, False, damage * (falloff ** (i + 1)))
+                                i += 1
                             
                     self.attackJiggle.play(loop=False)
                     newBullet = Bullet(
@@ -188,7 +200,7 @@ class PlayerSprite(BaseEntity):
                     newBullet._onArrive = hit
                     Global.mainAttackGroup.add(newBullet)
                     
-                    if self.currentTarget.hp - damage <= 0: 
+                    if self.currentTarget.hp - damageCalc <= 0: 
                         found = False
                         for sprite in Global.entityGroup:
                             if sprite.team == "Enemy" and sprite != self.currentTarget:
