@@ -49,18 +49,6 @@ class LaserEnemy(BaseEntity):
         laser = Laser(pos1=self.pos, pos2=playerPos, groups=Global.mainAttackGroup, width=30, color=(100,100,255))
         laser.shrinkAndFade(targetWidth=0, shrinkSpeed=60, targetAlpha=0, fadeSpeed=510, onDone=laser.kill)
 
-        text_label = TextLabel(
-            text=f"-{Global.enemyStats["LaserEnemy"]["Damage"]}HP",
-            pos=playerPos,
-            font_size=30,
-            color=(225,0,0),
-            font_name="Assets/Fonts/Minecraft.ttf",
-            center=True,
-        )
-        text_label.moveTo(playerPos - pygame.Vector2(0,50), speed=300)
-        text_label.fadeOut(speed=300, onDone=text_label.kill)
-        Global.uiGroup.add(text_label)
-
         for _ in range(20):
             particlePos = playerPos[0] + random.randint(-20, 20), playerPos[1] + random.randint(-20, 20)
             Particle(

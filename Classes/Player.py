@@ -34,15 +34,28 @@ class PlayerSprite(BaseEntity):
         self.attackPointer = Pointer(
             size=pygame.Vector2(350,350),
             speed=200,
-            pos=self.pos,
+            pos=self.pos + pygame.Vector2(300,0),
             group=Global.mainAttackGroup,
             layer=999
         )
 
         self.shootTimer : pygame.sprite.Group = pygame.sprite.Group()
+        self.passiveHeal = 0
 
     def takeDamage(self, amount):
-        Global.playerStats["HP"] -= amount
+        actualAmount = amount - amount * Global.playerStats["Defense"]/100
+        Global.playerStats["HP"] -= actualAmount
+        text_label = TextLabel(
+            text=f"-{actualAmount}HP",
+            pos=self.pos,
+            font_size=30,
+            color=(225,0,0),
+            font_name="Assets/Fonts/Minecraft.ttf",
+            center=True,
+        )
+        text_label.moveTo(self.pos - pygame.Vector2(0,50), speed=300)
+        text_label.fadeOut(speed=300, onDone=text_label.kill)
+        Global.uiGroup.add(text_label)
 
     def handleEvents(self, event: pygame.event.get):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -110,6 +123,16 @@ class PlayerSprite(BaseEntity):
         self.lastAttack -= Global.dt
         if self.currentTarget:
             self.attackPointer.pos = self.currentTarget.pos
+
+        if Global.playerStats["HP"] >= Global.playerStats["MaxHP"]:
+            Global.playerStats["HP"] = Global.playerStats["MaxHP"]
+        if Global.playerStats["MP"] >= Global.playerStats["MaxMP"]:
+            Global.playerStats["MP"] = Global.playerStats["MaxMP"]
+
+        self.passiveHeal -= Global.dt
+        if self.passiveHeal <= 0 and Global.playerStats["HPRegen"] > 0 and Global.playerStats["HP"] < Global.playerStats["MaxHP"]:
+            self.passiveHeal = 10 / Global.playerStats["HPRegen"]
+            Global.playerStats["HP"] += 1
 
         if self.lastAttack <= 0 and Global.playerStats["MP"] >= Global.playerStatsLose["MP"]:
             if len(Global.entityGroup) <= 0:

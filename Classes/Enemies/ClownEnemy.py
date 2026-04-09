@@ -38,18 +38,6 @@ class ClownEnemy(BaseEntity):
         self.rect.center = self.pos
         self.moveTo(self.ogPos, 200)
 
-        text_label = TextLabel(
-            text=f"-{Global.enemyStats["ClownEnemy"]["PunchDamage"]}HP",
-            pos=self.pos,
-            font_size=30,
-            color=(225,0,0),
-            font_name="Assets/Fonts/Minecraft.ttf",
-            center=True,
-        )
-        text_label.moveTo(self.pos - pygame.Vector2(0,50), speed=300)
-        text_label.fadeOut(speed=300, onDone=text_label.kill)
-        Global.uiGroup.add(text_label)
-
         for _ in range(20):
             particlePos = self.pos[0] + random.randint(-20, 20), self.pos[1] + random.randint(-20, 20)
             Particle(

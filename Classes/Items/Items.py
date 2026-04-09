@@ -82,7 +82,8 @@ def heavy_ammo():
 def enegy_boost():
     Global.playerStatsGain["MP"] += 1
 def recycle():
-    Global.playerStats["AttackSpeed"] += 10 
+    Global.playerStats["AttackSpeed"] += 10
+    Global.playerStats["BurstAttackSpeed"] += 20
 def tough_iron():
     Global.playerStats["MaxHP"] += 8 
 def hardened_iron():
@@ -96,6 +97,7 @@ def auto_bot():
 
 def twin_shot():
     Global.playerStats["Burst"] += 1
+    Global.playerStats["BurstAttackSpeed"] += 100
 def explosive_round(): # pls add Aoe damage 
     Global.playerStatsMultiplier["NormalDamage"] -= 15
 def vampire():
@@ -109,6 +111,7 @@ def one_shot():
     Global.playerStats["NormalDamage"] += 5
     Global.playerStatsMultiplier["NormalDamage"] += 40
     Global.playerStats["Burst"] -= 3
+    Global.playerStats["BurstAttackSpeed"] -= 150
     if Global.playerStats["Burst"] <= 0:
         Global.playerStats["Burst"] = 1
     Global.playerStatsLose["MP"] += 2
@@ -123,24 +126,10 @@ def rapid_trigger():
     if Global.playerStatsLose["MP"] <= 0.5:
         Global.playerStatsLose["MP"] = 0.5
     Global.playerStatsMultiplier["NormalDamage"] -= 20
+    Global.playerStats["BurstAttackSpeed"] += 150
 def titanium():
     Global.playerStats["MaxHP"] += 30
     Global.playerStats["Defense"] += 10
-
-# common:
-# + Tough Iron: +8 max hp
-# + Hardened Iron: +3% defense
-# + Fuel tank: +2 max mp
-# + Auto bot: +2 hp regen
-# Rare:
-# + Explosive round: +1 Extra enemy hit, -15% damage
-# + Vampire: +2% life steal
-# + Angelic touch: +5 hp regen
-# Epic:
-# + One shot: +5 flat damage, +50% damage ,-3 ammo, +2 mp lose, +1.5CD
-# + Glass cannon: +20% damage, -20 max hp, -10% defense
-# + Rapid Trigger: +3 ammo, -0.5 mp lose, -20% damage
-# + Titanium: +30 max hp, +10% defense 
 
 itemInfos = {
     # ==============================COMMON==============================
@@ -166,6 +155,38 @@ itemInfos = {
         "Function": recycle,
         "ImagePath": "Assets/Items/recycle.png",
         "Description": "Recycle\n\nAttack speed +10",
+        "Rarity": "Common",
+    },
+    "Tough iron": {
+        "Name": "Tough iron",
+        "Price": 110,
+        "Function": tough_iron,
+        "ImagePath": "Assets/Items/tough_iron.png",
+        "Description": "Tough Iron\n\nMax HP +8",
+        "Rarity": "Common",
+    },
+    "Hardened iron": {
+        "Name": "Hardened iron",
+        "Price": 110,
+        "Function": hardened_iron,
+        "ImagePath": "Assets/Items/hardened_iron.png",
+        "Description": "Hardened Iron\n\nDefense +3",
+        "Rarity": "Common",
+    },
+    "Fuel tank": {
+        "Name": "Fuel tank",
+        "Price": 120,
+        "Function": fuel_tank,
+        "ImagePath": "Assets/Items/fuel_tank.png",
+        "Description": "Fuel Tank\n\nMax energy +2",
+        "Rarity": "Common",
+    },
+    "Auto bot": {
+        "Name": "Auto bot",
+        "Price": 130,
+        "Function": auto_bot,
+        "ImagePath": "Assets/Items/auto_bot.png",
+        "Description": "Auto Bot\n\nHP regen +2",
         "Rarity": "Common",
     },
     # ==============================RARE==============================
