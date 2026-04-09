@@ -39,6 +39,8 @@ class PlayerSprite(BaseEntity):
             layer=999
         )
 
+        self.shootTimer : pygame.sprite.Group = pygame.sprite.Group()
+
     def takeDamage(self, amount):
         Global.playerStats["HP"] -= amount
 
@@ -103,25 +105,30 @@ class PlayerSprite(BaseEntity):
 
     def update(self):
         super().update()
+        self.shootTimer.update()
         self.attackJiggle.update(Global.dt)
         self.lastAttack -= Global.dt
         if self.currentTarget:
             self.attackPointer.pos = self.currentTarget.pos
 
-        if self.lastAttack <= 0 and Global.playerStats["MP"] >= Global.playerStatsLose["MP"] * Global.playerStats["Burst"]:
+        if self.lastAttack <= 0 and Global.playerStats["MP"] >= Global.playerStatsLose["MP"]:
             if len(Global.entityGroup) <= 0:
                 self.currentTarget = None
             if self.currentTarget and not self.currentTarget.alive():
                 self.currentTarget = None
             if self.currentTarget:
-                self.lastAttack = Global.playerStats["BaseAttackSpeed"] / Global.playerStats["AttackSpeed"]
-
                 def shoot():
+                    if not Global.playerStats["MP"] >= Global.playerStatsLose["MP"] or not self.currentTarget:
+                        self.shootTimer.empty()
+                        return
+                    self.lastAttack = Global.playerStats["BaseAttackSpeed"] / Global.playerStats["AttackSpeed"]
+
                     Global.playerStats["MP"] -= Global.playerStatsLose["MP"]
                     target = self.currentTarget
+                    damage = Global.playerStats["NormalDamage"] * Global.playerStatsMultiplier["NormalDamage"]/100
                     def hit():
                         text_label = TextLabel(
-                            text=f"-{Global.playerStats["NormalDamage"]}HP",
+                            text=f"-{damage}HP",
                             pos=target.pos,
                             font_size=20,
                             color=(225,0,0),
@@ -131,7 +138,7 @@ class PlayerSprite(BaseEntity):
                         text_label.moveTo(target.pos - pygame.Vector2(0,50), speed=300)
                         text_label.fadeOut(speed=300, onDone=text_label.kill)
                         Global.uiGroup.add(text_label)
-                        target.takeDamage(Global.playerStats["NormalDamage"])
+                        target.takeDamage(damage)
                         newBullet.kill()
 
                         for _ in range(20):
@@ -152,23 +159,30 @@ class PlayerSprite(BaseEntity):
                         size=pygame.Vector2(100,150),
                         ogPos=self.pos + pygame.Vector2(100,0),
                         targetPos=target.pos,
-                        speed=500,
+                        speed=1000,
                     )
                     newBullet._onArrive = hit
                     Global.mainAttackGroup.add(newBullet)
-
-                    if self.currentTarget.hp - Global.playerStats["NormalDamage"] <= 0:
+                    
+                    if self.currentTarget.hp - damage <= 0: 
+                        found = False
                         for sprite in Global.entityGroup:
                             if sprite.team == "Enemy" and sprite != self.currentTarget:
                                 self.currentTarget = sprite
+                                found = True
                                 break
+                        if not found:
+                            self.currentTarget = None
                 #shoot()
                 for i in range(Global.playerStats["Burst"]):
-                    Timer(Global.playerStats["BaseAttackSpeed"] / Global.playerStats["BurstAttackSpeed"] * i, shoot, Global.timerGroup)
+                    Timer(Global.playerStats["BaseAttackSpeed"] / Global.playerStats["BurstAttackSpeed"] * i, shoot, self.shootTimer)
                 
             else:
+                found = False
                 for sprite in Global.entityGroup:
                     if sprite.team == "Enemy":
                         self.currentTarget = sprite
+                        found = True
                         break
-                
+                if not found:
+                    self.currentTarget = None

@@ -243,13 +243,13 @@ class Shop:
         spawnBuySlots()
 
         def reroll():
-            if Global.money >= self.rerollPrice:
-                spawnBuySlots()
+            if Global.money >= self.rerollPrice:     
                 Global.money -= self.rerollPrice
                 self.rerollPrice += 50
                 self.items = self.itemsLoader.randomItems(3)
                 self.tools = self.toolsLoader.randomItems(3)
                 self.rerollButtonText.setText(f"Reroll({self.rerollPrice})")
+                spawnBuySlots()
         self.rerollButton, self.rerollButtonText = buttonAndText(
             pos=pos + pygame.Vector2(125,775),
             size=pygame.Vector2(200, 50),
