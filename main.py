@@ -58,6 +58,9 @@ while True:
         Global.MainGameService.handleEvent(event=event)
 
         if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                from Classes.Tools.ConentratedBeam import concentrated_beam
+                concentrated_beam()
             #Use tool if have
             if pygame.K_1 <= event.key <= pygame.K_4:
                 from Classes.Tools.Tools import useTool

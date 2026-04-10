@@ -9,21 +9,23 @@ class TextLabel(pygame.sprite.Sprite):
         color=(255, 255, 255),
         font_name=None,
         center=False,
-        antialias=True
+        antialias=True,
+        outline: int = 0,                    # outline thickness, 0 = no outline
+        outlineColor=(0, 0, 0),
     ):
         super().__init__()
+        self.text         = text
+        self.pos          = pygame.Vector2(pos)
+        self.color        = color
+        self.center       = center
+        self.antialias    = antialias
+        self.outline      = outline
+        self.outlineColor = outlineColor
+        self._alpha       = 255
 
-        self.text = text
-        self.pos = pygame.Vector2(pos)
-        self.color = color
-        self.center = center
-        self.antialias = antialias
-        self._alpha = 255
-
-        self.font = pygame.font.Font(font_name, font_size)
-
+        self.font  = pygame.font.Font(font_name, font_size)
         self.image = None
-        self.rect = None
+        self.rect  = None
         self._render()
 
         # moveTo state
@@ -41,15 +43,34 @@ class TextLabel(pygame.sprite.Sprite):
     # ──────────────────────────────────────────
 
     def _render(self):
-        self.image = self.font.render(self.text, self.antialias, self.color)
+        base = self.font.render(self.text, self.antialias, self.color)
+
+        if self.outline > 0:
+            o = self.outline
+            w, h = base.get_width() + o * 2, base.get_height() + o * 2
+            self.image = pygame.Surface((w, h), pygame.SRCALPHA)
+
+            # render outline by blitting in all 8 directions
+            outline_surf = self.font.render(self.text, self.antialias, self.outlineColor)
+            for dx in range(-o, o + 1):
+                for dy in range(-o, o + 1):
+                    if dx == 0 and dy == 0:
+                        continue
+                    self.image.blit(outline_surf, (dx + o, dy + o))
+
+            # blit main text on top
+            self.image.blit(base, (o, o))
+        else:
+            self.image = base
+
         self.image = self.image.convert_alpha()
-        self.rect = self.image.get_rect()
+        self.image.set_alpha(int(self._alpha))
+        self.rect  = self.image.get_rect()
+
         if self.center:
             self.rect.center = self.pos
         else:
             self.rect.topleft = self.pos
-        # reapply current alpha after re-render
-        self.image.set_alpha(int(self._alpha))
 
     # ──────────────────────────────────────────
     # Setters
@@ -59,6 +80,12 @@ class TextLabel(pygame.sprite.Sprite):
         if new_text != self.text:
             self.text = new_text
             self._render()
+
+    def setOutline(self, thickness: int, color=None):
+        self.outline = thickness
+        if color is not None:
+            self.outlineColor = color
+        self._render()
 
     def setColor(self, color):
         self.color = color

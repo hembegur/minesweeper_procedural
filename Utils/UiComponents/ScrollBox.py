@@ -108,6 +108,8 @@ class ScrollBox(pygame.sprite.Sprite):
                 font_size=20,
                 color=(20, 20, 20),
                 font_name="Assets/Fonts/Rimouski.otf",
+                outline=1,
+                outlineColor=(255,255,255),
                 center=False,
             )
 

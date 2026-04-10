@@ -80,7 +80,7 @@ playerStatsGain = {
 }
 playerStatsLose = {
     "HP" :  1,
-    "MP" :  0.1,
+    "MP" :  1,
     "Ult" : 1,
 }
 

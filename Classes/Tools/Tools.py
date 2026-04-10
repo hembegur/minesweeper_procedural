@@ -173,6 +173,8 @@ from Classes.Tools.BobTheBomb import bob_the_bomb
 from Classes.Tools.Deflect import deflect
 from Classes.Tools.Eat import eat
 from Classes.Tools.Foresee import foresee
+from Classes.Tools.Nuke import nuke
+from Classes.Tools.ConentratedBeam import concentrated_beam
 
 toolInfos = {
     "Bob the bomb" : {
@@ -202,6 +204,15 @@ toolInfos = {
         "CD": 3,
         "Rarity": "Rare",
     },
+    "Concentrated beam" : {
+        "Name" : "Concentrated beam",
+        "Price": 80,
+        "Function": concentrated_beam,
+        "ImagePath": "Assets/Tools/concentrated_beam.png",
+        "Description": "Concentrated beam\n\nFocuses a beam that deals 3\ntimes of your damage onto the\ncurrent target.\n\nCD: 3",
+        "CD": 3,
+        "Rarity": "Rare",
+    },
     "Foresee" : {
         "Name" : "Foresee",
         "Price": 120,
@@ -209,6 +220,15 @@ toolInfos = {
         "ImagePath": "Assets/Tools/Foresee.png",
         "Description": "Foresee\n\nIn the range of 5x5 pick 5 random\ntiles to reveal with the accuracy of\n90%\n\nCD: 20",
         "CD": 20,
+        "Rarity": "Epic",
+    },
+    "Nuke" : {
+        "Name" : "Nuke",
+        "Price": 150,
+        "Function": nuke,
+        "ImagePath": "Assets/Tools/nuclear.png",
+        "Description": "Nuke\n\nNuke everything in the 7x7\n\nCD: 10",
+        "CD": 10,
         "Rarity": "Epic",
     },
 }
