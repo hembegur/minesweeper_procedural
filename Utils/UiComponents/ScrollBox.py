@@ -116,6 +116,8 @@ class ScrollBox(pygame.sprite.Sprite):
     def removeItem(self, index: int):
         if 0 <= index < len(self._items):
             item = self._items[index]
+            if item.previewBox:
+                item.previewBox.kill()
             if isinstance(item, pygame.sprite.Sprite) and getattr(item, "_stackCount", 1) > 1:
                 item._stackCount -= 1
                 self._updateCountLabel(item)

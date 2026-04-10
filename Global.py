@@ -3,6 +3,7 @@ import pygame
 tick = 0
 dt = 0
 mainBackGroundDt = 0
+speedupMultiplier = 1
 
 screenWidth = 1920 #1280 #1920
 screenHeight = 1080 #720#1080

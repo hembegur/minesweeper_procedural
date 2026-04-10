@@ -93,6 +93,8 @@ class buySlot:
 
             def onClick():
                 if float(toolData["Price"]) <= Global.money and not self.bought:
+                    if len(Global.toolBar._items) == 4 and not any(tool.name == toolData["Name"] for tool in Global.toolBar._items):
+                        return
                     Global.money -= toolData["Price"]
                     Global.toolBar.addItem(self.itemClass)
                     Global.uiGroup.remove(self.itemClass)

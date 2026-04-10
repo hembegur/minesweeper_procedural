@@ -169,12 +169,21 @@ class Tool(pygame.sprite.Sprite):
                 self.previewBox.kill()
                 self.previewBox = None
 
+
+def sellTool():
+    mouse_pos = pygame.mouse.get_pos()
+    for tool in Global.toolBar._items:
+        if tool.rect.collidepoint(mouse_pos):
+            Global.toolBar.removeItemByName(tool.name)
+            break
+
 from Classes.Tools.BobTheBomb import bob_the_bomb
 from Classes.Tools.Deflect import deflect
 from Classes.Tools.Eat import eat
 from Classes.Tools.Foresee import foresee
 from Classes.Tools.Nuke import nuke
 from Classes.Tools.ConentratedBeam import concentrated_beam
+from Classes.Tools.Adrenaline import adrenaline
 
 toolInfos = {
     "Bob the bomb" : {
@@ -211,6 +220,15 @@ toolInfos = {
         "ImagePath": "Assets/Tools/concentrated_beam.png",
         "Description": "Concentrated beam\n\nFocuses a beam that deals 3\ntimes of your damage onto the\ncurrent target.\n\nCD: 3",
         "CD": 3,
+        "Rarity": "Rare",
+    },
+    "Adrenaline" : {
+        "Name" : "Adrenaline",
+        "Price": 80,
+        "Function": adrenaline,
+        "ImagePath": "Assets/Tools/adrenaline.png",
+        "Description": "Adrenaline\n\nSlow everything down to x0.4\nTemporary x2 MP gain\nDuration: 8 seconds\n\nCD: 10",
+        "CD": 10,
         "Rarity": "Rare",
     },
     "Foresee" : {

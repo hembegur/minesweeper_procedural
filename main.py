@@ -26,15 +26,6 @@ player = PlayerSprite(
 Global.entityGroup.add(player, layer=-999)
 Global.playerSprite = player
 
-mouseHB = hitbox.new(
-    pos=pygame.Vector2(pygame.mouse.get_pos()),
-    visualize=True,
-    size=pygame.Vector2(25,25),
-    lifetime=None,
-    hitFunction=None,
-    owner=pygame.mouse,
-)
-
 def sortEntityGroup():
     for entity in Global.entityGroup:
         if entity is Global.playerSprite:
@@ -59,13 +50,16 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
-                from Classes.Tools.ConentratedBeam import concentrated_beam
-                concentrated_beam()
+                from Classes.Tools.Adrenaline import adrenaline
+                adrenaline()
             #Use tool if have
             if pygame.K_1 <= event.key <= pygame.K_4:
                 from Classes.Tools.Tools import useTool
                 toolNumber = event.key - pygame.K_0
                 useTool(toolNumber-1)
+            if event.key == pygame.K_x:
+                from Classes.Tools.Tools import sellTool
+                sellTool()
                 
             if event.key == pygame.K_q:
                 from Classes.Enemies.MinigunEnemy import MinigunEnemy
@@ -94,7 +88,6 @@ while True:
                 sortEntityGroup()
                 
     screen.fill("white")
-    mouseHB.pos = pygame.Vector2(pygame.mouse.get_pos())
     hitbox.update(screen)
 
     Global.minesweeperBox.canvas.fill((0, 0, 0, 0))

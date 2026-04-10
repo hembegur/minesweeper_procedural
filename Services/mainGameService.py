@@ -95,6 +95,15 @@ class mainGameService:
         Global.mainBackGroundGroup.add(ground)
         self.create_and_position_map()
 
+        self.mouseHB = Global.hitbox.new(
+            pos=pygame.Vector2(pygame.mouse.get_pos()),
+            visualize=True,
+            size=pygame.Vector2(25,25),
+            lifetime=None,
+            hitFunction=None,
+            owner=pygame.mouse,
+        )
+
     def create_and_position_map(self):
         mapSize = (random.randint(5,15), random.randint(5,15))
         tileSize = (50,50)
@@ -146,7 +155,7 @@ class mainGameService:
         map_update(Global.currentMap)
 
         #|----------------------------Game Loop
-        Global.dt = Global.tick 
+        Global.dt = Global.tick * Global.speedupMultiplier
         
         if (not Global.minesweeperBox.rect.collidepoint(pygame.mouse.get_pos()) and Global.gameState == "Playing") or self.mapHidden:
             Global.dt = 0
@@ -167,6 +176,7 @@ class mainGameService:
             self.shopSprite = None
 
         if Global.gameState == "Playing":
+            self.mouseHB.pos = pygame.Vector2(pygame.mouse.get_pos()) if not self.mapHidden else pygame.Vector2(-200,-200)
             self.enemyLastSpawn -= Global.mainBackGroundDt
 
             # Enemy left check
