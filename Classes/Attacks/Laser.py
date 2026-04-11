@@ -34,6 +34,7 @@ def spawnLaser(
 
     def spawnReal():
         warning.kill()
+        Global.SoundManager.playSFX("Assets/Sounds/SoundEffect/laser_shot.wav", 0.2)
 
         real = Laser(
             pos1=pos1,

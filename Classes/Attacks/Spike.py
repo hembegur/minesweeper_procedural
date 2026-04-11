@@ -17,6 +17,7 @@ def spawnSpike(onHit, damage):
         damage=damage,
     )
     Global.msAttackGroup.add(newSpike)
+    Global.SoundManager.playSFX("Assets/Sounds/SoundEffect/spike_spawn.wav", 0.5)
 
 class Spike(pygame.sprite.Sprite):
     def __init__(

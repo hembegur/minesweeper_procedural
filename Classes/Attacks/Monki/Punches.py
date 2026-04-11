@@ -20,6 +20,7 @@ def spawnSpikePunch(
         warning = _WarningSign(pos=pos, groups=Global.msAttackGroup)
 
         def onWarningDone():
+            Global.SoundManager.playSFX("Assets/Sounds/SoundEffect/punch.wav", 0.2)
             warning.kill()
             _spawnPunch(pos, damage, onHit=onHit)
 

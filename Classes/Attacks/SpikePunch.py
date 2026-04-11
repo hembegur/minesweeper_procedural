@@ -20,6 +20,7 @@ def spawnSpikePunch(damage: int = 10, spikeDamage: int = 5, onHit = None):
     # ── 2. After 1 second, spawn the punch ──
     def onWarningDone():
         warning.kill()
+        Global.SoundManager.playSFX("Assets/Sounds/SoundEffect/punch.wav", 0.2)
         _spawnPunch(pos1, damage, spikeDamage, onHit=onHit)
 
     Timer(1.0, onWarningDone, Global.timerGroup)

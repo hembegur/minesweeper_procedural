@@ -7,6 +7,7 @@ def spawnBanana(onHit, damage):
     screenWidth = int(Global.minesweeperSurfaceSize.x)
     screenHeight = int(Global.minesweeperSurfaceSize.y)
     pos = randomEdgePos(screenWidth,screenHeight)
+    Global.SoundManager.playSFX("Assets/Sounds/SoundEffect/banana_spawn.wav", 0.2)
     newBanana = Banana(
         size=pygame.Vector2(150,150),
         speed=150,

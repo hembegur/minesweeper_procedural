@@ -372,6 +372,12 @@ def handle_click(m: dict, event: pygame.event.Event):
         mouse_pos = event.pos
         for tile in map_all_tiles(m):
             if tile["rect"].collidepoint(mouse_pos) and not tile["revealed"]:
+                sfx = random.choice([
+                    "Assets/Sounds/SoundEffect/flag.wav",
+                    "Assets/Sounds/SoundEffect/flag2.wav",
+                    "Assets/Sounds/SoundEffect/flag3.wav",
+                ])
+                Global.SoundManager.playSFX(sfx, 0.2)
                 tile["flagged"] = not tile["flagged"]
                 color = m["flagColor"] if tile["flagged"] else m["normalColor"]
                 tile_change_color(tile, color)

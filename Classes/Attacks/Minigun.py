@@ -15,6 +15,15 @@ def shootMinigun(onHit, damage, bulletCount, initialDelay=0.5, minDelay=0.1):
         if shotsLeft[0] <= 0:
             return
 
+        sfx = random.choice([
+                    "Assets/Sounds/SoundEffect/LaserBullets/ric1.wav",
+                    "Assets/Sounds/SoundEffect/LaserBullets/ric2.wav",
+                    "Assets/Sounds/SoundEffect/LaserBullets/ric3.wav",
+                    "Assets/Sounds/SoundEffect/LaserBullets/ric4.wav",
+                    "Assets/Sounds/SoundEffect/LaserBullets/ric5.wav",
+                ])
+        Global.SoundManager.playSFX(sfx, 0.2)
+
         newBullet = bullet(
             speed=300,
             pos=pos,
