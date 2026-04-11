@@ -107,6 +107,9 @@ enemyStats = {
         "Damage" : 8,
         "CD": 6,
         "BulletCount": 30,
+    },
+    "Monki" : { #BOSS
+        "HP" : 1000,
     }
 }
 
@@ -125,7 +128,7 @@ rarityColor = {
     }
 }
 
-currentRound = 3
+currentRound = 20
 currentDifficulty = "Normal"
 gameState = "Preparing"
 enemyCount = 0
@@ -172,5 +175,11 @@ gameProgress = {
                 "MaxEnemy": 5
             },
         },
+        "Round20" : {
+            "Monki" : {
+                "EnemyLeft" : 1,
+                "MaxEnemy": 1
+            },
+        }
     }
 }

@@ -64,11 +64,13 @@ from Classes.Enemies.SpikeEnemy import SpikeEnemy
 from Classes.Enemies.LaserEnemy import LaserEnemy
 from Classes.Enemies.ClownEnemy import ClownEnemy
 from Classes.Enemies.MinigunEnemy import MinigunEnemy
+from Classes.Enemies.Monki import Monki
 ENEMY_REGISTRY = {
     "SpikeEnemy": SpikeEnemy,
     "LaserEnemy": LaserEnemy,
     "ClownEnemy": ClownEnemy,
     "MinigunEnemy": MinigunEnemy,
+    "Monki" : Monki,
 }
 
 class mainGameService:
@@ -201,12 +203,20 @@ class mainGameService:
                 if "InGame" not in enemyData:
                     enemyData["InGame"] = 0
 
-                newEnemy = ENEMY_REGISTRY[chosenEnemy](
-                    pos=pygame.Vector2(random.randint(450, 650), random.randint(100, 450)),
-                    size=pygame.Vector2(200, 200),
-                    groups=Global.entityGroup,
-                )
-                Global.entityGroup.add(newEnemy)
+                if chosenEnemy == "Monki":
+                    newEnemy = ENEMY_REGISTRY[chosenEnemy](
+                        pos=pygame.Vector2(550, 300),
+                        size=pygame.Vector2(400, 400),
+                        groups=Global.entityGroup,
+                    )
+                    Global.entityGroup.add(newEnemy)
+                else:
+                    newEnemy = ENEMY_REGISTRY[chosenEnemy](
+                        pos=pygame.Vector2(random.randint(450, 650), random.randint(100, 450)),
+                        size=pygame.Vector2(200, 200),
+                        groups=Global.entityGroup,
+                    )
+                    Global.entityGroup.add(newEnemy)
 
                 enemyData["InGame"]   += 1
                 enemyData["EnemyLeft"] -= 1
