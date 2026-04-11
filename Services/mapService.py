@@ -247,6 +247,11 @@ def generate_bombs(m: dict, initial_tile: dict):
 # ──────────────────────────────────────────────
 
 def on_successful_reveal(tile: dict, m : map):
+    sfx = random.choice([
+        "Assets/Sounds/SoundEffect/tile_reveal1.wav",
+        "Assets/Sounds/SoundEffect/tile_reveal2.wav"
+    ])
+    Global.SoundManager.playSFX(sfx, 0.5)
     if Global.playerStats["MP"] < Global.playerStats["MaxMP"]:
         text_label = TextLabel(
             text="+1MP",
@@ -266,6 +271,11 @@ def on_successful_reveal(tile: dict, m : map):
 
 
 def on_bomb_reveal(tile: dict):
+    sfx = random.choice([
+        "Assets/Sounds/SoundEffect/explosion_small.wav",
+        "Assets/Sounds/SoundEffect/explosion_quick.wav"
+    ])
+    Global.SoundManager.playSFX(sfx, 1.5)
     text_label = TextLabel(
         text="-10HP",
         pos=tile["pos"],

@@ -18,6 +18,9 @@ def loadImage(path: str, size: tuple = None):
         cachedImages[key] = pygame.transform.scale(img, size) if size else img
     return cachedImages[key]
 
+from Utils.Game.SoundManager import soundManager
+SoundManager = soundManager()
+
 from Services.mainGameService import mainGameService
 MainGameService: mainGameService = None
 from Services.uiService import uiService
@@ -63,7 +66,7 @@ playerStats = {
     "NormalDamage" : 10,
     "BaseAttackSpeed" : 250,
     "AttackSpeed": 100,
-    "Burst" : 3,
+    "Burst" : 1,
     "BurstAttackSpeed": 800,
     "HPRegen" : 0,
     "Defense" : 0,
@@ -129,9 +132,9 @@ rarityColor = {
     }
 }
 
-currentRound = 20
+currentRound = 1
 currentDifficulty = "Normal"
-gameState = "Preparing"
+gameState = "Shop"
 enemyCount = 0
 
 from Services.mapService import create_map
@@ -139,15 +142,11 @@ currentMap : create_map = None
 
 gameProgress = {
     "Normal": {
-        "SpawnRate": (1,2),
+        "SpawnRate": (3,6),
         "Round1" : {
-            # "SpikeEnemy" : {
-            #     "EnemyLeft" : 1,
-            #     "MaxEnemy": 1,
-            # },
-            "ClownEnemy" : {
-                "EnemyLeft" : 10,
-                "MaxEnemy": 10,
+            "SpikeEnemy" : {
+                "EnemyLeft" : 1,
+                "MaxEnemy": 1,
             },
         },
         "Round2" : {

@@ -1,4 +1,4 @@
-import pygame
+import pygame, Global
 from typing import Tuple, Optional, Callable
 
 RGBA = Tuple[int, int, int, int]
@@ -108,6 +108,7 @@ class Button(pygame.sprite.Sprite):
             return
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.rect.collidepoint(event.pos):
+                Global.SoundManager.playSFX("Assets/Sounds/SoundEffect/button_press.wav")
                 self._clicked = True
         if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             if self._clicked and self.rect.collidepoint(event.pos):
