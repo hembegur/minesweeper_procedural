@@ -5,6 +5,7 @@ from Utils.UiComponents.TextLabel import TextLabel
 from Classes.Attacks.Monki.Banana import spawnBanana
 from Classes.Attacks.Monki.Punches import spawnSpikePunch
 from Classes.Attacks.Monki.Lasers import spawnLaser
+from Utils.UiComponents.Bar import Bar
 
 class Monki(BaseEntity):
     def __init__(self, pos, size, groups):
@@ -20,10 +21,11 @@ class Monki(BaseEntity):
         self.pos = pygame.Vector2(pos.x,-100)
         self.ogPos = pos.copy()
         self.hp = Global.enemyStats["Monki"]["HP"]
+        self.maxHp = Global.enemyStats["Monki"]["HP"]
         self.playJiggle(loop=True)
 
-        self.attackCD = Global.enemyStats["ClownEnemy"]["CD"]
-        self.lastAttack = Global.enemyStats["ClownEnemy"]["CD"]
+        self.attackCD = Global.enemyStats["Monki"]["CD"]
+        self.lastAttack = Global.enemyStats["Monki"]["CD"]
         self.team = "Enemy"
 
         self._target    = None
@@ -31,6 +33,28 @@ class Monki(BaseEntity):
         self._onArrive  = None
 
         self.moveTo(self.ogPos, 400)
+
+        self.nameText = TextLabel(
+            text=f"Monki ({self.hp} / {self.maxHp})",
+            pos=pygame.Vector2(200,50),
+            font_size=30,
+            color=(50,50,50),
+            font_name="Assets/Fonts/Rimouski.otf", 
+            center=False,
+        )
+        Global.uiGroup.add(self.nameText)
+        self.hpBar = Bar(
+            pos=pygame.Vector2(75,85),
+            size=pygame.Vector2(637.5, 10),
+            groups=Global.uiGroup,
+            value=100,
+            maxValue=100,
+            fillColor=(200, 50, 50, 255),
+            emptyColor=(60, 60, 60, 255),
+            border=False,
+            smooth=True,
+            smoothSpeed=150,
+        )
 
     def takeDamage(self, amount):
         self.hp -= amount
@@ -59,20 +83,66 @@ class Monki(BaseEntity):
         speed: float,
         onArrive=None,       # optional callback when destination reached
     ):
-        """Move label toward destination at given speed (px/sec)."""
         self._target    = pygame.Vector2(destination)
         self._moveSpeed = speed
         self._onArrive  = onArrive
 
+    def kill(self):
+        self.hpBar.kill()
+        self.nameText.kill()
+        super().kill()
+
     def update(self):
         super().update()  # keeps jiggle running
+        self.hpBar.setValue(self.hp / max(1, self.maxHp) * 100)
+        self.nameText.setText(f"Monki ({f"{round(self.hp,1):g}HP"} / {self.maxHp})")
 
         if self.hp <= 0:
             self.kill()
 
         self.lastAttack -= Global.dt
         if self.lastAttack <= 0:
-            spawnSpikePunch(damage=Global.enemyStats["ClownEnemy"]["PunchDamage"], onHit=self.attack)
+            choice = random.randint(1,4)
+            if choice == 1:
+                spawnSpikePunch(damage=8, count=20, delay=0.1)
+            elif choice == 2:
+                spawnLaser(
+                        surfaceSize=Global.minesweeperSurfaceSize,
+                        groups=Global.msAttackGroup,
+                        axis="horizontal",
+                        stream=True,
+                        streamCount=10,
+                        streamSpacing=80,
+                        streamDelay=0.4,
+                        warningDuration=0.5,
+                        laserWidth=100,
+                        damage=5,
+                    )
+                spawnLaser(
+                        surfaceSize=Global.minesweeperSurfaceSize,
+                        groups=Global.msAttackGroup,
+                        axis="vertical",
+                        stream=True,
+                        streamCount=10,
+                        streamSpacing=80,
+                        streamDelay=0.4,
+                        warningDuration=0.5,
+                        laserWidth=100,
+                        damage=5,
+                    )
+            elif choice == 3:
+                for _ in range(random.randint(5,15)):
+                    spawnBanana(None, 20)
+            elif choice == 4:
+                for _ in range(random.randint(1,4)):
+                    from Classes.Enemies.ClownEnemy import ClownEnemy
+                    newEnemy = ClownEnemy(
+                            pos=pygame.Vector2(random.randint(450, 650), random.randint(100, 450)),
+                            size=pygame.Vector2(200, 200),
+                            groups=Global.entityGroup,
+                        )
+                    Global.entityGroup.add(newEnemy)
+
             self.lastAttack = self.attackCD
 
         # ── movement ──

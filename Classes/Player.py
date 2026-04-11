@@ -46,7 +46,7 @@ class PlayerSprite(BaseEntity):
         actualAmount = amount - amount * Global.playerStats["Defense"]/100
         Global.playerStats["HP"] -= actualAmount
         text_label = TextLabel(
-            text=f"-{actualAmount}HP",
+            text=f"-{round(actualAmount,1):g}HP",
             pos=self.pos,
             font_size=30,
             color=(225,0,0),

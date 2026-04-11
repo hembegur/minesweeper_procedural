@@ -110,6 +110,7 @@ enemyStats = {
     },
     "Monki" : { #BOSS
         "HP" : 1000,
+        "CD": 6,
     }
 }
 

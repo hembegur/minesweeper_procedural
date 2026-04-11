@@ -172,6 +172,12 @@ class Bar(pygame.sprite.Sprite):
     # Update
     # ──────────────────────────────────────────
 
+    def kill(self):
+        if getattr(self, "_killing", False):
+            return
+        self._killing = True
+        super().kill()
+
     def update(self, screen=None):
         if not self.visible:
             self.image.fill((0, 0, 0, 0))
