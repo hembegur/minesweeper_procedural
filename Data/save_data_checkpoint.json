@@ -3,7 +3,7 @@
   "currentDifficulty": "Normal",
   "playerStats": {
     "HP": 1,
-    "MP": 1,
+    "MP": 2,
     "Ult": 0,
     "MaxHP": 1,
     "MaxMP": 10,

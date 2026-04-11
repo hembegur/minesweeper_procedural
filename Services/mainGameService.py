@@ -208,7 +208,9 @@ class mainGameService:
 
         if Global.gameState == "Playing":
             if Global.playerStats["HP"] <= 0:
-                self.playerDie()
+                from Utils.UiComponents.GameOver import GameOver
+                GameOver(groups=Global.uiGroup, onDone=self.playerDie, duration=1)
+                Global.gameState = "Died"
 
             self.mouseHB.pos = pygame.Vector2(pygame.mouse.get_pos()) if not self.mapHidden else pygame.Vector2(-200,-200)
             self.enemyLastSpawn -= Global.mainBackGroundDt
