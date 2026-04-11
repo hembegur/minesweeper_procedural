@@ -50,8 +50,8 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
-                from Classes.Tools.Adrenaline import adrenaline
-                adrenaline()
+                from Classes.Attacks.Monki.Banana import spawnBanana
+                spawnBanana(None, 15)
             #Use tool if have
             if pygame.K_1 <= event.key <= pygame.K_4:
                 from Classes.Tools.Tools import useTool

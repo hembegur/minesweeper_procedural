@@ -127,7 +127,7 @@ rarityColor = {
 
 currentRound = 3
 currentDifficulty = "Normal"
-gameState = "Shop"
+gameState = "Preparing"
 enemyCount = 0
 
 from Services.mapService import create_map

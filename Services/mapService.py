@@ -346,7 +346,7 @@ def handle_click(m: dict, event: pygame.event.Event):
 
     if m["mapLock"]:
         return
-    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not Global.MainGameService.mapHidden:
         mouse_pos = event.pos
         for tile in map_all_tiles(m):
             if tile["rect"].collidepoint(mouse_pos) and not tile["flagged"]:
