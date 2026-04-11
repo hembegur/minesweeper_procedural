@@ -50,8 +50,19 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
-                from Classes.Attacks.Monki.Banana import spawnBanana
-                spawnBanana(None, 15)
+                from Classes.Attacks.Monki.Lasers import spawnLaser
+                spawnLaser(
+                    surfaceSize=Global.minesweeperSurfaceSize,
+                    groups=Global.msAttackGroup,
+                    axis="horizontal",
+                    stream=True,
+                    streamCount=10,
+                    streamSpacing=80,
+                    streamDelay=0.2,
+                    warningDuration=0.5,
+                    laserWidth=55,
+                    damage=5,
+                )
             #Use tool if have
             if pygame.K_1 <= event.key <= pygame.K_4:
                 from Classes.Tools.Tools import useTool
