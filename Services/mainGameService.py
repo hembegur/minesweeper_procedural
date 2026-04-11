@@ -105,6 +105,7 @@ class mainGameService:
             hitFunction=None,
             owner=pygame.mouse,
         )
+        Global.saveManager.saveCheckpoint() # initial save
 
     def create_and_position_map(self):
         mapSize = (random.randint(5,15), random.randint(5,15))
@@ -137,6 +138,34 @@ class mainGameService:
         if event.type == pygame.MOUSEBUTTONUP and event.button == 1 and Global.minesweeperBox.rect.collidepoint(pygame.mouse.get_pos()) and Global.gameState == "Playing":
             self.mapHidden = False
             Global.UiService.revealMap()
+
+    def playerDie(self):
+        # clear all enemies
+        for sprite in list(Global.entityGroup):
+            if sprite != Global.playerSprite:
+                sprite.kill()
+
+        # clear all attacks and particles
+        for sprite in list(Global.msAttackGroup):
+            sprite.kill()
+        Global.msParticleGroup.empty()
+        Global.timerGroup.empty()
+
+        # revert stats to checkpoint
+        Global.saveManager.revertToCheckpoint()
+
+        # restore hp after revert so player isn't dead again
+        Global.playerStats["HP"] = Global.playerStats["MaxHP"]
+
+        # reset round enemies
+        gameProgress = Global.gameProgress[Global.currentDifficulty]
+        self.currentEnemies = gameProgress[f"Round{Global.currentRound}"].copy()
+        self.enemyLastSpawn = 2
+
+        # go back to buying state so shop spawns again
+        self.shop = None
+        self.shopSprite = None
+        Global.gameState = "Buying"
             
     
     def update(self):
@@ -178,11 +207,15 @@ class mainGameService:
             self.shopSprite = None
 
         if Global.gameState == "Playing":
+            if Global.playerStats["HP"] <= 0:
+                self.playerDie()
+
             self.mouseHB.pos = pygame.Vector2(pygame.mouse.get_pos()) if not self.mapHidden else pygame.Vector2(-200,-200)
             self.enemyLastSpawn -= Global.mainBackGroundDt
 
             # Enemy left check
             enemyLeft = [k for k, v in self.currentEnemies.items() if v.get("InGame", 0) > 0 or v["EnemyLeft"] > 0] 
+            print(enemyLeft)
 
             if not enemyLeft:
                 Global.gameState = "Shop"
@@ -247,6 +280,7 @@ class mainGameService:
                 Global.mainBackGroundDt = Global.dt
         if Global.gameState == "Buying":
             if not self.shop:
+                Global.saveManager.saveCheckpoint()
                 for sprite in list(Global.msAttackGroup):
                     sprite.kill()
                 Global.msParticleGroup.empty()
