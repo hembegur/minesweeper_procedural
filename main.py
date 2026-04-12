@@ -56,23 +56,6 @@ while True:
         Global.MainGameService.handleEvent(event=event) 
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_a:
-                from Classes.Attacks.Monki.Lasers import spawnLaser
-                spawnLaser(
-                    surfaceSize=Global.minesweeperSurfaceSize,
-                    groups=Global.msAttackGroup,
-                    axis="horizontal",
-                    stream=True,
-                    streamCount=10,
-                    streamSpacing=80,
-                    streamDelay=0.2,
-                    warningDuration=0.5,
-                    laserWidth=55,
-                    damage=5,
-                )
-            if event.key == pygame.K_s:
-                from Classes.Attacks.Monki.Punches import spawnSpikePunch
-                spawnSpikePunch(damage=8, count=20, delay=0.1)
             #Use tool if have
             if pygame.K_1 <= event.key <= pygame.K_4:
                 from Classes.Tools.Tools import useTool
@@ -81,39 +64,55 @@ while True:
             if event.key == pygame.K_x:
                 from Classes.Tools.Tools import sellTool
                 sellTool()
-                
-            if event.key == pygame.K_q:
-                from Classes.Enemies.MinigunEnemy import MinigunEnemy
-                MinigunEnemy(pos=pygame.Vector2(random.randint(450,650),random.randint(100,450)),
-                    size=pygame.Vector2(200,200),
-                    groups=Global.entityGroup,)
-            if event.key == pygame.K_w:
-                from Classes.Enemies.LaserEnemy import LaserEnemy
-                newEnemy = LaserEnemy(
-                    pos=pygame.Vector2(random.randint(450,650),random.randint(100,450)),
-                    size=pygame.Vector2(200,200),
-                    groups=Global.entityGroup,
-                )
-                Global.entityGroup.add(newEnemy)
-                sortEntityGroup()
-            if event.key == pygame.K_e:
-                from Classes.Enemies.SpikeEnemy import SpikeEnemy
-                newEnemy = SpikeEnemy(
-                    pos=pygame.Vector2(random.randint(450,650),random.randint(100,450)),
-                    size=pygame.Vector2(200,200),
-                    groups=Global.entityGroup,
-                )
-                Global.entityGroup.add(newEnemy)
-                sortEntityGroup()
-            if event.key == pygame.K_b:
-                from Classes.Enemies.Monki import Monki
-                newEnemy = Monki(
-                    pos=pygame.Vector2(550,300),
-                    size=pygame.Vector2(400,400),
-                    groups=Global.entityGroup,
-                )
-                Global.entityGroup.add(newEnemy)
-                sortEntityGroup()
+            # if event.key == pygame.K_a:
+            #     from Classes.Attacks.Monki.Lasers import spawnLaser
+            #     spawnLaser(
+            #         surfaceSize=Global.minesweeperSurfaceSize,
+            #         groups=Global.msAttackGroup,
+            #         axis="horizontal",
+            #         stream=True,
+            #         streamCount=10,
+            #         streamSpacing=80,
+            #         streamDelay=0.2,
+            #         warningDuration=0.5,
+            #         laserWidth=55,
+            #         damage=5,
+            #     )
+            # if event.key == pygame.K_s:
+            #     from Classes.Attacks.Monki.Punches import spawnSpikePunch
+            #     spawnSpikePunch(damage=8, count=20, delay=0.1) 
+            # if event.key == pygame.K_q:
+            #     from Classes.Enemies.MinigunEnemy import MinigunEnemy
+            #     MinigunEnemy(pos=pygame.Vector2(random.randint(450,650),random.randint(100,450)),
+            #         size=pygame.Vector2(200,200),
+            #         groups=Global.entityGroup,)
+            # if event.key == pygame.K_w:
+            #     from Classes.Enemies.LaserEnemy import LaserEnemy
+            #     newEnemy = LaserEnemy(
+            #         pos=pygame.Vector2(random.randint(450,650),random.randint(100,450)),
+            #         size=pygame.Vector2(200,200),
+            #         groups=Global.entityGroup,
+            #     )
+            #     Global.entityGroup.add(newEnemy)
+            #     sortEntityGroup()
+            # if event.key == pygame.K_e:
+            #     from Classes.Enemies.SpikeEnemy import SpikeEnemy
+            #     newEnemy = SpikeEnemy(
+            #         pos=pygame.Vector2(random.randint(450,650),random.randint(100,450)),
+            #         size=pygame.Vector2(200,200),
+            #         groups=Global.entityGroup,
+            #     )
+            #     Global.entityGroup.add(newEnemy)
+            #     sortEntityGroup()
+            # if event.key == pygame.K_b:
+            #     from Classes.Enemies.Monki import Monki
+            #     newEnemy = Monki(
+            #         pos=pygame.Vector2(550,300),
+            #         size=pygame.Vector2(400,400),
+            #         groups=Global.entityGroup,
+            #     )
+            #     Global.entityGroup.add(newEnemy)
+            #     sortEntityGroup()
     
     
     screen.fill("white")

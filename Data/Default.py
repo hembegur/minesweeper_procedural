@@ -46,26 +46,26 @@ class DefaultData:
         self.enemyStats = {
             "SpikeEnemy" : {
                 "HP" : 30,
-                "Damage" : 10,
+                "Damage" : 25,
                 "CD": 4,
                 "Money": 60,
             },
             "LaserEnemy" : {
                 "HP" : 25,
-                "Damage" : 10,
+                "Damage" : 25,
                 "CD": 4,
                 "Money": 70,
             },
             "ClownEnemy" : {
                 "HP" : 40,
-                "PunchDamage" : 10,
-                "SpikeDamage" : 5,
+                "PunchDamage" : 30,
+                "SpikeDamage" : 10,
                 "CD": 4,
                 "Money": 80,
             },
             "MinigunEnemy" : {
                 "HP" : 40,
-                "Damage" : 8,
+                "Damage" : 10,
                 "CD": 6,
                 "BulletCount": 30,
                 "Money": 100,
@@ -74,12 +74,16 @@ class DefaultData:
                 "HP" : 1000,
                 "CD": 6,
                 "Money": 10000,
+                "PunchDamage" : 40,
+                "PunchCount" : 8,
+                "BananaDamage" : 35,
+                "LaserDamage" : 35,
             }
         }
         self.difficultyScale = {
             "Normal": {
                 "HPScale":     0.1,
-                "DamageScale": 0.1,
+                "DamageScale": 0.05,
                 "MoneyScale": 0.1,
                 "PriceScale": 0.05,
             }

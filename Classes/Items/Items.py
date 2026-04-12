@@ -80,7 +80,7 @@ def heavy_ammo():
     Global.playerStats["NormalDamage"] += 5
     Global.playerStatsLose["MP"] += 0.5
 def enegy_boost():
-    Global.playerStatsGain["MP"] += 1
+    Global.playerStatsGain["MP"] += 0.5
 def recycle():
     Global.playerStats["AttackSpeed"] += 10
     Global.playerStats["BurstAttackSpeed"] += 20
@@ -105,7 +105,7 @@ def vampire():
     Global.playerStats["LifeSteal"] += 2
 def angelic_touch():
     Global.playerStats["HPRegen"] += 5
-    Global.playerStatsGain["MP"] += 1.5
+    Global.playerStatsGain["MP"] += 0.5
 
 # ==============================EPIC==============================
 
@@ -148,7 +148,7 @@ itemInfos = {
         "Price": 70,
         "Function": enegy_boost,
         "ImagePath": "Assets/Items/energy_boost.png",
-        "Description": "Energy Boost\n\nMP gain +1",
+        "Description": "Energy Boost\n\nMP gain +0.5",
         "Rarity": "Common",
     },
     "Recycle" : {
@@ -221,7 +221,7 @@ itemInfos = {
         "Price": 135,
         "Function": angelic_touch,
         "ImagePath": "Assets/Items/angelic_touch.png",
-        "Description": "Angelic Touch\n\nHP regen +5\nMP gain +1.5",
+        "Description": "Angelic Touch\n\nHP regen +5\nMP gain +1",
         "Rarity": "Rare",
     },
 

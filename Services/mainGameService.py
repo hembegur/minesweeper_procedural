@@ -99,13 +99,14 @@ class mainGameService:
 
         self.mouseHB = Global.hitbox.new(
             pos=pygame.Vector2(pygame.mouse.get_pos()),
-            visualize=True,
+            visualize=False,
             size=pygame.Vector2(25,25),
             lifetime=None,
             hitFunction=None,
             owner=pygame.mouse,
         )
         Global.saveManager.saveCheckpoint() # initial save
+        self.isReverting = False
 
     def create_and_position_map(self):
         mapSize = (random.randint(5,15), random.randint(5,15))
@@ -162,6 +163,8 @@ class mainGameService:
         self.shop = None
         self.shopSprite = None
         Global.gameState = "Buying"
+
+        self.isReverting = True
             
     def update(self):
         if Global.gameState == "Playing":
@@ -193,6 +196,7 @@ class mainGameService:
             self.mapHidden = False            
 
         if Global.gameState == "Preparing":
+            Global.saveManager.saveCheckpoint()
             gameProgress = Global.gameProgress[Global.currentDifficulty]
             self.enemyLastSpawn = 2
             self.currentEnemies = gameProgress[f"Round{Global.currentRound}"].copy()
@@ -291,7 +295,6 @@ class mainGameService:
                 Global.mainBackGroundDt = Global.dt
         if Global.gameState == "Buying":
             if not self.shop:
-                Global.saveManager.saveCheckpoint()
                 for sprite in list(Global.msAttackGroup):
                     sprite.kill()
                 Global.msParticleGroup.empty()
@@ -300,5 +303,8 @@ class mainGameService:
 
             if self.shop.removed:
                 mapUnLock(Global.currentMap)
-                Global.currentRound += 1
+                if self.isReverting: 
+                    self.isReverting = False
+                else:
+                    Global.currentRound += 1
                 Global.gameState = "Preparing"

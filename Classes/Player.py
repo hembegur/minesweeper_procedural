@@ -52,6 +52,7 @@ class PlayerSprite(BaseEntity):
         Global.uiGroup.add(self.hpCheckText, layer = 999)
 
     def takeDamage(self, amount):
+        Global.SoundManager.playSFX("Assets/Sounds/SoundEffect/hurt.wav", 0.3)
         actualAmount = amount - amount * Global.playerStats["Defense"]/100
         Global.playerStats["HP"] -= actualAmount
         text_label = TextLabel(

@@ -1,19 +1,19 @@
 {
-  "currentRound": 1,
+  "currentRound": 2,
   "currentDifficulty": "Normal",
   "playerStats": {
     "HP": 100,
-    "MP": 0,
-    "Ult": 0,
+    "MP": 3.0,
+    "Ult": 1,
     "MaxHP": 100,
     "MaxMP": 10,
     "MaxUlt": 1,
-    "NormalDamage": 10,
+    "NormalDamage": 15,
     "BaseAttackSpeed": 250,
-    "AttackSpeed": 100,
+    "AttackSpeed": 110,
     "Burst": 1,
-    "BurstAttackSpeed": 800,
-    "HPRegen": 0,
+    "BurstAttackSpeed": 820,
+    "HPRegen": 2,
     "Defense": 0,
     "LifeSteal": 0,
     "Aoe": 0
@@ -29,15 +29,15 @@
   },
   "playerStatsLose": {
     "HP": 1,
-    "MP": 1,
+    "MP": 1.5,
     "Ult": 1
   },
   "currentRarity": {
-    "Common": 70,
-    "Rare": 25,
-    "Epic": 5
+    "Common": 66,
+    "Rare": 26,
+    "Epic": 8
   },
-  "money": 0,
+  "money": 7,
   "gameProgress": {
     "Normal": {
       "Round1": {
@@ -50,8 +50,9 @@
           2
         ],
         "SpikeEnemy": {
-          "EnemyLeft": 5,
-          "MaxEnemy": 3
+          "EnemyLeft": 0,
+          "MaxEnemy": 3,
+          "InGame": 0
         }
       },
       "Round2": {
@@ -64,8 +65,9 @@
           2
         ],
         "SpikeEnemy": {
-          "EnemyLeft": 8,
-          "MaxEnemy": 4
+          "EnemyLeft": 6,
+          "MaxEnemy": 4,
+          "InGame": 0
         }
       },
       "Round3": {

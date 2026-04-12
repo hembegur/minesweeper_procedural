@@ -18,6 +18,7 @@ class Monki(BaseEntity):
             jiggleSpeed=10.0,
             jiggleAxis="both",
         )
+        self.stats = Global.getEnemyStats("Monki")
         self.name = "Monki"
         self.pos = pygame.Vector2(pos.x,-100)
         self.ogPos = pos.copy()
@@ -105,7 +106,7 @@ class Monki(BaseEntity):
         if self.lastAttack <= 0:
             choice = random.randint(1,4)
             if choice == 1:
-                spawnSpikePunch(damage=8, count=20, delay=0.1)
+                spawnSpikePunch(damage=Global.enemyStats["Monki"]["PunchDamage"], count=Global.enemyStats["Monki"]["PunchCount"], delay=0.1)
             elif choice == 2:
                 spawnLaser(
                         surfaceSize=Global.minesweeperSurfaceSize,
@@ -117,7 +118,7 @@ class Monki(BaseEntity):
                         streamDelay=0.4,
                         warningDuration=0.5,
                         laserWidth=100,
-                        damage=5,
+                        damage=Global.enemyStats["Monki"]["LaserDamage"],
                     )
                 spawnLaser(
                         surfaceSize=Global.minesweeperSurfaceSize,
@@ -129,11 +130,11 @@ class Monki(BaseEntity):
                         streamDelay=0.4,
                         warningDuration=0.5,
                         laserWidth=100,
-                        damage=5,
+                        damage=Global.enemyStats["Monki"]["LaserDamage"],
                     )
             elif choice == 3:
                 for _ in range(random.randint(5,15)):
-                    spawnBanana(None, 20)
+                    spawnBanana(None, Global.enemyStats["Monki"]["BananaDamage"])
             elif choice == 4:
                 for _ in range(random.randint(1,4)):
                     from Classes.Enemies.ClownEnemy import ClownEnemy
