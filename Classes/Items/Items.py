@@ -137,7 +137,7 @@ itemInfos = {
     # ==============================COMMON==============================
     "Heavy ammo" : {
         "Name" : "Heavy ammo",
-        "Price": 100,
+        "Price": 80,
         "Function": heavy_ammo,
         "ImagePath": "Assets/Items/heavy_ammo.png",
         "Description": "Heavy Ammo\n\nNormal damage +5\nMP cost +0.5",
@@ -145,7 +145,7 @@ itemInfos = {
     },
     "Energy boost" : {
         "Name" : "Energy boost",
-        "Price": 120,
+        "Price": 70,
         "Function": enegy_boost,
         "ImagePath": "Assets/Items/energy_boost.png",
         "Description": "Energy Boost\n\nMP gain +1",
@@ -153,7 +153,7 @@ itemInfos = {
     },
     "Recycle" : {
         "Name" : "Recycle",
-        "Price": 120,
+        "Price": 60,
         "Function": recycle,
         "ImagePath": "Assets/Items/recycle.png",
         "Description": "Recycle\n\nAttack speed +10",
@@ -161,7 +161,7 @@ itemInfos = {
     },
     "Tough iron": {
         "Name": "Tough iron",
-        "Price": 110,
+        "Price": 60,
         "Function": tough_iron,
         "ImagePath": "Assets/Items/tough_iron.png",
         "Description": "Tough Iron\n\nMax HP +8",
@@ -169,7 +169,7 @@ itemInfos = {
     },
     "Hardened iron": {
         "Name": "Hardened iron",
-        "Price": 110,
+        "Price": 60,
         "Function": hardened_iron,
         "ImagePath": "Assets/Items/hardened_iron.png",
         "Description": "Hardened Iron\n\nDefense +3",
@@ -177,7 +177,7 @@ itemInfos = {
     },
     "Fuel tank": {
         "Name": "Fuel tank",
-        "Price": 120,
+        "Price": 60,
         "Function": fuel_tank,
         "ImagePath": "Assets/Items/fuel_tank.png",
         "Description": "Fuel Tank\n\nMax energy +2",
@@ -185,7 +185,7 @@ itemInfos = {
     },
     "Auto bot": {
         "Name": "Auto bot",
-        "Price": 130,
+        "Price": 70,
         "Function": auto_bot,
         "ImagePath": "Assets/Items/auto_bot.png",
         "Description": "Auto Bot\n\nHP regen +2",
@@ -194,7 +194,7 @@ itemInfos = {
     # ==============================RARE==============================
     "Twin shots" : {
         "Name" : "Twin shots",
-        "Price": 250,
+        "Price": 120,
         "Function": twin_shot,
         "ImagePath": "Assets/Items/twin_shot.png",
         "Description": "Twin shots\n\nBurst +1",
@@ -202,7 +202,7 @@ itemInfos = {
     },
     "Explosive round": {
         "Name": "Explosive round",
-        "Price": 280,
+        "Price": 120,
         "Function": explosive_round,
         "ImagePath": "Assets/Items/explosive_round.png",
         "Description": "Explosive round\n\n+1 enemy hit (AoE)\nDamage -15%",
@@ -210,7 +210,7 @@ itemInfos = {
     },
     "Vampire": {
         "Name": "Vampire",
-        "Price": 300,
+        "Price": 110,
         "Function": vampire,
         "ImagePath": "Assets/Items/vampire.png",
         "Description": "Vampire\n\nLife steal +2%",
@@ -218,7 +218,7 @@ itemInfos = {
     },
     "Angelic touch": {
         "Name": "Angelic touch",
-        "Price": 280,
+        "Price": 135,
         "Function": angelic_touch,
         "ImagePath": "Assets/Items/angelic_touch.png",
         "Description": "Angelic Touch\n\nHP regen +5\nMP gain +1.5",
@@ -228,7 +228,7 @@ itemInfos = {
     # ==============================EPIC==============================
     "One shot": {
         "Name": "One shot",
-        "Price": 500,
+        "Price": 300,
         "Function": one_shot,
         "ImagePath": "Assets/Items/one_shot.png",
         "Description": "One Shot\n\n+12 damage\n+40% damage\nBurst -3 (min 1)\nMP cost +1.5\nAttack speed -25",
@@ -236,7 +236,7 @@ itemInfos = {
     },
     "Glass cannon": {
         "Name": "Glass cannon",
-        "Price": 450,
+        "Price": 250,
         "Function": glass_cannon,
         "ImagePath": "Assets/Items/glass_cannon.png",
         "Description": "Glass Cannon\n\nDamage +20%\nMax HP -20\nDefense -10",
@@ -244,7 +244,7 @@ itemInfos = {
     },
     "Rapid trigger": {
         "Name": "Rapid trigger",
-        "Price": 480,
+        "Price": 280,
         "Function": rapid_trigger,
         "ImagePath": "Assets/Items/rapid_trigger.png",
         "Description": "Rapid Trigger\n\nBurst +3\nMP cost -0.2 (min 0.5)\nDamage -20%",
@@ -252,7 +252,7 @@ itemInfos = {
     },
     "Titanium": {
         "Name": "Titanium",
-        "Price": 520,
+        "Price": 270,
         "Function": titanium,
         "ImagePath": "Assets/Items/titanium.png",
         "Description": "Titanium\n\nMax HP +30\nDefense +10",

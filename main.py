@@ -37,16 +37,23 @@ Global.UiService = uiService()
 from Services.mainGameService import mainGameService
 Global.MainGameService = mainGameService()
 
+from Utils.UiComponents.MainMenu import MainMenu
+menu = MainMenu()
+Global.gameState = "Menu"
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if Global.gameState == "Menu":
+            menu.handleEvent(event)
+            continue
 
         handle_click(Global.currentMap, event)
         Global.UiService.handleEvents(event=event)
         Global.playerSprite.handleEvents(event=event)
-        Global.MainGameService.handleEvent(event=event)
+        Global.MainGameService.handleEvent(event=event) 
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
@@ -107,8 +114,13 @@ while True:
                 )
                 Global.entityGroup.add(newEnemy)
                 sortEntityGroup()
-                
+    
+    
     screen.fill("white")
+    
+    # if Global.gameState == "Menu":
+    #     continue
+
     hitbox.update(screen)
 
     Global.minesweeperBox.canvas.fill((0, 0, 0, 0))

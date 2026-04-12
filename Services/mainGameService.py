@@ -196,6 +196,9 @@ class mainGameService:
             gameProgress = Global.gameProgress[Global.currentDifficulty]
             self.enemyLastSpawn = 2
             self.currentEnemies = gameProgress[f"Round{Global.currentRound}"].copy()
+            self.currentEnemies = {
+                k: v for k, v in self.currentEnemies.items() if isinstance(v, dict)
+            }
             Global.playerStats["HP"] = Global.playerStats["MaxHP"]
             self.shopSprite = None
 
@@ -203,6 +206,9 @@ class mainGameService:
             self.enemySpawnCD = spawnRate if spawnRate else gameProgress["SpawnRate"]
             burstSpawnRate = gameProgress[f"Round{Global.currentRound}"].get("SpawnBurst", None)
             self.enemySpawnBurst = burstSpawnRate if burstSpawnRate else gameProgress["SpawnBurst"]
+
+            Global.currentRarity = Global.updateRarity(Global.currentRound)
+            print(Global.currentRarity)
 
             Global.gameState = "Playing"
 
@@ -216,7 +222,7 @@ class mainGameService:
             self.enemyLastSpawn -= Global.mainBackGroundDt
 
             # Enemy left check
-            enemyLeft = [k for k, v in self.currentEnemies.items() if v.get("InGame", 0) > 0 or v["EnemyLeft"] > 0] 
+            enemyLeft = [k for k, v in self.currentEnemies.items() if v.get("InGame", 0) > 0 or v["EnemyLeft"] > 0]
 
             if not enemyLeft:
                 Global.gameState = "Shop"

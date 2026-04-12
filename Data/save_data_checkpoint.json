@@ -2,10 +2,10 @@
   "currentRound": 1,
   "currentDifficulty": "Normal",
   "playerStats": {
-    "HP": 1,
+    "HP": 100,
     "MP": 0,
     "Ult": 0,
-    "MaxHP": 1,
+    "MaxHP": 100,
     "MaxMP": 10,
     "MaxUlt": 1,
     "NormalDamage": 10,
@@ -33,64 +33,432 @@
     "Ult": 1
   },
   "currentRarity": {
-    "Common": 30,
-    "Rare": 30,
-    "Epic": 30
+    "Common": 70,
+    "Rare": 25,
+    "Epic": 5
   },
-  "money": 1000000000000,
+  "money": 0,
   "gameProgress": {
     "Normal": {
-      "SpawnRate": [
-        4,
-        8
-      ],
-      "SpawnBurst": [
-        1,
-        2
-      ],
       "Round1": {
+        "SpawnRate": [
+          9,
+          10
+        ],
+        "SpawnBurst": [
+          1,
+          2
+        ],
         "SpikeEnemy": {
-          "EnemyLeft": 1,
-          "MaxEnemy": 1
+          "EnemyLeft": 5,
+          "MaxEnemy": 3
         }
       },
       "Round2": {
+        "SpawnRate": [
+          9,
+          10
+        ],
+        "SpawnBurst": [
+          1,
+          2
+        ],
         "SpikeEnemy": {
+          "EnemyLeft": 8,
+          "MaxEnemy": 4
+        }
+      },
+      "Round3": {
+        "SpawnRate": [
+          8,
+          10
+        ],
+        "SpawnBurst": [
+          1,
+          2
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 12,
+          "MaxEnemy": 5
+        }
+      },
+      "Round4": {
+        "SpawnRate": [
+          8,
+          10
+        ],
+        "SpawnBurst": [
+          2,
+          3
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 10,
+          "MaxEnemy": 5
+        },
+        "LaserEnemy": {
+          "EnemyLeft": 4,
+          "MaxEnemy": 3
+        }
+      },
+      "Round5": {
+        "SpawnRate": [
+          8,
+          9
+        ],
+        "SpawnBurst": [
+          2,
+          3
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 14,
+          "MaxEnemy": 5
+        },
+        "LaserEnemy": {
+          "EnemyLeft": 8,
+          "MaxEnemy": 4
+        }
+      },
+      "Round6": {
+        "SpawnRate": [
+          8,
+          9
+        ],
+        "SpawnBurst": [
+          2,
+          3
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 16,
+          "MaxEnemy": 6
+        },
+        "LaserEnemy": {
           "EnemyLeft": 10,
           "MaxEnemy": 5
         }
       },
-      "Round3": {
+      "Round7": {
+        "SpawnRate": [
+          7,
+          9
+        ],
+        "SpawnBurst": [
+          2,
+          3
+        ],
         "SpikeEnemy": {
-          "EnemyLeft": 1,
-          "MaxEnemy": 1
+          "EnemyLeft": 14,
+          "MaxEnemy": 5
         },
         "LaserEnemy": {
+          "EnemyLeft": 10,
+          "MaxEnemy": 4
+        },
+        "ClownEnemy": {
+          "EnemyLeft": 2,
+          "MaxEnemy": 1
+        }
+      },
+      "Round8": {
+        "SpawnRate": [
+          7,
+          9
+        ],
+        "SpawnBurst": [
+          2,
+          4
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 16,
+          "MaxEnemy": 5
+        },
+        "LaserEnemy": {
+          "EnemyLeft": 12,
+          "MaxEnemy": 5
+        },
+        "ClownEnemy": {
+          "EnemyLeft": 3,
+          "MaxEnemy": 1
+        }
+      },
+      "Round9": {
+        "SpawnRate": [
+          7,
+          9
+        ],
+        "SpawnBurst": [
+          2,
+          4
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 18,
+          "MaxEnemy": 6
+        },
+        "LaserEnemy": {
+          "EnemyLeft": 14,
+          "MaxEnemy": 5
+        },
+        "ClownEnemy": {
+          "EnemyLeft": 4,
+          "MaxEnemy": 2
+        }
+      },
+      "Round10": {
+        "SpawnRate": [
+          7,
+          8
+        ],
+        "SpawnBurst": [
+          2,
+          4
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 16,
+          "MaxEnemy": 5
+        },
+        "LaserEnemy": {
+          "EnemyLeft": 12,
+          "MaxEnemy": 4
+        },
+        "ClownEnemy": {
+          "EnemyLeft": 3,
+          "MaxEnemy": 2
+        },
+        "MinigunEnemy": {
           "EnemyLeft": 1,
           "MaxEnemy": 1
         }
       },
-      "Round4": {
+      "Round11": {
+        "SpawnRate": [
+          7,
+          8
+        ],
+        "SpawnBurst": [
+          2,
+          4
+        ],
         "SpikeEnemy": {
-          "EnemyLeft": 15,
+          "EnemyLeft": 18,
           "MaxEnemy": 5
         },
         "LaserEnemy": {
-          "EnemyLeft": 15,
+          "EnemyLeft": 14,
           "MaxEnemy": 5
+        },
+        "ClownEnemy": {
+          "EnemyLeft": 4,
+          "MaxEnemy": 2
+        },
+        "MinigunEnemy": {
+          "EnemyLeft": 1,
+          "MaxEnemy": 1
+        }
+      },
+      "Round12": {
+        "SpawnRate": [
+          7,
+          8
+        ],
+        "SpawnBurst": [
+          2,
+          4
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 20,
+          "MaxEnemy": 6
+        },
+        "LaserEnemy": {
+          "EnemyLeft": 16,
+          "MaxEnemy": 5
+        },
+        "ClownEnemy": {
+          "EnemyLeft": 4,
+          "MaxEnemy": 2
+        },
+        "MinigunEnemy": {
+          "EnemyLeft": 1,
+          "MaxEnemy": 1
+        }
+      },
+      "Round13": {
+        "SpawnRate": [
+          6,
+          8
+        ],
+        "SpawnBurst": [
+          8,
+          12
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 40,
+          "MaxEnemy": 15
+        }
+      },
+      "Round14": {
+        "SpawnRate": [
+          6,
+          8
+        ],
+        "SpawnBurst": [
+          3,
+          4
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 22,
+          "MaxEnemy": 5
+        },
+        "LaserEnemy": {
+          "EnemyLeft": 20,
+          "MaxEnemy": 5
+        },
+        "ClownEnemy": {
+          "EnemyLeft": 5,
+          "MaxEnemy": 2
+        },
+        "MinigunEnemy": {
+          "EnemyLeft": 1,
+          "MaxEnemy": 1
+        }
+      },
+      "Round15": {
+        "SpawnRate": [
+          6,
+          8
+        ],
+        "SpawnBurst": [
+          3,
+          4
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 24,
+          "MaxEnemy": 4
+        },
+        "LaserEnemy": {
+          "EnemyLeft": 22,
+          "MaxEnemy": 4
+        },
+        "ClownEnemy": {
+          "EnemyLeft": 6,
+          "MaxEnemy": 2
+        },
+        "MinigunEnemy": {
+          "EnemyLeft": 1,
+          "MaxEnemy": 1
+        }
+      },
+      "Round16": {
+        "SpawnRate": [
+          6,
+          7
+        ],
+        "SpawnBurst": [
+          3,
+          5
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 26,
+          "MaxEnemy": 4
+        },
+        "LaserEnemy": {
+          "EnemyLeft": 24,
+          "MaxEnemy": 4
+        },
+        "ClownEnemy": {
+          "EnemyLeft": 6,
+          "MaxEnemy": 2
+        },
+        "MinigunEnemy": {
+          "EnemyLeft": 2,
+          "MaxEnemy": 2
+        }
+      },
+      "Round17": {
+        "SpawnRate": [
+          6,
+          7
+        ],
+        "SpawnBurst": [
+          3,
+          5
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 28,
+          "MaxEnemy": 4
+        },
+        "LaserEnemy": {
+          "EnemyLeft": 26,
+          "MaxEnemy": 4
+        },
+        "ClownEnemy": {
+          "EnemyLeft": 7,
+          "MaxEnemy": 2
+        },
+        "MinigunEnemy": {
+          "EnemyLeft": 2,
+          "MaxEnemy": 2
+        }
+      },
+      "Round18": {
+        "SpawnRate": [
+          6,
+          7
+        ],
+        "SpawnBurst": [
+          3,
+          5
+        ],
+        "SpikeEnemy": {
+          "EnemyLeft": 30,
+          "MaxEnemy": 4
+        },
+        "LaserEnemy": {
+          "EnemyLeft": 28,
+          "MaxEnemy": 4
+        },
+        "ClownEnemy": {
+          "EnemyLeft": 7,
+          "MaxEnemy": 2
+        },
+        "MinigunEnemy": {
+          "EnemyLeft": 2,
+          "MaxEnemy": 2
         }
       },
       "Round19": {
+        "SpawnRate": [
+          6,
+          7
+        ],
+        "SpawnBurst": [
+          3,
+          5
+        ],
         "SpikeEnemy": {
-          "EnemyLeft": 15,
-          "MaxEnemy": 5
+          "EnemyLeft": 32,
+          "MaxEnemy": 4
         },
         "LaserEnemy": {
-          "EnemyLeft": 15,
-          "MaxEnemy": 5
+          "EnemyLeft": 30,
+          "MaxEnemy": 4
+        },
+        "ClownEnemy": {
+          "EnemyLeft": 8,
+          "MaxEnemy": 2
+        },
+        "MinigunEnemy": {
+          "EnemyLeft": 2,
+          "MaxEnemy": 2
         }
       },
       "Round20": {
+        "SpawnRate": [
+          1,
+          1
+        ],
+        "SpawnBurst": [
+          1,
+          1
+        ],
         "Monki": {
           "EnemyLeft": 1,
           "MaxEnemy": 1

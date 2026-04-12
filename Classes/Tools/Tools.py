@@ -188,7 +188,7 @@ from Classes.Tools.Adrenaline import adrenaline
 toolInfos = {
     "Bob the bomb" : {
         "Name" : "Bob the bomb",
-        "Price": 120,
+        "Price": 30,
         "Function": bob_the_bomb,
         "ImagePath": "Assets/Tools/BobTheBomb.png",
         "Description": "Bob the bomb\n\nExplode in a 3x3 radius cross \nshape and destroy map.\n\nCD: 3",
@@ -197,7 +197,7 @@ toolInfos = {
     },
     "Eat" : {
         "Name" : "Eat",
-        "Price": 100,
+        "Price": 30,
         "Function": eat,
         "ImagePath": "Assets/Tools/eat.png",
         "Description": "Eat\n\nUsed on bomb tile: +1/5 max hp\nUsed on normal tile: -1/10 max hp\nUsed on revealed tile: Nothing\n\nCD: 2",
@@ -206,7 +206,7 @@ toolInfos = {
     },
     "Deflect" : {
         "Name" : "Deflect",
-        "Price": 80,
+        "Price": 50,
         "Function": deflect,
         "ImagePath": "Assets/Tools/deflect.png",
         "Description": "Defleat\n\nReleases an engergy blast that\ndestroy enemy projectiles.\n\nCD: 3",
@@ -215,7 +215,7 @@ toolInfos = {
     },
     "Concentrated beam" : {
         "Name" : "Concentrated beam",
-        "Price": 80,
+        "Price": 50,
         "Function": concentrated_beam,
         "ImagePath": "Assets/Tools/concentrated_beam.png",
         "Description": "Concentrated beam\n\nFocuses a beam that deals 3\ntimes of your damage onto the\ncurrent target.\n\nCD: 3",
@@ -224,7 +224,7 @@ toolInfos = {
     },
     "Adrenaline" : {
         "Name" : "Adrenaline",
-        "Price": 80,
+        "Price": 55,
         "Function": adrenaline,
         "ImagePath": "Assets/Tools/adrenaline.png",
         "Description": "Adrenaline\n\nSlow everything down to x0.4\nTemporary x2 MP gain\nDuration: 8 seconds\n\nCD: 10",
@@ -233,7 +233,7 @@ toolInfos = {
     },
     "Foresee" : {
         "Name" : "Foresee",
-        "Price": 120,
+        "Price": 65,
         "Function": foresee,
         "ImagePath": "Assets/Tools/Foresee.png",
         "Description": "Foresee\n\nIn the range of 5x5 pick 5 random\ntiles to reveal with the accuracy of\n90%\n\nCD: 20",
@@ -242,7 +242,7 @@ toolInfos = {
     },
     "Nuke" : {
         "Name" : "Nuke",
-        "Price": 150,
+        "Price": 70,
         "Function": nuke,
         "ImagePath": "Assets/Tools/nuclear.png",
         "Description": "Nuke\n\nNuke everything in the 7x7\n\nCD: 10",

@@ -52,8 +52,7 @@ toolBar: ScrollBox = None
 
 from Data.Default import DefaultData
 defaultData = DefaultData()
-money = 1000000000000
-currentRarity = defaultData.currentRarity
+money = 000000000000
 playerStats = defaultData.playerStats
 playerStatsMultiplier = defaultData.playerStatsMultiplier
 playerStatsGain = defaultData.playerStatsGain
@@ -69,16 +68,25 @@ def getEnemyStats(enemyName: str) -> dict:
 
     if "HP" in stats:
         stats["HP"] = int(base["HP"] * (1 + scale[currentDifficulty]["HPScale"] * round))
-
+    if "Money" in stats:
+        stats["Money"] = int(base["Money"] * (1 + scale[currentDifficulty]["MoneyScale"] * round))
     for key in stats:
         if "Damage" in key:
             stats[key] = int(base[key] * (1 + scale[currentDifficulty]["DamageScale"] * round))
 
     return stats
 
+currentRarity = defaultData.startRarity
+def updateRarity(roundNum, maxRounds=20):
+    t = roundNum / maxRounds  # 0 → 1
+    current = {}
+    for k in defaultData.targetRarity:
+        current[k] = int(defaultData.startRarity[k] + (defaultData.targetRarity[k] - defaultData.startRarity[k]) * t)
+    return current
+
 currentRound = 1
 currentDifficulty = "Normal"
-gameState = "Preparing"
+gameState = "Menu"
 enemyCount = 0
 
 from Services.mapService import create_map

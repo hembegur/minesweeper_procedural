@@ -288,7 +288,7 @@ def on_bomb_reveal(tile: dict):
     text_label.fadeOut(speed=300, onDone=text_label.kill)
     Global.uiGroup.add(text_label)
 
-    Global.playerStats["HP"] -= 10
+    Global.playerStats["HP"] -= int(30 * (1 + Global.difficultyScale[Global.currentDifficulty]["DamageScale"] * Global.currentRound))
 
 
 def tile_reveal(m: dict, tile: dict, first: bool):

@@ -64,11 +64,12 @@ class buySlot:
                 text=itemData["Description"],
                 rarity=itemData["Rarity"],
             )
-            self.priceText.setText(f"${str(itemData["Price"])}")
+            price = int(itemData["Price"] * (1 + Global.difficultyScale[Global.currentDifficulty]["PriceScale"] * Global.currentRound))
+            self.priceText.setText(f"${price}") 
 
             def onClick():
-                if float(itemData["Price"]) <= Global.money and not self.bought:
-                    Global.money -= itemData["Price"]
+                if float(price) <= Global.money and not self.bought:
+                    Global.money -= price
                     Global.inventoryBox.addItem(self.itemClass)
                     Global.uiGroup.remove(self.itemClass)
                     self.itemClass.setSize(pygame.Vector2(80,80))
@@ -89,13 +90,14 @@ class buySlot:
                 cooldown=toolData["CD"],
                 rarity=toolData["Rarity"],
             )
-            self.priceText.setText(f"${str(toolData["Price"])}")
+            price = int(toolData["Price"] * (1 + Global.difficultyScale[Global.currentDifficulty]["PriceScale"] * Global.currentRound))
+            self.priceText.setText(f"${price}")
 
             def onClick():
-                if float(toolData["Price"]) <= Global.money and not self.bought:
+                if float(price) <= Global.money and not self.bought:
                     if len(Global.toolBar._items) == 4 and not any(tool.name == toolData["Name"] for tool in Global.toolBar._items):
                         return
-                    Global.money -= toolData["Price"]
+                    Global.money -= price
                     Global.toolBar.addItem(self.itemClass)
                     Global.uiGroup.remove(self.itemClass)
                     self.itemClass.setSize(pygame.Vector2(105,105))

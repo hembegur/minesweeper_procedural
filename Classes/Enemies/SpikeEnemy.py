@@ -16,12 +16,12 @@ class SpikeEnemy(BaseEntity):
             jiggleAxis="both",
         )
         self.stats = Global.getEnemyStats("SpikeEnemy")
-        print(self.stats)
         self.pos = pygame.Vector2(pos.x,-100)
         self.ogPos = pos.copy()
         self.name = "Spike Enemy"
         self.hp = self.stats["HP"]
         self.maxHp = self.stats["HP"]
+        self.money = self.stats["Money"]
         self.playJiggle(loop=True)
 
         self.spikeSpawnCD = self.stats["CD"]

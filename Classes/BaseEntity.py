@@ -26,6 +26,7 @@ class BaseEntity(pygame.sprite.Sprite):
         self.size  = pygame.Vector2(size)
         self.color = color
         self.team = None
+        self.money = 0
 
         self._imagePath = imagePath
         self._build()
@@ -137,6 +138,9 @@ class BaseEntity(pygame.sprite.Sprite):
     def kill(self):
         if self.dieFunction:
             self.dieFunction()
+
+        if self.team == "Enemy":
+            Global.money += self.money
         super().kill()
 
     # ──────────────────────────────────────────
