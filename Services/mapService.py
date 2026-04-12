@@ -254,7 +254,7 @@ def on_successful_reveal(tile: dict, m : map):
     Global.SoundManager.playSFX(sfx, 0.5)
     if Global.playerStats["MP"] < Global.playerStats["MaxMP"]:
         text_label = TextLabel(
-            text="+1MP",
+            text=f"+{round(Global.playerStatsGain["MP"],1):g}MP",
             pos=tile["pos"],
             font_size=20,
             color=(50,50,255),
@@ -275,9 +275,10 @@ def on_bomb_reveal(tile: dict):
         "Assets/Sounds/SoundEffect/explosion_small.wav",
         "Assets/Sounds/SoundEffect/explosion_quick.wav"
     ])
+    damage = int(30 * (1 + Global.difficultyScale[Global.currentDifficulty]["DamageScale"] * Global.currentRound))
     Global.SoundManager.playSFX(sfx, 1.5)
     text_label = TextLabel(
-        text="-10HP",
+        text=f"-{round(damage,1):g}HP",
         pos=tile["pos"],
         font_size=20,
         color=(225,0,0),
@@ -288,7 +289,7 @@ def on_bomb_reveal(tile: dict):
     text_label.fadeOut(speed=300, onDone=text_label.kill)
     Global.uiGroup.add(text_label)
 
-    Global.playerStats["HP"] -= int(30 * (1 + Global.difficultyScale[Global.currentDifficulty]["DamageScale"] * Global.currentRound))
+    Global.playerStats["HP"] -= damage
 
 
 def tile_reveal(m: dict, tile: dict, first: bool):

@@ -109,6 +109,7 @@ class DefaultData:
                 "Round1": {
                     "SpawnRate": (9,10), "SpawnBurst": (1,2),
                     "SpikeEnemy": {"EnemyLeft": 5, "MaxEnemy": 3},
+                    #"SpikeEnemy": {"EnemyLeft": 2, "MaxEnemy": 1},
                 },
 
                 "Round2": {

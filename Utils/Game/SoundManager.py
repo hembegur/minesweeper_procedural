@@ -9,6 +9,11 @@ class soundManager:
         self.sfxVolume   = 1.0
         self.musicVolume = 1.0
         self.muted       = False
+        self._playlist       = []
+        self._playlistIndex  = 0
+        self._playlistActive = False
+        self._playlistPos = 0.0
+        self._playlistVolume = 1.0
 
     # ──────────────────────────────────────────
     # Internal
@@ -93,3 +98,65 @@ class soundManager:
         """Load sounds ahead of time to avoid lag on first play."""
         for path in paths:
             self._load(path)
+
+    def playMusicAt(self, path: str, startTime: float, loops: int = -1):
+        """Play music starting at a specific time in seconds."""
+        self._music = path
+        pygame.mixer.music.load(path)
+        pygame.mixer.music.set_volume(self.musicVolume if not self.muted else 0)
+        pygame.mixer.music.play(loops=loops, start=startTime)
+
+    # ──────────────────────────────────────────
+    # Playlist
+    # ──────────────────────────────────────────
+
+
+    def setPlaylist(self, paths: list, shuffle: bool = False):
+        """Set a playlist to play through, looping back when it ends."""
+        import random
+        self._playlist       = paths.copy()
+        self._playlistIndex  = 0
+        if shuffle:
+            random.shuffle(self._playlist)
+        self._playlistActive = True
+        self._playNextInPlaylist()
+
+    def _playNextInPlaylist(self):
+        if not self._playlist:
+            return
+        path = self._playlist[self._playlistIndex]
+        self._music = path
+        pygame.mixer.music.load(path)
+        pygame.mixer.music.set_volume(self.musicVolume if not self.muted else 0)
+        pygame.mixer.music.play(loops=0)   # loops=0 plays once, we handle looping ourselves
+        pygame.mixer.music.set_endevent(pygame.USEREVENT + 1)
+
+    def stopPlaylist(self):
+        self._playlistActive = False
+        self._playlist       = []
+        self._playlistIndex  = 0
+        self.stopMusic()
+
+    def pausePlaylist(self):
+        self._playlistActive = False
+        self._playlistPos    = pygame.mixer.music.get_pos() / 1000  # save position in seconds
+        pygame.mixer.music.set_endevent(0)
+        pygame.mixer.music.stop()
+
+    def resumePlaylist(self):
+        if not self._playlist:
+            return
+        path = self._playlist[self._playlistIndex]
+        pygame.mixer.music.load(path)
+        pygame.mixer.music.set_volume(
+            self._playlistVolume * self.musicVolume if not self.muted else 0
+        )
+        pygame.mixer.music.play(loops=0, start=self._playlistPos)  # ← seek to saved position
+        pygame.mixer.music.set_endevent(pygame.USEREVENT + 1)
+        self._playlistActive = True
+
+    def handleEvent(self, event: pygame.event.Event):
+        """Call this in your event loop to advance the playlist."""
+        if event.type == pygame.USEREVENT + 1 and getattr(self, "_playlistActive", False):
+            self._playlistIndex = (self._playlistIndex + 1) % len(self._playlist)
+            self._playNextInPlaylist()

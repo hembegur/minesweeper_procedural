@@ -33,7 +33,7 @@ class SaveManager:
         Global.playerStatsMultiplier = data.get("playerStatsMultiplier", Global.defaultData.playerStatsMultiplier.copy())
         Global.playerStatsGain       = data.get("playerStatsGain",       Global.defaultData.playerStatsGain.copy())
         Global.playerStatsLose       = data.get("playerStatsLose",       Global.defaultData.playerStatsLose.copy())
-        Global.currentRarity         = data.get("currentRarity",         Global.defaultData.currentRarity.copy())
+        Global.currentRarity         = data.get("currentRarity",         Global.defaultData.startRarity.copy())
         Global.money                 = data.get("money",                 0)
         Global.gameProgress          = data.get("gameProgress",          Global.defaultData.gameProgress)
 

@@ -108,8 +108,15 @@ class mainGameService:
         Global.saveManager.saveCheckpoint() # initial save
         self.isReverting = False
 
+        Global.SoundManager.musicVolume = 0.3
+        Global.SoundManager.setPlaylist([
+            "Assets/Sounds/Music/love_shuttle.mp3",
+            "Assets/Sounds/Music/ready_or_not.mp3",
+        ])
+        Global.SoundManager.pausePlaylist()
+
     def create_and_position_map(self):
-        mapSize = (random.randint(5,15), random.randint(5,15))
+        mapSize = (random.randint(8,15), random.randint(8,15))
         tileSize = (50,50)
         offset = 2
         boxRect = Global.minesweeperBox.rect
@@ -196,6 +203,7 @@ class mainGameService:
             self.mapHidden = False            
 
         if Global.gameState == "Preparing":
+            Global.SoundManager.resumePlaylist()
             Global.saveManager.saveCheckpoint()
             gameProgress = Global.gameProgress[Global.currentDifficulty]
             self.enemyLastSpawn = 2
@@ -230,6 +238,7 @@ class mainGameService:
 
             if not enemyLeft:
                 Global.gameState = "Shop"
+                self.mouseHB.pos = pygame.Vector2(-200,-200)
 
             # spawn Enemies
             if self.enemyLastSpawn <= 0:
@@ -279,6 +288,9 @@ class mainGameService:
         if Global.gameState == "Shop":
             #Global.currentRound += 1
             if not self.shopSprite:
+                Global.SoundManager.pausePlaylist()
+                Global.SoundManager.playMusic("Assets/Sounds/Music/shop.mp3")
+
                 self.shopSprite = SimpleSprite(
                     pos=pygame.Vector2(900, 150),
                     size=pygame.Vector2(200,200),
@@ -307,4 +319,7 @@ class mainGameService:
                     self.isReverting = False
                 else:
                     Global.currentRound += 1
+
+                Global.SoundManager.stopMusic()
+                Global.SoundManager.resumePlaylist()
                 Global.gameState = "Preparing"

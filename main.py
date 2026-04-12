@@ -54,6 +54,7 @@ while True:
         Global.UiService.handleEvents(event=event)
         Global.playerSprite.handleEvents(event=event)
         Global.MainGameService.handleEvent(event=event) 
+        Global.SoundManager.handleEvent(event)
 
         if event.type == pygame.KEYDOWN:
             #Use tool if have
