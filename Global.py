@@ -84,7 +84,7 @@ def updateRarity(roundNum, maxRounds=20):
         current[k] = int(defaultData.startRarity[k] + (defaultData.targetRarity[k] - defaultData.startRarity[k]) * t)
     return current
 
-currentRound = 20
+currentRound = 1
 currentDifficulty = "Normal"
 gameState = "Menu"
 enemyCount = 0

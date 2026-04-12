@@ -460,9 +460,8 @@
           1
         ],
         "Monki": {
-          "EnemyLeft": 0,
-          "MaxEnemy": 1,
-          "InGame": 0
+          "EnemyLeft": 1,
+          "MaxEnemy": 1
         }
       }
     }

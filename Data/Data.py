@@ -108,7 +108,7 @@ class SaveManager:
     def resetToDefault(self):
         """Wipe everything and restore default data."""
         import Global, copy
-        Global.currentRound          = 20
+        Global.currentRound          = 1
         Global.currentDifficulty     = "Normal"
         Global.playerStats           = Global.defaultData.playerStats.copy()
         Global.playerStatsMultiplier = Global.defaultData.playerStatsMultiplier.copy()

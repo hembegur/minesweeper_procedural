@@ -1,4 +1,4 @@
-import pygame, Global, random
+import pygame, Global, random, copy
 from Utils.UiComponents.TextLabel import TextLabel
 from Utils.UiComponents.Box import Box
 from Utils.Game.mathStuff import Timer
@@ -164,7 +164,7 @@ class mainGameService:
         Global.playerStats["HP"] = Global.playerStats["MaxHP"]
 
         gameProgress = Global.gameProgress[Global.currentDifficulty]
-        self.currentEnemies = gameProgress[f"Round{Global.currentRound}"].copy()
+        self.currentEnemies = copy.deepcopy(gameProgress[f"Round{Global.currentRound}"])
         self.enemyLastSpawn = 2
 
         self.shop = None
@@ -208,7 +208,7 @@ class mainGameService:
             Global.saveManager.saveCheckpoint()
             gameProgress = Global.gameProgress[Global.currentDifficulty]
             self.enemyLastSpawn = 2
-            self.currentEnemies = gameProgress[f"Round{Global.currentRound}"].copy()
+            self.currentEnemies = copy.deepcopy(gameProgress[f"Round{Global.currentRound}"])
             self.currentEnemies = {
                 k: v for k, v in self.currentEnemies.items() if isinstance(v, dict)
             }
@@ -337,6 +337,7 @@ class mainGameService:
                 Global.saveManager.deleteSave()
                 Global.saveManager.resetToDefault()  
 
+                self.create_and_position_map()
                 for sprite in list(Global.entityGroup):
                     if sprite != Global.playerSprite:
                         sprite.kill()
