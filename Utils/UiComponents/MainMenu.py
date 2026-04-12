@@ -27,7 +27,7 @@ class MainMenu:
             pos=pygame.Vector2(w / 2, h / 2 - 120),
             font_size=180,
             color=(30, 30, 30),
-            font_name="Assets/Fonts/Pixel.ttf",
+            font_name="Assets/Fonts/Pixel.TTF",
             center=True,
         )
         Global.uiGroup.add(self.title, layer = 12)
@@ -63,7 +63,7 @@ class MainMenu:
             pos=pos + pygame.Vector2(size.x / 2, size.y / 2),
             font_size=80,
             color=(50,50,50),
-            font_name="Assets/Fonts/Pixel.ttf",
+            font_name="Assets/Fonts/Pixel.TTF",
             center=True,
         )
         Global.uiGroup.add(label, layer = 12)

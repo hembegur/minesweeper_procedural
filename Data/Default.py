@@ -13,7 +13,7 @@ class DefaultData:
 
         self.playerStats = {
             "HP" :  100,
-            "MP" :  0,
+            "MP" :  1.00001,
             "Ult" : 0,
             "MaxHP" : 100,
             "MaxMP" : 10,
