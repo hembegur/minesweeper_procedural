@@ -18,7 +18,7 @@ class DefaultData:
             "MaxHP" : 100,
             "MaxMP" : 10,
             "MaxUlt" : 1,
-            "NormalDamage" : 1000,
+            "NormalDamage" : 10,
             "BaseAttackSpeed" : 250,
             "AttackSpeed": 100,
             "Burst" : 1,
@@ -71,7 +71,7 @@ class DefaultData:
                 "Money": 100,
             },
             "Monki" : { #BOSS
-                "HP" : 1000,
+                "HP" : 1200,
                 "CD": 6,
                 "Money": 10000,
                 "PunchDamage" : 40,
