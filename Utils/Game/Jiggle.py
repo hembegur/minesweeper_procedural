@@ -41,12 +41,8 @@ class Jiggle:
         self._playing = False
         self._loop    = False
 
-    # ──────────────────────────────────────────
     # Control
-    # ──────────────────────────────────────────
-
     def play(self, loop: bool = False):
-        """Start the jiggle animation."""
         self._ogImage = self.sprite.image.copy()   # snapshot current image
         self._ogSize  = pygame.Vector2(self.sprite.image.get_size())
         self._t       = 0.0
@@ -54,15 +50,11 @@ class Jiggle:
         self._loop    = loop
 
     def stop(self):
-        """Stop and restore original image."""
         self._playing = False
         self._t       = 0.0
         self._restore()
 
-    # ──────────────────────────────────────────
     # Internal
-    # ──────────────────────────────────────────
-
     def _restore(self):
         center = self.sprite.rect.center
         self.sprite.image = self._ogImage.copy()
@@ -82,15 +74,11 @@ class Jiggle:
         elif self.axis == "y":
             sx = 1.0
             sy = 1.0 + wave * self.intensity
-        else:                                   # "both" — squash & stretch
+        else:                         
             sx = 1.0 + wave * self.intensity
             sy = 1.0 - wave * self.intensity * 0.5
 
         return sx, sy
-
-    # ──────────────────────────────────────────
-    # Update  (call every frame)
-    # ──────────────────────────────────────────
 
     def update(self, dt: float):
         import math
@@ -122,6 +110,6 @@ class Jiggle:
         newH = max(1, int(self._ogSize.y * sy))
 
         center = self.sprite.rect.center
-        # always scale from _ogImage, never sprite.image
+
         self.sprite.image = pygame.transform.scale(self._ogImage, (newW, newH))
         self.sprite.rect  = self.sprite.image.get_rect(center=center)

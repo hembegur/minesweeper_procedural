@@ -7,10 +7,7 @@ class SaveManager:
     def __init__(self):
         self.saveFile = SAVE_FILE
 
-    # ──────────────────────────────────────────
     # Internal
-    # ──────────────────────────────────────────
-
     def _collectData(self) -> dict:
         import Global
         return {
@@ -37,10 +34,7 @@ class SaveManager:
         Global.money                 = data.get("money",                 0)
         Global.gameProgress          = data.get("gameProgress",          Global.defaultData.gameProgress.copy())
 
-    # ──────────────────────────────────────────
     # Save / Load
-    # ──────────────────────────────────────────
-
     def save(self):
         """Save current game state to file."""
         data = self._collectData()
@@ -72,10 +66,7 @@ class SaveManager:
     def hasSave(self) -> bool:
         return os.path.exists(self.saveFile)
 
-    # ──────────────────────────────────────────
     # Revert
-    # ──────────────────────────────────────────
-
     def saveCheckpoint(self):
         """Save a checkpoint at the start of each round to revert to on death."""
         data = self._collectData()
@@ -101,10 +92,7 @@ class SaveManager:
             print(f"[SaveManager] Failed to revert: {e}")
             return False
 
-    # ──────────────────────────────────────────
     # Reset
-    # ──────────────────────────────────────────
-
     def resetToDefault(self):
         """Wipe everything and restore default data."""
         import Global, copy

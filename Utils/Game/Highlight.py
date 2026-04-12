@@ -3,12 +3,7 @@ import Global
 
 _glow_cache = {}
 
-
 def _normalize(value):
-    """
-    Converts Vector2 or other iterable values into tuples
-    so they can be used as dictionary keys.
-    """
     if isinstance(value, pygame.math.Vector2):
         return (int(value.x), int(value.y))
     return tuple(value)

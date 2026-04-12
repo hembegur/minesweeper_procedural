@@ -38,10 +38,7 @@ class TextLabel(pygame.sprite.Sprite):
         self._fadeTo      = 255
         self._onFadeDone  = None
 
-    # ──────────────────────────────────────────
     # Internal
-    # ──────────────────────────────────────────
-
     def _render(self):
         base = self.font.render(self.text, self.antialias, self.color)
 
@@ -72,10 +69,7 @@ class TextLabel(pygame.sprite.Sprite):
         else:
             self.rect.topleft = self.pos
 
-    # ──────────────────────────────────────────
     # Setters
-    # ──────────────────────────────────────────
-
     def setText(self, new_text):
         if new_text != self.text:
             self.text = new_text
@@ -99,10 +93,8 @@ class TextLabel(pygame.sprite.Sprite):
         self._alpha = max(0.0, min(255.0, alpha))
         self.image.set_alpha(int(self._alpha))
 
-    # ──────────────────────────────────────────
-    # moveTo
-    # ──────────────────────────────────────────
 
+    # moveTo
     def moveTo(
         self,
         destination: pygame.Vector2,
@@ -118,10 +110,7 @@ class TextLabel(pygame.sprite.Sprite):
         self._target   = None
         self._onArrive = None
 
-    # ──────────────────────────────────────────
     # Fade
-    # ──────────────────────────────────────────
-
     def fadeTo(
         self,
         targetAlpha: float,
@@ -143,10 +132,7 @@ class TextLabel(pygame.sprite.Sprite):
         self._fadeSpeed  = 0
         self._onFadeDone = None
 
-    # ──────────────────────────────────────────
     # Update
-    # ──────────────────────────────────────────
-
     def update(self, surface):
         # ── movement ──
         if self._target is not None:

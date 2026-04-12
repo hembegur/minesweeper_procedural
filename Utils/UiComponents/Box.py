@@ -1,23 +1,3 @@
-# ui_group = pygame.sprite.Group()
-
-# panel = Box(
-#     pos=pygame.Vector2(100, 100),
-#     size=pygame.Vector2(200, 120),
-#     groups=ui_group,
-#     color=(30, 30, 30, 200),
-#     border=True,
-#     borderColor=(255, 255, 255, 255),
-#     borderWidth=2,
-#     borderRadius=8,
-#     shadow=True,
-#     shadowColor=(0, 0, 0, 120),
-#     shadowOffset=pygame.Vector2(4, 4),
-# )
-
-# # game loop
-# ui_group.update(screen)  # pass screen so shadows can be drawn
-# ui_group.draw(screen)
-# panel.canvas is the surface to blits shit in
 import pygame
 from typing import Tuple, Optional
 
@@ -60,9 +40,8 @@ class Box(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=self.pos)
         self.canvas = pygame.Surface((w, h), pygame.SRCALPHA)
         self._redraw()
-    # ──────────────────────────────────────────
-    # Internal
-    # ──────────────────────────────────────────        
+
+    # Internal      
     def _redraw(self):
         self.image.fill((0, 0, 0, 0))
         w, h = int(self.size.x), int(self.size.y)
@@ -83,10 +62,8 @@ class Box(pygame.sprite.Sprite):
                 width=self.borderWidth,
                 border_radius=r,
             )
-    # ──────────────────────────────────────────
-    # Setters
-    # ──────────────────────────────────────────
 
+    # Setters
     def setColor(self, color: RGBA):
         self.color = color
         self._redraw()
@@ -132,14 +109,10 @@ class Box(pygame.sprite.Sprite):
             setattr(self, attr, not getattr(self, attr))
             self._redraw()
 
-    # ──────────────────────────────────────────
-    # Sprite update  (called by group.update())
-    # ──────────────────────────────────────────
-
     def update(self, screen: Optional[pygame.Surface] = None):
         if not self.visible:
             self.image.fill((0, 0, 0, 0))  # draw nothing
             return
 
         self._redraw()
-        
+    

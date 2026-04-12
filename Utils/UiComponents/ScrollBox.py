@@ -64,10 +64,7 @@ class ScrollBox(pygame.sprite.Sprite):
 
         self._redraw()
 
-    # ──────────────────────────────────────────
     # Items
-    # ──────────────────────────────────────────
-
     def addItem(self, item):
         """Add a surface or sprite. If sprite has 'name', stack duplicates with a counter."""
         if isinstance(item, pygame.sprite.Sprite) and hasattr(item, "name"):
@@ -162,10 +159,7 @@ class ScrollBox(pygame.sprite.Sprite):
             self._maxScroll = max(0, total - int(self.size.x))
         self._scrollOffset = min(self._scrollOffset, self._maxScroll)
 
-    # ──────────────────────────────────────────
     # Scroll
-    # ──────────────────────────────────────────
-
     def scroll(self, amount: int):
         """Positive = scroll down/right, negative = up/left."""
         self._scrollOffset = max(0, min(self._maxScroll, self._scrollOffset + amount))
@@ -189,10 +183,7 @@ class ScrollBox(pygame.sprite.Sprite):
                 else:
                     self.scroll(-event.y * self.scrollSpeed)
 
-    # ──────────────────────────────────────────
     # Setters
-    # ──────────────────────────────────────────
-
     def setColor(self, color: RGBA):
         self.color = color
 
@@ -224,10 +215,7 @@ class ScrollBox(pygame.sprite.Sprite):
     def setVisible(self, visible: bool):
         self.visible = visible
 
-    # ──────────────────────────────────────────
     # Draw
-    # ──────────────────────────────────────────
-
     def _redraw(self):
         self.image.fill((0, 0, 0, 0))
         w, h = int(self.size.x), int(self.size.y)
@@ -307,10 +295,7 @@ class ScrollBox(pygame.sprite.Sprite):
             pygame.draw.rect(self.image, baked_border, (0, 0, w, h),
                              width=self.borderWidth, border_radius=r)
 
-    # ──────────────────────────────────────────
     # Update
-    # ──────────────────────────────────────────
-
     def update(self, screen=None):
         if not self.visible:
             self.image.fill((0, 0, 0, 0))

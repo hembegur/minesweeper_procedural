@@ -63,10 +63,7 @@ class Bar(pygame.sprite.Sprite):
 
         self._redraw()
 
-    # ──────────────────────────────────────────
     # Internal
-    # ──────────────────────────────────────────
-
     def _fillRatio(self) -> float:
         span = self.maxValue - self.minValue
         if span == 0:
@@ -111,10 +108,7 @@ class Bar(pygame.sprite.Sprite):
             pygame.draw.rect(self.image, bake(self.borderColor), (0, 0, w, h),
                              width=self.borderWidth, border_radius=r)
 
-    # ──────────────────────────────────────────
     # Setters
-    # ──────────────────────────────────────────
-
     def setValue(self, value: float):
         self.value = max(self.minValue, min(self.maxValue, value))
         if not self.smooth:
@@ -149,10 +143,7 @@ class Bar(pygame.sprite.Sprite):
     def setAlpha(self, alpha: int):
         self._alpha = max(0, min(255, alpha))
 
-    # ──────────────────────────────────────────
     # Convenience
-    # ──────────────────────────────────────────
-
     def increase(self, amount: float):
         self.setValue(self.value + amount)
 
@@ -168,10 +159,7 @@ class Bar(pygame.sprite.Sprite):
     def getPercent(self) -> float:
         return self._fillRatio() * 100
 
-    # ──────────────────────────────────────────
     # Update
-    # ──────────────────────────────────────────
-
     def kill(self):
         if getattr(self, "_killing", False):
             return

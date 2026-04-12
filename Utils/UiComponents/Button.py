@@ -54,10 +54,7 @@ class Button(pygame.sprite.Sprite):
 
         self._redraw()
 
-    # ──────────────────────────────────────────
     # Internal
-    # ──────────────────────────────────────────
-
     def _currentColor(self) -> RGBA:
         if self._clicked:  return self.clickColor
         if self._hovered:  return self.hoverColor
@@ -80,10 +77,7 @@ class Button(pygame.sprite.Sprite):
             pygame.draw.rect(self.image, baked_border, (0, 0, w, h),
                              width=self.borderWidth, border_radius=r)
 
-    # ──────────────────────────────────────────
     # Setters
-    # ──────────────────────────────────────────
-
     def setOnClick(self, fn: Callable):
         self.onClick = fn
 
@@ -99,10 +93,7 @@ class Button(pygame.sprite.Sprite):
     def setVisible(self, visible: bool):
         self.visible = visible
 
-    # ──────────────────────────────────────────
     # Events
-    # ──────────────────────────────────────────
-
     def handleEvent(self, event: pygame.event.Event):
         if not self.visible:
             return
@@ -116,10 +107,7 @@ class Button(pygame.sprite.Sprite):
                     self.onClick()
             self._clicked = False
 
-    # ──────────────────────────────────────────
     # Update
-    # ──────────────────────────────────────────
-
     def update(self, screen=None):
         if not self.visible:
             self.image.fill((0, 0, 0, 0))
