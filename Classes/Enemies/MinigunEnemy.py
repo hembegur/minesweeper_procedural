@@ -16,13 +16,16 @@ class MinigunEnemy(BaseEntity):
             jiggleSpeed=10.0,
             jiggleAxis="both",
         )
+        self.stats = Global.getEnemyStats("MinigunEnemy")
+        self.name = "Minigun Enemy"
         self.pos = pygame.Vector2(pos.x,-100)
         self.ogPos = pos.copy()
-        self.hp = Global.enemyStats["MinigunEnemy"]["HP"]
+        self.hp = self.stats["HP"]
+        self.maxHp = self.stats["HP"]
         self.playJiggle(loop=True)
 
-        self.spikeSpawnCD = Global.enemyStats["MinigunEnemy"]["CD"]
-        self.lastSpikeSpawned = Global.enemyStats["MinigunEnemy"]["CD"]
+        self.spikeSpawnCD = self.stats["CD"]
+        self.lastSpikeSpawned = self.stats["CD"]
         self.team = "Enemy"
 
         self._target    = None
@@ -72,8 +75,8 @@ class MinigunEnemy(BaseEntity):
         self.lastSpikeSpawned -= Global.dt
         if self.lastSpikeSpawned <= 0:
             shootMinigun(
-                damage=Global.enemyStats["MinigunEnemy"]["Damage"],
-                bulletCount=Global.enemyStats["MinigunEnemy"]["BulletCount"],
+                damage=self.stats["Damage"],
+                bulletCount=self.stats["BulletCount"],
                 onHit=self.attack
             )
             self.lastSpikeSpawned = self.spikeSpawnCD

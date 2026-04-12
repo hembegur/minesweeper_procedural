@@ -18,6 +18,7 @@ class Monki(BaseEntity):
             jiggleSpeed=10.0,
             jiggleAxis="both",
         )
+        self.name = "Monki"
         self.pos = pygame.Vector2(pos.x,-100)
         self.ogPos = pos.copy()
         self.hp = Global.enemyStats["Monki"]["HP"]

@@ -60,10 +60,25 @@ playerStatsGain = defaultData.playerStatsGain
 playerStatsLose = defaultData.playerStatsLose
 enemyStats = defaultData.enemyStats
 rarityColor = defaultData.rarityColor
+difficultyScale = defaultData.difficultyScale
+def getEnemyStats(enemyName: str) -> dict:
+    base   = defaultData.enemyStats[enemyName].copy()
+    round  = max(0, currentRound - 1)  # round 1 = no scaling
+    scale  = difficultyScale
+    stats  = base.copy()
 
-currentRound = 19
+    if "HP" in stats:
+        stats["HP"] = int(base["HP"] * (1 + scale[currentDifficulty]["HPScale"] * round))
+
+    for key in stats:
+        if "Damage" in key:
+            stats[key] = int(base[key] * (1 + scale[currentDifficulty]["DamageScale"] * round))
+
+    return stats
+
+currentRound = 1
 currentDifficulty = "Normal"
-gameState = "Shop"
+gameState = "Preparing"
 enemyCount = 0
 
 from Services.mapService import create_map

@@ -15,13 +15,16 @@ class ClownEnemy(BaseEntity):
             jiggleSpeed=10.0,
             jiggleAxis="both",
         )
+        self.stats = Global.getEnemyStats("ClownEnemy")
+        self.name = "Clown Enemy"
         self.pos = pygame.Vector2(pos.x,-100)
         self.ogPos = pos.copy()
-        self.hp = Global.enemyStats["ClownEnemy"]["HP"]
+        self.hp = self.stats["HP"]
+        self.maxHp = self.stats["HP"]
         self.playJiggle(loop=True)
 
-        self.attackCD = Global.enemyStats["ClownEnemy"]["CD"]
-        self.lastAttack = Global.enemyStats["ClownEnemy"]["CD"]
+        self.attackCD = self.stats["CD"]
+        self.lastAttack = self.stats["CD"]
         self.team = "Enemy"
 
         self._target    = None
@@ -70,7 +73,7 @@ class ClownEnemy(BaseEntity):
 
         self.lastAttack -= Global.dt
         if self.lastAttack <= 0:
-            spawnSpikePunch(damage=Global.enemyStats["ClownEnemy"]["PunchDamage"], onHit=self.attack)
+            spawnSpikePunch(damage=self.stats["PunchDamage"], onHit=self.attack)
             self.lastAttack = self.attackCD
 
         # ── movement ──

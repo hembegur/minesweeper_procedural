@@ -15,13 +15,16 @@ class LaserEnemy(BaseEntity):
             jiggleSpeed=10.0,
             jiggleAxis="both",
         )
+        self.stats = Global.getEnemyStats("LaserEnemy")
+        self.name = "Laser Enemy"
         self.pos = pygame.Vector2(pos.x,-100)
         self.ogPos = pos.copy()
-        self.hp = Global.enemyStats["LaserEnemy"]["HP"]
+        self.hp = self.stats["HP"]
+        self.maxHp = self.stats["HP"]
         self.playJiggle(loop=True)
 
-        self.spikeSpawnCD = Global.enemyStats["LaserEnemy"]["CD"]
-        self.lastSpikeSpawned = Global.enemyStats["LaserEnemy"]["CD"]
+        self.spikeSpawnCD = self.stats["CD"]
+        self.lastSpikeSpawned = self.stats["CD"]
         self.team = "Enemy"
 
         self._target    = None
@@ -80,7 +83,7 @@ class LaserEnemy(BaseEntity):
                     laserColor=(60,60,200),
                     laserWidth=50,
                     laserDuration=0.6,
-                    damage = Global.enemyStats["LaserEnemy"]["Damage"],
+                    damage = self.stats["Damage"],
                     axis=axis,
                     onHit=self.attack
                 )

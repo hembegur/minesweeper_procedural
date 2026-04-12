@@ -140,34 +140,29 @@ class mainGameService:
             Global.UiService.revealMap()
 
     def playerDie(self):
-        # clear all enemies
+        self.create_and_position_map()
+
         for sprite in list(Global.entityGroup):
             if sprite != Global.playerSprite:
                 sprite.kill()
 
-        # clear all attacks and particles
         for sprite in list(Global.msAttackGroup):
             sprite.kill()
         Global.msParticleGroup.empty()
         Global.timerGroup.empty()
 
-        # revert stats to checkpoint
         Global.saveManager.revertToCheckpoint()
 
-        # restore hp after revert so player isn't dead again
         Global.playerStats["HP"] = Global.playerStats["MaxHP"]
 
-        # reset round enemies
         gameProgress = Global.gameProgress[Global.currentDifficulty]
         self.currentEnemies = gameProgress[f"Round{Global.currentRound}"].copy()
         self.enemyLastSpawn = 2
 
-        # go back to buying state so shop spawns again
         self.shop = None
         self.shopSprite = None
         Global.gameState = "Buying"
             
-    
     def update(self):
         if Global.gameState == "Playing":
             Global.mainBackGroundDt = Global.dt
@@ -185,7 +180,7 @@ class mainGameService:
         
         map_update(Global.currentMap)
 
-        #|----------------------------Game Loop
+        #|----------------------------Game Loop----------------------------|
         Global.dt = Global.tick * Global.speedupMultiplier
         
         if (not Global.minesweeperBox.rect.collidepoint(pygame.mouse.get_pos()) and Global.gameState == "Playing") or self.mapHidden:
@@ -199,12 +194,17 @@ class mainGameService:
 
         if Global.gameState == "Preparing":
             gameProgress = Global.gameProgress[Global.currentDifficulty]
-            self.enemySpawnCD = gameProgress["SpawnRate"]
             self.enemyLastSpawn = 2
             self.currentEnemies = gameProgress[f"Round{Global.currentRound}"].copy()
             Global.playerStats["HP"] = Global.playerStats["MaxHP"]
-            Global.gameState = "Playing"
             self.shopSprite = None
+
+            spawnRate = gameProgress[f"Round{Global.currentRound}"].get("SpawnRate", None)
+            self.enemySpawnCD = spawnRate if spawnRate else gameProgress["SpawnRate"]
+            burstSpawnRate = gameProgress[f"Round{Global.currentRound}"].get("SpawnBurst", None)
+            self.enemySpawnBurst = burstSpawnRate if burstSpawnRate else gameProgress["SpawnBurst"]
+
+            Global.gameState = "Playing"
 
         if Global.gameState == "Playing":
             if Global.playerStats["HP"] <= 0:
@@ -217,7 +217,6 @@ class mainGameService:
 
             # Enemy left check
             enemyLeft = [k for k, v in self.currentEnemies.items() if v.get("InGame", 0) > 0 or v["EnemyLeft"] > 0] 
-            print(enemyLeft)
 
             if not enemyLeft:
                 Global.gameState = "Shop"
@@ -226,39 +225,43 @@ class mainGameService:
             if self.enemyLastSpawn <= 0:
                 self.enemyLastSpawn = random.uniform(self.enemySpawnCD[0], self.enemySpawnCD[1])
 
-                available = [k for k, v in self.currentEnemies.items() 
-                 if v.get("InGame", 0) < v["MaxEnemy"] and v["EnemyLeft"] > 0]
+                def spawnEnemy():
+                    available = [k for k, v in self.currentEnemies.items() 
+                    if v.get("InGame", 0) < v["MaxEnemy"] and v["EnemyLeft"] > 0]
 
-                if not available:
-                    return  # all at max, skip this spawn tick
+                    if not available:
+                        return  # all at max, skip this spawn tick
 
-                chosenEnemy = random.choice(available)
-                enemyData   = self.currentEnemies[chosenEnemy]
+                    chosenEnemy = random.choice(available)
+                    enemyData   = self.currentEnemies[chosenEnemy]
 
-                if "InGame" not in enemyData:
-                    enemyData["InGame"] = 0
+                    if "InGame" not in enemyData:
+                        enemyData["InGame"] = 0
 
-                if chosenEnemy == "Monki":
-                    newEnemy = ENEMY_REGISTRY[chosenEnemy](
-                        pos=pygame.Vector2(550, 300),
-                        size=pygame.Vector2(400, 400),
-                        groups=Global.entityGroup,
-                    )
-                    Global.entityGroup.add(newEnemy)
-                else:
-                    newEnemy = ENEMY_REGISTRY[chosenEnemy](
-                        pos=pygame.Vector2(random.randint(450, 650), random.randint(100, 450)),
-                        size=pygame.Vector2(200, 200),
-                        groups=Global.entityGroup,
-                    )
-                    Global.entityGroup.add(newEnemy)
+                    if chosenEnemy == "Monki":
+                        newEnemy = ENEMY_REGISTRY[chosenEnemy](
+                            pos=pygame.Vector2(550, 300),
+                            size=pygame.Vector2(400, 400),
+                            groups=Global.entityGroup,
+                        )
+                        Global.entityGroup.add(newEnemy)
+                    else:
+                        newEnemy = ENEMY_REGISTRY[chosenEnemy](
+                            pos=pygame.Vector2(random.randint(450, 650), random.randint(100, 450)),
+                            size=pygame.Vector2(200, 200),
+                            groups=Global.entityGroup,
+                        )
+                        Global.entityGroup.add(newEnemy)
 
-                enemyData["InGame"]   += 1
-                enemyData["EnemyLeft"] -= 1
+                    enemyData["InGame"]   += 1
+                    enemyData["EnemyLeft"] -= 1
 
-                def removal():
-                    enemyData["InGame"] -= 1
-                newEnemy.dieFunction = removal
+                    def removal():
+                        enemyData["InGame"] -= 1
+                    newEnemy.dieFunction = removal
+
+                for i in range(random.randint(self.enemySpawnBurst[0], self.enemySpawnBurst[1])):
+                    Timer(random.uniform(0.5, 1.5) * i, spawnEnemy, Global.timerGroup)
 
             if Global.currentMap["completed"]:
                 self.create_and_position_map()

@@ -15,13 +15,17 @@ class SpikeEnemy(BaseEntity):
             jiggleSpeed=10.0,
             jiggleAxis="both",
         )
+        self.stats = Global.getEnemyStats("SpikeEnemy")
+        print(self.stats)
         self.pos = pygame.Vector2(pos.x,-100)
         self.ogPos = pos.copy()
-        self.hp = Global.enemyStats["SpikeEnemy"]["HP"]
+        self.name = "Spike Enemy"
+        self.hp = self.stats["HP"]
+        self.maxHp = self.stats["HP"]
         self.playJiggle(loop=True)
 
-        self.spikeSpawnCD = Global.enemyStats["SpikeEnemy"]["CD"]
-        self.lastSpikeSpawned = Global.enemyStats["SpikeEnemy"]["CD"]
+        self.spikeSpawnCD = self.stats["CD"]
+        self.lastSpikeSpawned = self.stats["CD"]
         self.team = "Enemy"
 
         self._target    = None
@@ -70,8 +74,8 @@ class SpikeEnemy(BaseEntity):
 
         self.lastSpikeSpawned -= Global.dt
         if self.lastSpikeSpawned <= 0:
-            spawnSpike(onHit=self.attack, damage=Global.enemyStats["SpikeEnemy"]["Damage"])
-            spawnSpike(onHit=self.attack, damage=Global.enemyStats["SpikeEnemy"]["Damage"])
+            spawnSpike(onHit=self.attack, damage=self.stats["Damage"])
+            spawnSpike(onHit=self.attack, damage=self.stats["Damage"])
             self.lastSpikeSpawned = self.spikeSpawnCD
 
         # ── movement ──

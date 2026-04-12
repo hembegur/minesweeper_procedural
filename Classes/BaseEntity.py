@@ -19,7 +19,9 @@ class BaseEntity(pygame.sprite.Sprite):
         jiggleAxis: str = "both",
     ):
         super().__init__(groups) if groups else super().__init__()
-
+        self.name = None
+        self.hp = 100
+        self.maxHp = 100
         self.pos   = pygame.Vector2(pos)
         self.size  = pygame.Vector2(size)
         self.color = color

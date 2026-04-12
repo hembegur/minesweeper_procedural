@@ -41,6 +41,15 @@ class PlayerSprite(BaseEntity):
 
         self.shootTimer : pygame.sprite.Group = pygame.sprite.Group()
         self.passiveHeal = 0
+        self.hpCheckText = TextLabel(
+            text="",
+            pos=pygame.Vector2(0,0),
+            font_size=20,
+            color=(255,0,0),
+            font_name="Assets/Fonts/Minecraft.ttf",
+            center=True,
+        )
+        Global.uiGroup.add(self.hpCheckText, layer = 999)
 
     def takeDamage(self, amount):
         actualAmount = amount - amount * Global.playerStats["Defense"]/100
@@ -58,8 +67,8 @@ class PlayerSprite(BaseEntity):
         Global.uiGroup.add(text_label)
 
     def handleEvents(self, event: pygame.event.get):
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            mouse_pos = event.pos
+        def checkClosest():
+            mouse_pos = pygame.mouse.get_pos()
             if not Global.mainGameBox.rect.collidepoint(mouse_pos): 
                 return
             
@@ -67,11 +76,25 @@ class PlayerSprite(BaseEntity):
             for sprite in Global.entityGroup:
                 if sprite.team == "Enemy":
                     if not closest:
-                        closest = sprite
-                    elif (closest.pos - mouse_pos).length() > (sprite.pos - mouse_pos).length():
+                        if (sprite.pos - mouse_pos).length() < 100:
+                            closest = sprite
+                    elif 100 > (closest.pos - mouse_pos).length() > (sprite.pos - mouse_pos).length():
                         closest = sprite
             if closest:
-                self.currentTarget = closest
+                return closest
+            return None
+        
+        #hover to check hp
+        hpCheckEnemy = checkClosest()
+        if hpCheckEnemy:
+            self.hpCheckText.setPosition(pygame.mouse.get_pos())
+            self.hpCheckText.setText(f"{hpCheckEnemy.name} ({round(hpCheckEnemy.hp,1):g}/{hpCheckEnemy.maxHp})")
+        else:
+            self.hpCheckText.setText(f"")
+
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            closest = checkClosest()
+            self.currentTarget = closest
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_f and Global.playerStats["Ult"] >= Global.playerStatsLose["Ult"]: #ultimate
             def hit():

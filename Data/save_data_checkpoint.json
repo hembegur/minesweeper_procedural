@@ -1,9 +1,9 @@
 {
-  "currentRound": 19,
+  "currentRound": 1,
   "currentDifficulty": "Normal",
   "playerStats": {
     "HP": 1,
-    "MP": 2,
+    "MP": 0,
     "Ult": 0,
     "MaxHP": 1,
     "MaxMP": 10,
@@ -41,8 +41,12 @@
   "gameProgress": {
     "Normal": {
       "SpawnRate": [
-        3,
-        6
+        4,
+        8
+      ],
+      "SpawnBurst": [
+        1,
+        2
       ],
       "Round1": {
         "SpikeEnemy": {
@@ -52,8 +56,8 @@
       },
       "Round2": {
         "SpikeEnemy": {
-          "EnemyLeft": 1,
-          "MaxEnemy": 1
+          "EnemyLeft": 10,
+          "MaxEnemy": 5
         }
       },
       "Round3": {
