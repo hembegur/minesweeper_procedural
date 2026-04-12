@@ -58,6 +58,11 @@ class Monki(BaseEntity):
             smoothSpeed=150,
         )
 
+        Global.SoundManager.stopMusic()
+        Global.SoundManager.pausePlaylist()
+        Global.SoundManager.setMusicVolume(0.5)
+        Global.SoundManager.playMusic("Assets/Sounds/Music/boss.mp3")
+
     def takeDamage(self, amount):
         self.hp -= amount
 
@@ -92,6 +97,7 @@ class Monki(BaseEntity):
     def kill(self):
         self.hpBar.kill()
         self.nameText.kill()
+        Global.gameState = "Win"
         super().kill()
 
     def update(self):
@@ -139,7 +145,7 @@ class Monki(BaseEntity):
                 for _ in range(random.randint(1,4)):
                     from Classes.Enemies.ClownEnemy import ClownEnemy
                     newEnemy = ClownEnemy(
-                            pos=pygame.Vector2(random.randint(450, 650), random.randint(100, 450)),
+                            pos=pygame.Vector2(random.randint(450, 650), random.randint(300, 450)),
                             size=pygame.Vector2(200, 200),
                             groups=Global.entityGroup,
                         )

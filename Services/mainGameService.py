@@ -172,6 +172,7 @@ class mainGameService:
         Global.gameState = "Buying"
 
         self.isReverting = True
+
             
     def update(self):
         if Global.gameState == "Playing":
@@ -226,8 +227,10 @@ class mainGameService:
 
         if Global.gameState == "Playing":
             if Global.playerStats["HP"] <= 0:
+                Global.SoundManager.stopMusic()
+                Global.SoundManager.pausePlaylist()
                 from Utils.UiComponents.GameOver import GameOver
-                GameOver(groups=Global.uiGroup, onDone=self.playerDie, duration=1)
+                GameOver(groups=Global.uiGroup, onDone=self.playerDie, duration=2)
                 Global.gameState = "Died"
 
             self.mouseHB.pos = pygame.Vector2(pygame.mouse.get_pos()) if not self.mapHidden else pygame.Vector2(-200,-200)
@@ -323,3 +326,33 @@ class mainGameService:
                 Global.SoundManager.stopMusic()
                 Global.SoundManager.resumePlaylist()
                 Global.gameState = "Preparing"
+        if Global.gameState == "Win":
+            Global.SoundManager.stopMusic()
+            Global.SoundManager.pausePlaylist()
+            for i in range(3):
+                def yip():
+                    Global.SoundManager.playSFX("Assets/Sounds/SoundEffect/yippe.mp3", 1)
+                Timer(i*0.5, yip, Global.timerGroup)
+            def resetBack():
+                Global.saveManager.deleteSave()
+                Global.saveManager.resetToDefault()  
+
+                for sprite in list(Global.entityGroup):
+                    if sprite != Global.playerSprite:
+                        sprite.kill()
+                for sprite in list(Global.msAttackGroup):
+                    sprite.kill()
+                Global.msParticleGroup.empty()
+                Global.timerGroup.empty()
+
+                self.shop = None
+                self.shopSprite = None
+                self.mapHidden = False
+
+                Global.gameState = "Menu"
+                from Utils.UiComponents.MainMenu import MainMenu
+                Global.mainMenu = MainMenu()
+            from Utils.UiComponents.Win import Win
+            Win(groups=Global.uiGroup, onDone=resetBack, duration=3)
+            print(Global.gameState)
+            Global.gameState = "WinProceeded"

@@ -35,7 +35,7 @@ class SaveManager:
         Global.playerStatsLose       = data.get("playerStatsLose",       Global.defaultData.playerStatsLose.copy())
         Global.currentRarity         = data.get("currentRarity",         Global.defaultData.startRarity.copy())
         Global.money                 = data.get("money",                 0)
-        Global.gameProgress          = data.get("gameProgress",          Global.defaultData.gameProgress)
+        Global.gameProgress          = data.get("gameProgress",          Global.defaultData.gameProgress.copy())
 
     # ──────────────────────────────────────────
     # Save / Load
@@ -107,13 +107,15 @@ class SaveManager:
 
     def resetToDefault(self):
         """Wipe everything and restore default data."""
-        import Global
-        Global.currentRound          = 1
+        import Global, copy
+        Global.currentRound          = 20
         Global.currentDifficulty     = "Normal"
         Global.playerStats           = Global.defaultData.playerStats.copy()
         Global.playerStatsMultiplier = Global.defaultData.playerStatsMultiplier.copy()
         Global.playerStatsGain       = Global.defaultData.playerStatsGain.copy()
         Global.playerStatsLose       = Global.defaultData.playerStatsLose.copy()
-        Global.currentRarity         = Global.defaultData.currentRarity.copy()
+        Global.currentRarity         = Global.defaultData.startRarity.copy()
         Global.money                 = 0
+        Global.gameProgress          = copy.deepcopy(Global.defaultData.gameProgress)
+        print(Global.defaultData.gameProgress["Normal"]["Round20"])
         print("[SaveManager] Reset to defaults.")

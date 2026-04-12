@@ -53,13 +53,13 @@ toolBar: ScrollBox = None
 from Data.Default import DefaultData
 defaultData = DefaultData()
 money = 000000000000
-playerStats = defaultData.playerStats
-playerStatsMultiplier = defaultData.playerStatsMultiplier
-playerStatsGain = defaultData.playerStatsGain
-playerStatsLose = defaultData.playerStatsLose
-enemyStats = defaultData.enemyStats
-rarityColor = defaultData.rarityColor
-difficultyScale = defaultData.difficultyScale
+playerStats = defaultData.playerStats.copy()
+playerStatsMultiplier = defaultData.playerStatsMultiplier.copy()
+playerStatsGain = defaultData.playerStatsGain.copy()
+playerStatsLose = defaultData.playerStatsLose.copy()
+enemyStats = defaultData.enemyStats.copy()
+rarityColor = defaultData.rarityColor.copy()
+difficultyScale = defaultData.difficultyScale.copy()
 def getEnemyStats(enemyName: str) -> dict:
     base   = defaultData.enemyStats[enemyName].copy()
     round  = max(0, currentRound - 1)  # round 1 = no scaling
@@ -84,7 +84,7 @@ def updateRarity(roundNum, maxRounds=20):
         current[k] = int(defaultData.startRarity[k] + (defaultData.targetRarity[k] - defaultData.startRarity[k]) * t)
     return current
 
-currentRound = 1
+currentRound = 20
 currentDifficulty = "Normal"
 gameState = "Menu"
 enemyCount = 0
@@ -92,7 +92,7 @@ enemyCount = 0
 from Services.mapService import create_map
 currentMap : create_map = None
 
-gameProgress = defaultData.gameProgress
+gameProgress = defaultData.gameProgress.copy()
 
 from Data.Data import SaveManager
 saveManager = SaveManager()

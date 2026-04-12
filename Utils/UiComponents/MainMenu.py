@@ -6,7 +6,7 @@ from Utils.UiComponents.Button import Button
 class MainMenu:
     def __init__(self):
         w, h = Global.screenWidth, Global.screenHeight
-
+        self.active = True
         self.sprites = []
 
         # background box
@@ -77,6 +77,7 @@ class MainMenu:
         self.startBtn.handleEvent(event)
 
     def remove(self):
+        self.active = False
         self.box.kill()
         self.title.kill()
         self.startBtn.kill()

@@ -18,7 +18,7 @@ class DefaultData:
             "MaxHP" : 100,
             "MaxMP" : 10,
             "MaxUlt" : 1,
-            "NormalDamage" : 10,
+            "NormalDamage" : 1000,
             "BaseAttackSpeed" : 250,
             "AttackSpeed": 100,
             "Burst" : 1,

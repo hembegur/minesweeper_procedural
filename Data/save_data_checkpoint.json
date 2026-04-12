@@ -1,20 +1,20 @@
 {
-  "currentRound": 2,
+  "currentRound": 20,
   "currentDifficulty": "Normal",
   "playerStats": {
     "HP": 100,
-    "MP": 8,
+    "MP": 0,
     "Ult": 0,
-    "MaxHP": 108,
-    "MaxMP": 12,
+    "MaxHP": 100,
+    "MaxMP": 10,
     "MaxUlt": 1,
-    "NormalDamage": 10,
+    "NormalDamage": 1000,
     "BaseAttackSpeed": 250,
     "AttackSpeed": 100,
     "Burst": 1,
     "BurstAttackSpeed": 800,
     "HPRegen": 0,
-    "Defense": 3,
+    "Defense": 0,
     "LifeSteal": 0,
     "Aoe": 0
   },
@@ -33,11 +33,11 @@
     "Ult": 1
   },
   "currentRarity": {
-    "Common": 68,
+    "Common": 70,
     "Rare": 25,
-    "Epic": 6
+    "Epic": 5
   },
-  "money": 111,
+  "money": 0,
   "gameProgress": {
     "Normal": {
       "Round1": {
@@ -50,9 +50,8 @@
           2
         ],
         "SpikeEnemy": {
-          "EnemyLeft": 0,
-          "MaxEnemy": 3,
-          "InGame": 0
+          "EnemyLeft": 5,
+          "MaxEnemy": 3
         }
       },
       "Round2": {
@@ -461,8 +460,9 @@
           1
         ],
         "Monki": {
-          "EnemyLeft": 1,
-          "MaxEnemy": 1
+          "EnemyLeft": 0,
+          "MaxEnemy": 1,
+          "InGame": 0
         }
       }
     }

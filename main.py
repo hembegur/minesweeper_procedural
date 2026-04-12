@@ -38,8 +38,8 @@ from Services.mainGameService import mainGameService
 Global.MainGameService = mainGameService()
 
 from Utils.UiComponents.MainMenu import MainMenu
-menu = MainMenu()
 Global.gameState = "Menu"
+Global.mainMenu = MainMenu()
 
 while True:
     for event in pygame.event.get():
@@ -47,7 +47,7 @@ while True:
             pygame.quit()
             sys.exit()
         if Global.gameState == "Menu":
-            menu.handleEvent(event)
+            Global.mainMenu.handleEvent(event)
             continue
 
         handle_click(Global.currentMap, event)
