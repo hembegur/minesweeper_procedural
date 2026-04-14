@@ -13,7 +13,7 @@ class DefaultData:
 
         self.playerStats = {
             "HP" :  100,
-            "MP" :  1.00001,
+            "MP" :  0,
             "Ult" : 0,
             "MaxHP" : 100,
             "MaxMP" : 10,
@@ -29,8 +29,8 @@ class DefaultData:
             "Aoe" : 0,
         }
         self.playerStatsMultiplier = {
-            "NormalDamage" : 100,
-            "UltDamage" : 100,
+            "NormalDamage" : 0,
+            "UltDamage" : 0,
         }
         self.playerStatsGain = {
             "HP" :  1,

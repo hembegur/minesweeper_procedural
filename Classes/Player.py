@@ -53,7 +53,7 @@ class PlayerSprite(BaseEntity):
 
     def takeDamage(self, amount):
         Global.SoundManager.playSFX("Assets/Sounds/SoundEffect/hurt.wav", 0.3)
-        actualAmount = amount - max(amount * 0.8, amount * Global.playerStats["Defense"]/100)
+        actualAmount = amount - min(amount * 0.8, amount * Global.playerStats["Defense"]/100)
         Global.playerStats["HP"] -= actualAmount
         text_label = TextLabel(
             text=f"-{round(actualAmount,1):g}HP",

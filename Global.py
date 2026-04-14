@@ -52,7 +52,7 @@ toolBar: ScrollBox = None
 
 from Data.Default import DefaultData
 defaultData = DefaultData()
-money = 1000000000000
+money = 000000000000
 playerStats = defaultData.playerStats.copy()
 playerStatsMultiplier = defaultData.playerStatsMultiplier.copy()
 playerStatsGain = defaultData.playerStatsGain.copy()
@@ -86,7 +86,7 @@ def updateRarity(roundNum, maxRounds=20):
 
 currentRound = 20
 currentDifficulty = "Normal"
-gameState = "Shop"
+gameState = "Preparing"
 enemyCount = 0
 
 from Services.mapService import create_map

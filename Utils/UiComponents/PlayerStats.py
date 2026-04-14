@@ -58,10 +58,10 @@ class PlayerStatsBox(pygame.sprite.Sprite):
         self.statsScroll.clearItems()
 
         stat_display = [
-            ("HP",                    f"{Global.playerStats['HP']} / {Global.playerStats['MaxHP']}",   (100, 220, 100)),
-            ("MP",                    f"{Global.playerStats['MP']} / {Global.playerStats['MaxMP']}",   (100, 100, 220)),
+            ("HP",                    f"{formatStat(Global.playerStats['HP'])} / {formatStat(Global.playerStats['MaxHP'])}",   (100, 220, 100)),
+            ("MP",                    f"{formatStat(Global.playerStats['MP'])} / {formatStat(Global.playerStats['MaxMP'])}",   (100, 100, 220)),
             ("Ult",                   f"{Global.playerStats['Ult']} / {Global.playerStats['MaxUlt']}", (200, 100, 220)),
-            ("Damage",         f"{Global.playerStats['NormalDamage']} x {Global.playerStatsMultiplier['NormalDamage']}%", (220, 180, 80)),
+            ("Damage",         f"{Global.playerStats['NormalDamage']} + {Global.playerStatsMultiplier['NormalDamage']}%", (220, 180, 80)),
             ("Attack Speed",          f"{Global.playerStats['AttackSpeed']}",                       (220, 180, 80)),
             ("Burst Count",           str(Global.playerStats['Burst']),                                (220, 180, 80)),
             ("Burst Attack Speed",    f"{Global.playerStats['BurstAttackSpeed']}",                  (160, 140, 80)),
@@ -116,3 +116,6 @@ class PlayerStatsBox(pygame.sprite.Sprite):
             label.kill()
         self._statLabels.clear()
         super().kill()
+
+def formatStat(value):
+        return f"{value:.1f}".rstrip('0').rstrip('.')

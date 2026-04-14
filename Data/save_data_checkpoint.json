@@ -3,7 +3,7 @@
   "currentDifficulty": "Normal",
   "playerStats": {
     "HP": 100,
-    "MP": 1.00001,
+    "MP": 0,
     "Ult": 0,
     "MaxHP": 100,
     "MaxMP": 10,
@@ -19,8 +19,8 @@
     "Aoe": 0
   },
   "playerStatsMultiplier": {
-    "NormalDamage": 100,
-    "UltDamage": 100
+    "NormalDamage": 0,
+    "UltDamage": 0
   },
   "playerStatsGain": {
     "HP": 1,
@@ -37,7 +37,7 @@
     "Rare": 25,
     "Epic": 5
   },
-  "money": 1000000000000,
+  "money": 0,
   "gameProgress": {
     "Normal": {
       "Round1": {
