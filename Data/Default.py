@@ -82,10 +82,10 @@ class DefaultData:
         }
         self.difficultyScale = {
             "Normal": {
-                "HPScale":     0.1,
-                "DamageScale": 0.05,
-                "MoneyScale": 0.1,
-                "PriceScale": 0.05,
+                "HPScale":     0.2,
+                "DamageScale": 0.2,
+                "MoneyScale": 0.05,
+                "PriceScale": 0.08,
             }
         }
 

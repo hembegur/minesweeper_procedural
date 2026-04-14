@@ -1,5 +1,5 @@
 {
-  "currentRound": 1,
+  "currentRound": 20,
   "currentDifficulty": "Normal",
   "playerStats": {
     "HP": 100,
@@ -37,7 +37,7 @@
     "Rare": 25,
     "Epic": 5
   },
-  "money": 0,
+  "money": 1000000000000,
   "gameProgress": {
     "Normal": {
       "Round1": {
