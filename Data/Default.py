@@ -84,8 +84,8 @@ class DefaultData:
             "Normal": {
                 "HPScale":     0.2,
                 "DamageScale": 0.2,
-                "MoneyScale": 0.035,
-                "PriceScale": 0.1,
+                "MoneyScale": 0.05,
+                "PriceScale": 0.08,
             }
         }
 
