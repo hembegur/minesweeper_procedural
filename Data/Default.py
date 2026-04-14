@@ -71,21 +71,21 @@ class DefaultData:
                 "Money": 100,
             },
             "Monki" : { #BOSS
-                "HP" : 1200,
-                "CD": 6,
+                "HP" : 1800,
+                "CD": 5,
                 "Money": 10000,
-                "PunchDamage" : 40,
-                "PunchCount" : 8,
-                "BananaDamage" : 35,
-                "LaserDamage" : 35,
+                "PunchDamage" : 80,
+                "PunchCount" : 12,
+                "BananaDamage" : 60,
+                "LaserDamage" : 80,
             }
         }
         self.difficultyScale = {
             "Normal": {
                 "HPScale":     0.2,
                 "DamageScale": 0.2,
-                "MoneyScale": 0.05,
-                "PriceScale": 0.08,
+                "MoneyScale": 0.035,
+                "PriceScale": 0.1,
             }
         }
 
