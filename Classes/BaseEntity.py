@@ -42,10 +42,8 @@ class BaseEntity(pygame.sprite.Sprite):
 
         self.dieFunction = None
 
-    # ──────────────────────────────────────────
-    # Build
-    # ──────────────────────────────────────────
 
+    # Build
     def _build(self):
         if self._imagePath:
             raw = pygame.image.load(self._imagePath).convert_alpha()
@@ -61,10 +59,7 @@ class BaseEntity(pygame.sprite.Sprite):
         self._ogImage = self.image.copy()
         self._ogSize  = pygame.Vector2(self.size)
 
-    # ──────────────────────────────────────────
     # Setters
-    # ──────────────────────────────────────────
-
     def setPos(self, pos: pygame.Vector2):
         self.pos = pygame.Vector2(pos)
         self.rect.topleft = self.pos
@@ -95,10 +90,8 @@ class BaseEntity(pygame.sprite.Sprite):
     def setAlpha(self, alpha: int):
         self.image.set_alpha(max(0, min(255, alpha)))
 
-    # ──────────────────────────────────────────
-    # Jiggle controls
-    # ──────────────────────────────────────────
 
+    # Jiggle controls
     def setJiggleIntensity(self, intensity: float):
         self._jiggle.intensity = intensity
 
@@ -123,10 +116,7 @@ class BaseEntity(pygame.sprite.Sprite):
         self._jiggling = False
         self._jiggle.stop()
 
-    # ──────────────────────────────────────────
-    # Movement helpers
-    # ──────────────────────────────────────────
-
+    # Movement
     def move(self, direction: pygame.Vector2, speed: float, dt: float):
         self.pos += direction * speed * dt
         self.rect.topleft = self.pos
@@ -142,10 +132,6 @@ class BaseEntity(pygame.sprite.Sprite):
         if self.team == "Enemy":
             Global.money += self.money
         super().kill()
-
-    # ──────────────────────────────────────────
-    # Update
-    # ──────────────────────────────────────────
 
     def update(self):
         self._jiggle.update(Global.dt)

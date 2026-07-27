@@ -86,7 +86,7 @@ def updateRarity(roundNum, maxRounds=20):
 
 currentRound = 1
 currentDifficulty = "Normal"
-gameState = "Preparing"
+gameState = "Shop"
 enemyCount = 0
 
 from Services.mapService import create_map
